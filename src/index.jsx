@@ -11,7 +11,7 @@ import Routes from './main/routes'
 import reducers from './main/reducers'
 
 window.Params = {
-    URL_API: 'http://localhost:3000/api/',
+    URL_API: 'https://gladius-portalvotacao-back.herokuapp.com/api/',
     codigoAssembleiaAtiva: 5
 }
 

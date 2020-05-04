@@ -36,8 +36,7 @@ export default class Credor extends Component {
     refresh(description) {
         let search = description ? `&nomeCredor__regex=/${description}/` : ''
 
-        let usuarioLocalStorage = localStorage.getItem('usuarioLogado');
-        let usuario = JSON.parse(usuarioLocalStorage) || {};
+        let usuario = JSON.parse(localStorage.getItem('_application_user'));
         if(usuario.tipo !== 1){
             search += '&codigoProcurador='+usuario.codigoCredor
         }

@@ -57,8 +57,7 @@ export default class Credor extends Component {
 
         search += '&confirmouPresenca__ne=true'
 
-        let usuarioLocalStorage = localStorage.getItem('usuarioLogado');
-        let usuario = JSON.parse(usuarioLocalStorage) || {};
+        let usuario = JSON.parse(localStorage.getItem('_application_user'));
         if(usuario.tipo !== 1){
             search += '&codigoProcurador='+usuario.codigoCredor
         }

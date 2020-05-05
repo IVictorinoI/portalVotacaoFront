@@ -12,6 +12,7 @@ export default props => {
                 <td>{todo.nomeProcurador}</td>
                 <td>
                     <button className='btn btn-success' 
+                        disabled={!props.assembleia.podeConfirmar}
                         onClick={() => props.confirmarPresenca(todo)}>
                             Confirmar
                     </button>

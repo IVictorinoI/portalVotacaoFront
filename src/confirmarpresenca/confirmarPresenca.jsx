@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import List from './confirmarPresencaList'
+import If from '../common/operator/if'
 
 export default class Credor extends Component {
     getUrl() {
@@ -11,14 +12,19 @@ export default class Credor extends Component {
     constructor(props){
         super(props);
 
-        this.state = { list: [] }
+        this.state = { list: [], assembleia: {} }
 
         this.confirmarPresenca = this.confirmarPresenca.bind(this)
 
         this.refresh();
+        this.refreshAssembleia();
     }
 
-    confirmarPresenca(credor) {
+    componentWillUnmount() {
+        this.refreshAssembleia = () => {}
+    }
+
+    confirmarPresenca(credor, next) {
         var list = this.state.list;
         var idx = list.indexOf(credor)
         var dto = {
@@ -42,6 +48,8 @@ export default class Credor extends Component {
             axios.put(`${window.Params.URL_API}/credores/${credor._id}`, { ...credor, confirmouPresenca: true })
             .then(resp => {
                 this.setState({ list });
+                if(next)
+                    next();
             })
         }) 
 
@@ -49,7 +57,14 @@ export default class Credor extends Component {
     }
 
     confirmarPresencaTodos() {
+        this.confirmarPresencaProximo();
+    }
+
+    confirmarPresencaProximo() {
+        if(!this.state.list[0])
+            return;
         
+        this.confirmarPresenca(this.state.list[0], () => this.confirmarPresencaProximo());
     }
 
     refresh(description) {
@@ -64,6 +79,26 @@ export default class Credor extends Component {
 
         axios.get(`${this.getUrl()}&sort=-_id${search}`)
             .then(resp => this.setState({...this.state, list: resp.data}));
+
+        
+    }
+
+    refreshAssembleia(){
+        axios.get(window.Params.URL_API+'assembleias/?codigo='+window.Params.codigoAssembleiaAtiva)
+            .then(resp => {
+                this.setState({...this.state, assembleia: resp.data[0]})
+
+                setTimeout(() => this.refreshAssembleia(), 5000);
+            })
+    }
+
+    getHoraInicio() {
+        if(!this.state.assembleia.inicioConfPres)
+            return;
+
+        let data = new Date(Date.parse(this.state.assembleia.inicioConfPres.substr(0,19)));
+        
+        return data.toLocaleString('pt-BR', {timeStyle:'medium'})
     }
     
     render() {
@@ -78,9 +113,16 @@ export default class Credor extends Component {
                 <input id='description' className='form-control'
                     onKeyUp={keyHandler}
                     placeholder='Pesquise o credor'></input>
-                <button className='btn btn-success' onClick={() => props.confirmarPresencaTodos()}>Confirmar todos</button>
+                
+                <button className='btn btn-success' disabled={!this.state.assembleia.podeConfirmar} onClick={() => this.confirmarPresencaTodos()}>Confirmar todos</button>
+                <br />
+                <If test={!this.state.assembleia.podeConfirmar}>
+                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Previsão de inicio da confirmação de presença {this.getHoraInicio()}</h3></center>
+                </If>
+
                 <List 
                     list={this.state.list}
+                    assembleia={this.state.assembleia}
                     confirmarPresenca={this.confirmarPresenca}/>
             </div>
         );

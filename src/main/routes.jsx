@@ -8,6 +8,7 @@ import Assembleia from '../assembleia/assembleia'
 import Classe from '../classe/classe'
 import Credor from '../credor/credor'
 import ConfirmarPresenca from '../confirmarpresenca/confirmarPresenca'
+import VotacaoTempoReal from '../votacaotemporeal/votacaoTempoReal'
 import Voto from '../voto/voto'
 import Votar from '../votar/votar'
 import Login from '../login/login'
@@ -23,6 +24,7 @@ export default props => (
             <Route path='confirmarPresenca' component={ConfirmarPresenca} />
             <Route path='votar' component={Votar} />
             <Route path='login' component={Login} />
+            <Route path='votacaoTempoReal' component={VotacaoTempoReal} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

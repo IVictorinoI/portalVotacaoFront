@@ -17,11 +17,22 @@ export default props => {
         return null;
     }
 
+    const classNameRow = (opc) => {
+        if(opc === 'S')
+            return 'success'
+        if(opc === 'N')
+            return 'danger'
+        if(opc === 'A')
+            return 'active';
+
+        return '';
+    }
+
     const renderRows = () => {
         const list = props.list || []
         return list.map(todo => (
-            <tr key={todo._id}>
-                <td>{todo.nomeCredor}</td>
+            <tr key={todo._id} className={classNameRow(todo.tipo)}>
+                <td scope="row">{todo.nomeCredor}</td>
                 <td style={{ textAlign: 'right' }}>{todo.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                 <td style={{ textAlign: 'right' }}>{todo.percentualClasse.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 4, maximumFractionDigits: 6 })}</td>
                 <td>{todo.descricaoClasse}</td>
@@ -36,13 +47,13 @@ export default props => {
         <table className='table table-hover'>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Valor</th>
-                    <th>Percentual</th>
-                    <th>Classe</th>
-                    <th>Voto</th>
-                    <th>Horário</th>
-                    <th>Procurador</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Percentual</th>
+                    <th scope="col">Classe</th>
+                    <th scope="col">Voto</th>
+                    <th scope="col">Horário</th>
+                    <th scope="col">Procurador</th>
                 </tr>
             </thead>
             <tbody>

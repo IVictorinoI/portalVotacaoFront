@@ -9,10 +9,11 @@ export default props => (
         <MenuTree label='Consultas' icon='edit'> 
             {/*<MenuItem path='assembleias' label='Assembléias' icon='usd' />*/}
             {/*<MenuItem path='classes' label='Classes' icon='usd' />*/}
-            <MenuItem path='credores' label='Credores' icon='usd' />
-            <MenuItem path='votos' label='Votos' icon='usd' />
+            <MenuItem path='credores' label='Credores' icon='drivers-license-o' />
+            <MenuItem path='votos' label='Votos' icon='server' />
         </MenuTree>
-        <MenuItem path='confirmarPresenca' label='Confirmar presença' icon='dashboard' />
-        <MenuItem path='votar' label='Votar' icon='dashboard' />
+        <MenuItem path='confirmarPresenca' label='Confirmar presença' icon='check-square' />
+        <MenuItem path='votar' label='Votar' icon='legal' />
+        <MenuItem path='votacaoTempoReal' label='Votação em tempo real' icon='heartbeat' />
     </ul>
 )

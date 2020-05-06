@@ -27,13 +27,13 @@ export default props => {
                         <td>{renderVoto(todo.tipo)}</td>
                     </If>
                     <If test={!todo.tipo}>
-                        <button className='btn btn-success' onClick={() => props.votar(todo, 'S')}>Sim</button>
+                        <button className='btn btn-success' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'S')}>Sim</button>
                     </If>
                     <If test={!todo.tipo}>
-                        <button className='btn btn-danger' onClick={() => props.votar(todo, 'N')}>Não</button>
+                        <button className='btn btn-danger' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'N')}>Não</button>
                     </If>
                     <If test={!todo.tipo}>
-                        <button className='btn btn-warning' onClick={() => props.votar(todo, 'A')}>Abstenção</button>
+                        <button className='btn btn-warning' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'A')}>Abstenção</button>
                     </If>
                     
                 </td>
@@ -42,7 +42,7 @@ export default props => {
     }
 
     return (
-        <table className='table'>
+        <table className='table table-hover'>
             <thead>
                 <tr>
                     <th>Nome</th>

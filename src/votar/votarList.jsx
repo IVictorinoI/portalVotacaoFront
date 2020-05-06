@@ -42,7 +42,7 @@ export default props => {
     }
 
     return (
-        <table className='table'>
+        <table className='table table-hover'>
             <thead>
                 <tr>
                     <th>Nome</th>

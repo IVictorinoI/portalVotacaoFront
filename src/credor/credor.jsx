@@ -35,7 +35,7 @@ export default class Credor extends Component {
                 <input id='description' className='form-control'
                     onKeyUp={keyHandler}
                     placeholder='Pesquise o credor'></input>
-                <List list={this.state.list}/>
+                <List style={({ marginButton: '5.5rem' })} list={this.state.list}/>
             </div>
         );
     }

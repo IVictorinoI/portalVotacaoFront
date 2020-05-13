@@ -12,6 +12,8 @@ import VotacaoTempoReal from '../votacaotemporeal/votacaoTempoReal'
 import Voto from '../voto/voto'
 import Votar from '../votar/votar'
 import Login from '../login/login'
+import Chat from '../chat/chat'
+import Online from '../onlines/online'
 
 export default props => (
     <Router history={hashHistory}>
@@ -25,6 +27,8 @@ export default props => (
             <Route path='votar' component={Votar} />
             <Route path='login' component={Login} />
             <Route path='votacaoTempoReal' component={VotacaoTempoReal} />
+            <Route path='chat' component={Chat} />
+            <Route path='online' component={Online} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

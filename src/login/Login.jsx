@@ -46,6 +46,7 @@ export default class Classe extends Component {
                 if(achou){
                     this.setState({erroLogin: false})
                     localStorage.setItem('usuarioLogado', JSON.stringify(resp.data[0]));
+                    window.socketIo.emit('setUser', resp.data[0])
                     this.verificaUsuarioLogado();
                 }                    
             })                

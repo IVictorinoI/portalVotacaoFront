@@ -10,6 +10,17 @@ class AuthOrApp extends Component {
     componentWillMount() {
         if (this.props.auth.user) {
             this.props.validateToken(this.props.auth.user.token)
+            var user = this.props.auth.user
+            window.socketIo = io(window.Params.URL_API)
+
+            window.socketIo.on('getUser', function(){
+                console.log('pediu usuario '+JSON.stringify(user))
+                window.socketIo.emit('setUser', user)
+            })
+
+            window.socketIo.on('connectedUsers', function(data){
+                console.log(data);
+            })            
         }
     }
     render() {

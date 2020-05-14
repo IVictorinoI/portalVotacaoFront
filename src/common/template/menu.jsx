@@ -11,9 +11,12 @@ export default props => (
             {/*<MenuItem path='classes' label='Classes' icon='usd' />*/}
             <MenuItem path='credores' label='Credores' icon='drivers-license-o' />
             <MenuItem path='votos' label='Votos' icon='server' />
+            <MenuItem path='online' label='Usuários online' icon='power-off' />
+            <MenuItem path='logacesso' label='Logs de acesso' icon='info' />
         </MenuTree>
         <MenuItem path='confirmarPresenca' label='Confirmar presença' icon='check-square' />
         <MenuItem path='votar' label='Votar' icon='legal' />
         <MenuItem path='votacaoTempoReal' label='Votação em tempo real' icon='heartbeat' />
+        <MenuItem path='chat' label='Chat' icon='comments' />
     </ul>
 )

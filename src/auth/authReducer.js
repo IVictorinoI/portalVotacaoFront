@@ -1,7 +1,6 @@
 const userKey = '_application_user'
 const INITIAL_STATE = {
     user: JSON.parse(localStorage.getItem(userKey)),
-    //user: {nome: 'victor', email:'vic@tor.com'},
     validToken: false
 }
 
@@ -16,6 +15,7 @@ export default (state = INITIAL_STATE, action) => {
             }
         case 'USER_FETCHED':
             localStorage.setItem(userKey, JSON.stringify(action.payload))
+            window.socketIo.emit('setUser', action.payload)
             return { ...state, user: action.payload, validToken: true }
         default:
             return state

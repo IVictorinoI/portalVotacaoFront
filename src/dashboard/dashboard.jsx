@@ -20,9 +20,22 @@ class Dashboard extends Component {
         const { quorum, votos } = this.props.summary
         const { assembleia } = this.props;
 
+        const formataHora = (dataHora) => {
+            if(!dataHora)
+                return;
+
+            let data = new Date(Date.parse(dataHora.substr(0,19)));            
+            return data.toLocaleString('pt-BR', {timeStyle:'medium'})
+        }
+
         return (
             <div> 
-                <ContentHeader title={`${assembleia.assunto}`} small={`${assembleia.descricao}`} />
+                <ContentHeader 
+                    title={`${assembleia.assunto}`} 
+                    small={`${assembleia.descricao}`} 
+                    inicioConfPres={`${formataHora(assembleia.inicioConfPres)}`} 
+                    inicioVotacao={`${formataHora(assembleia.inicioVotacao)}`} 
+                    />
                 <Content>
                     <Row>
                         <h3 style={({ marginLeft: '1.5rem' })}>Verificação do quorum</h3>

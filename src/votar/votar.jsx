@@ -1,6 +1,8 @@
+
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import { toastr } from 'react-redux-toastr'
 import List from './votarList'
 import If from '../common/operator/if'
 
@@ -30,6 +32,7 @@ export default class Credor extends Component {
 
         axios.put(`${this.getUrl()}/${todo._id}`, { ...todo, tipo: opc, sincronizado: false })
         .then(resp => {
+            toastr.success('Sucesso', 'Seu voto foi computado, aguarde o resultado')
             list.find(p => p._id==todo._id).tipo = opc
             this.setState({ list });
             if(next)
@@ -90,12 +93,17 @@ export default class Credor extends Component {
                 <input id='description' className='form-control'
                     onKeyUp={keyHandler}
                     placeholder='Pesquise o credor'></input>
-                <button className='btn btn-success' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('S')}>Sim para todos</button>
-                <button className='btn btn-danger' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('N')}>Não para todos</button>
-                <button className='btn btn-warning' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('A')}>Abstenção para todos</button>
+                <div style={{float:'right', margin:'5px'}}>
+                    <button className='btn btn-success' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('S')}>Sim para todos</button>
+                    <button className='btn btn-danger' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('N')}>Não para todos</button>
+                    <button className='btn btn-warning' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('A')}>Abstenção para todos</button>
+                </div>
                 <br />
                 <If test={!this.state.assembleia.podeVotar}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Previsão de inicio da votação {this.getHoraInicio()}</h3></center>
+                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Aguarde o início da Assembleia</h3></center>
+                </If>
+                <If test={this.state.assembleia.podeVotar}>
+                    <center style={{color:'rgb(4, 156, 245)'}}><h3>{this.state.assembleia.pergunta}</h3></center>
                 </If>
                 <List 
                     list={this.state.list}

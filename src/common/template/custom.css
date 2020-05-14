@@ -13,3 +13,13 @@ button {
 .table-actions {
     width: 150px;
 }
+.divline {
+    display: inline-block;
+}
+.divright {
+    float: right;
+}
+
+.carditem {
+    background: #ECF0F5;
+}

@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import { toastr } from 'react-redux-toastr'
 import List from './votarList'
+import Loading from '../common/components/Loading'
 import If from '../common/operator/if'
 
 export default class Credor extends Component {
@@ -14,11 +15,13 @@ export default class Credor extends Component {
     constructor(props){
         super(props);
 
-        this.state = { list: [], assembleia: {} }
+        this.state = { list: [], assembleia: {}, loading: false }
 
         this.votar = this.votar.bind(this)
         this.votarParaTodos = this.votarParaTodos.bind(this)
+    }
 
+    componentDidMount() {
         this.refresh();
         this.refreshAssembleia();
     }
@@ -30,7 +33,7 @@ export default class Credor extends Component {
     votar(todo, opc, next) {
         let { list } = this.state
 
-        axios.put(`${this.getUrl()}/${todo._id}`, { ...todo, tipo: opc, sincronizado: false })
+        axios.put(`${this.getUrl()}/${todo._id}`, { ...todo, tipo: opc, sincronizado: false, votoOnline: true })
         .then(resp => {
             toastr.success('Sucesso', 'Seu voto foi computado, aguarde o resultado')
             list.find(p => p._id==todo._id).tipo = opc
@@ -58,9 +61,9 @@ export default class Credor extends Component {
         if(usuario.tipo !== 1){
             search += '&codigoProcurador='+usuario.codigoCredor
         }
-
+        this.setState({...this.state, loading: true})
         axios.get(`${this.getUrl()}?codigoAssembleia=${window.Params.codigoAssembleiaAtiva}&sort=-_id${search}`)
-            .then(resp => this.setState({...this.state, list: resp.data}));
+            .then(resp => this.setState({...this.state, list: resp.data, loading: false}));
     }
 
     refreshAssembleia(){
@@ -99,16 +102,21 @@ export default class Credor extends Component {
                     <button className='btn btn-warning' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('A')}>Abstenção para todos</button>
                 </div>
                 <br />
-                <If test={!this.state.assembleia.podeVotar}>
+                <If test={!this.state.loading && !this.state.assembleia.podeVotar}>
                     <center style={{color:'rgb(4, 156, 245)'}}><h3>Aguarde o início da Assembleia</h3></center>
                 </If>
-                <If test={this.state.assembleia.podeVotar}>
+                <If test={!this.state.loading && this.state.assembleia.podeVotar}>
                     <center style={{color:'rgb(4, 156, 245)'}}><h3>{this.state.assembleia.pergunta}</h3></center>
                 </If>
-                <List 
-                    list={this.state.list}
-                    assembleia={this.state.assembleia}
-                    votar={this.votar}/>
+                <If test={this.state.loading}>
+                    <center><Loading color="#3C8DBC" /></center>
+                </If>
+                <If test={!this.state.loading}>
+                    <List 
+                        list={this.state.list}
+                        assembleia={this.state.assembleia}
+                        votar={this.votar}/>
+                </If>
             </div>
         );
     }

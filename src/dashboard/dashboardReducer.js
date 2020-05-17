@@ -45,7 +45,8 @@ export default function(state = INITIAL_STATE, action) {
         case 'DASHBOARD_ATUALIZADO':
             return { ...state, summary: action.payload.data }
         case 'ASSEMBLEIA_ATIVA_ATUALIZADA':
-            window.Params.codigoAssembleiaAtiva = action.payload.data[0].codigo
+            window.Params.codigoAssembleiaAtiva = action.payload.data[0].codigo            
+            localStorage.setItem('codigoAssembleiaAtiva', window.Params.codigoAssembleiaAtiva);
             return { ...state, assembleia: action.payload.data[0] }
         default:
             return state

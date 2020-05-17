@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-
+import If from '../common/operator/if'
+import Loading from '../common/components/Loading'
 import List from './assembleiaList'
 
 export default class Assembleia extends Component {
@@ -11,16 +12,18 @@ export default class Assembleia extends Component {
     constructor(props){
         super(props);
 
-        this.state = { list: [] }
+        this.state = { list: [], loading: false }
+    }
 
+    componentDidMount() {
         this.refresh();
     }
 
     refresh(description) {
         const search = description ? `&descricao__regex=/${description}/` : ''
-
+        this.setState({...this.state, loading: true})
         axios.get(`${this.getUrl()}&sort=-ativo${search}`)
-            .then(resp => this.setState({...this.state, list: resp.data}));
+            .then(resp => this.setState({...this.state, list: resp.data, loading: false}));
     }
     
     render() {
@@ -32,10 +35,15 @@ export default class Assembleia extends Component {
 
         return (
             <div>
-                <input id='description' className='form-control'
-                    onKeyUp={keyHandler}
-                    placeholder='Pesquise a assembléia'></input>
-                <List list={this.state.list}/>
+                <If test={this.state.loading}>
+                    <center><Loading color="#3C8DBC" /></center>
+                </If>
+                <If test={!this.state.loading}>
+                    <input id='description' className='form-control'
+                        onKeyUp={keyHandler}
+                        placeholder='Pesquise a assembléia'></input>
+                    <List list={this.state.list}/>
+                </If>
             </div>
         );
     }

@@ -27,10 +27,10 @@ export default props => {
                         <td>{renderVoto(todo.tipo)}</td>
                     </If>
                     <If test={!todo.tipo}>
-                        <button className='btn btn-success' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'S')}>Sim</button>
+                        <button style={({ marginRight: '1rem' })} className='btn btn-success' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'S')}>Sim</button>
                     </If>
                     <If test={!todo.tipo}>
-                        <button className='btn btn-danger' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'N')}>Não</button>
+                        <button style={({ marginRight: '1rem' })} className='btn btn-danger' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'N')}>Não</button>
                     </If>
                     <If test={!todo.tipo}>
                         <button className='btn btn-warning' disabled={!props.assembleia.podeVotar} onClick={() => props.votar(todo, 'A')}>Abstenção</button>

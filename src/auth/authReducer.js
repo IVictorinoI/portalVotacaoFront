@@ -16,6 +16,8 @@ export default (state = INITIAL_STATE, action) => {
         case 'USER_FETCHED':
             localStorage.setItem(userKey, JSON.stringify(action.payload))
             window.socketIo.emit('setUser', action.payload)
+            if(action.payload.codigoAssembleia)
+                window.Params.codigoAssembleiaAtiva = action.payload.codigoAssembleia
             return { ...state, user: action.payload, validToken: true }
         default:
             return state

@@ -14,19 +14,35 @@ class AuthOrApp extends Component {
             window.socketIo = io(window.Params.URL_API)
 
             window.socketIo.on('getUser', function(){
-                console.log('pediu usuario '+JSON.stringify(user))
                 window.socketIo.emit('setUser', user)
             })
 
-            window.socketIo.on('connectedUsers', function(data){
-                console.log(data);
-            })            
+            window.socketIo.on('derrubar', function(data){
+                if(data.id === user.id){
+                    alert(data.message);
+                    localStorage.removeItem('_application_user')
+                    location.reload()
+                }
+            })
         }
+
+        
     }
     render() {
         const { user, validToken } = this.props.auth
         if (user && validToken) {
+            
+            let codigoAssembleiaAtiva = localStorage.getItem('codigoAssembleiaAtiva');
+            if(codigoAssembleiaAtiva)
+                window.Params.codigoAssembleiaAtiva = codigoAssembleiaAtiva
+
             axios.defaults.headers.common['authorization'] = user.token
+
+            axios.get(`${window.Params.URL_API}/assembleias/?ativo=true`)
+            .then(resp => {
+                localStorage.setItem('codigoAssembleiaAtiva', resp.data[0].codigo);
+            });
+
             return <App>{this.props.children}</App>
         } else if (!user && !validToken) {
             return <Auth />

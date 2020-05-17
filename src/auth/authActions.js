@@ -16,8 +16,12 @@ function submit(values, url) {
                 ])
             })
             .catch(e => {
-                e.response.data.errors.forEach(
-                    error => toastr.error('Erro', error))
+                if(e && e.response && e.response.data && e.response.data.errors){
+                    e.response.data.errors.forEach(
+                        error => toastr.error('Erro', error))
+                } else {
+                    window.location.reload()
+                }                
             })
     }
 }

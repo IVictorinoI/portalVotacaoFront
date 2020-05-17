@@ -16,64 +16,81 @@ class Dashboard extends Component {
         this.props.getAssembleiaAtiva()
     }
 
+    
+
     render() {
-        const { quorum, votos } = this.props.summary
+        const { quorum, votos, quorum2, votos2 } = this.props.summary
         const { assembleia } = this.props;
+
+
+
+        const renderQuorumRows = () => {
+            const list = quorum2 || []
+            return list.map(todo => {
+                let percentual = +(100 / todo.valorEsperado * todo.valorConfirmado).toFixed(6);
+                let cor = 'red';
+                if(percentual==0)
+                    cor = 'red';
+                else if(percentual<100)
+                    cor = 'yellow'
+                else 
+                    cor = 'green'
+
+                return (<ValueBox key={todo.codigoClasse+'Q'} cols='12 3' color={cor} icon='bank'
+                    valorConfirmado={`${todo.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
+                    percentual={`${percentual.toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
+                    text={todo.descricaoClasse} />)
+            })
+        }
+
+        const renderVotosRows = () => {
+            const list = votos2 || []
+            return list.map(todo => {
+                let percentual = +(100 / todo.valorEsperado * todo.valorConfirmado).toFixed(6);
+                let cor = 'red';
+                if(percentual==0)
+                    cor = 'red';
+                else if(percentual<100)
+                    cor = 'yellow'
+                else 
+                    cor = 'green'
+
+                return (<ValueBox key={todo.codigoClasse+'V'} cols='12 3' color={cor} icon='bank'
+                    valorConfirmado={`${todo.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
+                    percentual={`${percentual.toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
+                    text={todo.descricaoClasse} />)
+            })
+        }       
+
+        const formataHora = (dataHora) => {
+            if(!dataHora)
+                return;
+
+            let data = new Date(Date.parse(dataHora.substr(0,19)));            
+            return data.toLocaleString('pt-BR', {timeStyle:'medium'})
+        }
 
         return (
             <div> 
-                <ContentHeader title={`${assembleia.assunto}`} small={`${assembleia.descricao}`} />
+                <ContentHeader 
+                    title={`${assembleia.assunto}`} 
+                    small={`${assembleia.descricao}`} 
+                    inicioConfPres={`${formataHora(assembleia.inicioConfPres)}`} 
+                    inicioVotacao={`${formataHora(assembleia.inicioVotacao)}`} 
+                    />
                 <Content>
                     <Row>
                         <h3 style={({ marginLeft: '1.5rem' })}>Verificação do quorum</h3>
                     </Row>
-                    <Row> 
-                        <ValueBox cols='12 3' color='green' icon='bank'
-                            //valorEsperado={`${quorum.trabalhista.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${quorum.trabalhista.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / quorum.trabalhista.valorEsperado * quorum.trabalhista.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='Trabalhista' />
-                        <ValueBox cols='12 3' color='red' icon='credit-card'
-                            //valorEsperado={`${quorum.garantiaReal.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${quorum.garantiaReal.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / quorum.garantiaReal.valorEsperado * quorum.garantiaReal.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='Garantia real' />
-                        <ValueBox cols='12 3' color='blue' icon='money'
-                            //valorEsperado={`${quorum.quirografario.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${quorum.quirografario.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / quorum.quirografario.valorEsperado * quorum.quirografario.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='Quirografário' />
-                        <ValueBox cols='12 3' color='yellow' icon='money'
-                            //valorEsperado={`${quorum.microEmpresa.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${quorum.microEmpresa.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / quorum.microEmpresa.valorConfirmado * quorum.microEmpresa.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='ME/EPP' />
-                    </Row> 
+                    <Row>
+                        {renderQuorumRows()}
+                    </Row>
                     <Row>
                         <h3 style={({ marginLeft: '1.5rem' })}>Verificação dos votos</h3>
                     </Row>
-                    <Row> 
-                        <ValueBox cols='12 3' color='green' icon='bank'
-                            //valorEsperado={`${votos.trabalhista.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${votos.trabalhista.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / votos.trabalhista.valorEsperado * votos.trabalhista.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='Trabalhista' />
-                        <ValueBox cols='12 3' color='red' icon='credit-card'
-                            //valorEsperado={`${votos.garantiaReal.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${votos.garantiaReal.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / votos.garantiaReal.valorEsperado * votos.garantiaReal.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='Garantia real' />
-                        <ValueBox cols='12 3' color='blue' icon='money'
-                            //valorEsperado={`${votos.quirografario.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${votos.quirografario.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / votos.quirografario.valorEsperado * votos.quirografario.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='Quirografário' />
-                        <ValueBox cols='12 3' color='yellow' icon='money'
-                            //valorEsperado={`${votos.microEmpresa.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            valorConfirmado={`${votos.microEmpresa.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                            percentual={`${(100 / votos.microEmpresa.valorEsperado * votos.microEmpresa.valorConfirmado).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
-                            text='ME/EPP' />
-                    </Row> 
+                    <Row>
+                        {(renderVotosRows())}
+                    </Row>
                 </Content> 
             </div>
         )

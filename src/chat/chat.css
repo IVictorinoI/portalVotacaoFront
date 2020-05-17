@@ -1,12 +1,12 @@
 .chatBox{
-	position: relative;
+	position: static;
 	margin: 1%;
 	padding: 10px 10px;
 	border: 1px solid #ececec;
 	border-radius: 1px;
-	max-height: 80vh;
+	/*max-height: 80vh;
 	min-height: 50vh;
-    overflow: scroll;
+    overflow: scroll;*/
 }
 
 
@@ -28,8 +28,8 @@
  }
 
  .response{
- 	border: 1px solid #007AFF;
- 	background: #007AFF;
+ 	border: 1px solid #3C8DBC;
+ 	background: #3C8DBC;
  	padding:2%;
  	width: 60%;
  	color: #fff;
@@ -38,8 +38,8 @@
     display: inline-block;
  }
  .request{
- 	background: #00CC47;
- 	border: 1px solid #00CC47;
+ 	background: #00A65A;
+ 	border: 1px solid #00A65A;
  	padding:2%;
  	width: 60%;
  	color: #fff;

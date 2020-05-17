@@ -14,6 +14,7 @@ import Votar from '../votar/votar'
 import Login from '../login/login'
 import Chat from '../chat/chat'
 import Online from '../onlines/online'
+import LogAcesso from '../logAcesso/logAcesso'
 
 export default props => (
     <Router history={hashHistory}>
@@ -29,6 +30,7 @@ export default props => (
             <Route path='votacaoTempoReal' component={VotacaoTempoReal} />
             <Route path='chat' component={Chat} />
             <Route path='online' component={Online} />
+            <Route path='logacesso' component={LogAcesso} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

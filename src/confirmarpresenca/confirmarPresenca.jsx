@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import { toastr } from 'react-redux-toastr'
 import List from './confirmarPresencaList'
+import Loading from '../common/components/Loading'
 import If from '../common/operator/if'
 
 export default class Credor extends Component {
@@ -12,10 +14,12 @@ export default class Credor extends Component {
     constructor(props){
         super(props);
 
-        this.state = { list: [], assembleia: {} }
+        this.state = { list: [], assembleia: {}, loading: false }
 
         this.confirmarPresenca = this.confirmarPresenca.bind(this)
+    }
 
+    componentDidMount() {
         this.refresh();
         this.refreshAssembleia();
     }
@@ -35,7 +39,8 @@ export default class Credor extends Component {
             descricaoClasse:credor.descricaoClasse,
             codigoProcurador: credor.codigoProcurador,
             nomeProcurador:credor.nomeProcurador,
-            sincronizado:false,
+            sincronizado: false,
+            confOnline: true,
             data:new Date(),
             tipo:'',
         }
@@ -50,6 +55,8 @@ export default class Credor extends Component {
                 this.setState({ list });
                 if(next)
                     next();
+                
+                toastr.success('Sucesso', 'Presença confirmada.')
             })
         }) 
 
@@ -76,9 +83,9 @@ export default class Credor extends Component {
         if(usuario.tipo !== 1){
             search += '&codigoProcurador='+usuario.codigoCredor
         }
-
+        this.setState({...this.state, loading: true})
         axios.get(`${this.getUrl()}&sort=-_id${search}`)
-            .then(resp => this.setState({...this.state, list: resp.data}));
+            .then(resp => this.setState({...this.state, list: resp.data, loading: false}));
 
         
     }
@@ -100,6 +107,10 @@ export default class Credor extends Component {
         
         return data.toLocaleString('pt-BR', {timeStyle:'medium'})
     }
+
+    podeConfirmarjaConfirmouTudo() {
+        return this.state.assembleia.podeConfirmar && this.state.list && this.state.list.length === 0
+    }
     
     render() {
         const keyHandler = (e) => {
@@ -116,14 +127,29 @@ export default class Credor extends Component {
                 
                 <button className='btn btn-success' disabled={!this.state.assembleia.podeConfirmar} onClick={() => this.confirmarPresencaTodos()}>Confirmar todos</button>
                 <br />
-                <If test={!this.state.assembleia.podeConfirmar}>
+                <If test={!this.state.loading && !this.state.assembleia.podeConfirmar && !this.state.assembleia.podeVotar}>
                     <center style={{color:'rgb(4, 156, 245)'}}><h3>Previsão de inicio da confirmação de presença {this.getHoraInicio()}</h3></center>
                 </If>
+                <If test={!this.state.loading && !this.podeConfirmarjaConfirmouTudo() && !this.state.assembleia.podeVotar}>
+                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial em um dos contatos enviados pelo e-mail</h3></center>
+                </If>
 
-                <List 
-                    list={this.state.list}
-                    assembleia={this.state.assembleia}
-                    confirmarPresenca={this.confirmarPresenca}/>
+                <If test={!this.state.loading && this.podeConfirmarjaConfirmouTudo()}>
+                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Você já confirmou sua presença. Aguarde o início da AGC</h3></center>
+                </If>
+
+                <If test={!this.state.loading && this.state.assembleia.podeVotar}>
+                    <center style={{color:'rgb(4, 156, 245)'}}><h3>A votação já iniciou! Vote na aba 'Votar' ou acompanhe os votos na aba 'Votação em tempo real'</h3></center>
+                </If>
+                <If test={this.state.loading}>
+                    <center><Loading color="#3C8DBC" /></center>
+                </If>
+                <If test={!this.state.loading}>
+                    <List 
+                        list={this.state.list}
+                        assembleia={this.state.assembleia}
+                        confirmarPresenca={this.confirmarPresenca}/>
+                </If>
             </div>
         );
     }

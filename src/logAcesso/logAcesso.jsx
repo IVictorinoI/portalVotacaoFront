@@ -22,7 +22,7 @@ export default class LogAcesso extends Component {
 
     refresh() {
         this.setState({...this.state, loading: true})
-        axios.get(`${this.getUrl()}?sort=-data`)
+        axios.get(`${this.getUrl()}?sort=-data&limit=300`)
             .then(resp => this.setState({...this.state, list: resp.data, loading: false}));
     }
     

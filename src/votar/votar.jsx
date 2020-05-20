@@ -31,16 +31,24 @@ export default class Credor extends Component {
     }
 
     votar(todo, opc, next) {
-        let { list } = this.state
+        const { list } = this.state
+        const dto = {
+            _id: todo._id,
+            tipo: opc
+        }
 
-        axios.put(`${this.getUrl()}/${todo._id}`, { ...todo, tipo: opc, sincronizado: false, votoOnline: true })
+
+        axios.put(`${this.getUrl()}/votar`, dto)
         .then(resp => {
             toastr.success('Sucesso', 'Seu voto foi computado, aguarde o resultado')
             list.find(p => p._id==todo._id).tipo = opc
             this.setState({ list });
             if(next)
                 next();
-        })        
+        })
+        .catch(e => {
+            e.response.data.errors.forEach(error => toastr.error('Erro', error))
+        })
     }
 
     votarParaTodos(opc){
@@ -96,21 +104,26 @@ export default class Credor extends Component {
                 <input id='description' className='form-control'
                     onKeyUp={keyHandler}
                     placeholder='Pesquise o credor'></input>
+                
+                <br />
+                <If test={!this.state.loading && !this.state.assembleia.podeVotar}>
+                    <div className="alert alert-warning" role="alert">
+                        <center>Aguarde o início da Assembleia</center>
+                    </div>
+                </If>
+                <If test={!this.state.loading && this.state.assembleia.podeVotar}>
+                    <div className="alert alert-success" role="alert">
+                        <center>{this.state.assembleia.pergunta}</center>
+                    </div>
+                </If>
+                <If test={this.state.loading}>
+                    <center><Loading color="#3C8DBC" /></center>
+                </If>
                 <div style={{float:'right', margin:'5px'}}>
                     <button className='btn btn-success' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('S')}>Sim para todos</button>
                     <button className='btn btn-danger' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('N')}>Não para todos</button>
                     <button className='btn btn-warning' disabled={!this.state.assembleia.podeVotar} onClick={() => this.votarParaTodos('A')}>Abstenção para todos</button>
                 </div>
-                <br />
-                <If test={!this.state.loading && !this.state.assembleia.podeVotar}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Aguarde o início da Assembleia</h3></center>
-                </If>
-                <If test={!this.state.loading && this.state.assembleia.podeVotar}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>{this.state.assembleia.pergunta}</h3></center>
-                </If>
-                <If test={this.state.loading}>
-                    <center><Loading color="#3C8DBC" /></center>
-                </If>
                 <If test={!this.state.loading}>
                     <List 
                         list={this.state.list}

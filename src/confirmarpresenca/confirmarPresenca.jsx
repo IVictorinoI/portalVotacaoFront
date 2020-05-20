@@ -32,33 +32,22 @@ export default class Credor extends Component {
         var list = this.state.list;
         var idx = list.indexOf(credor)
         var dto = {
-            codigo: credor.codigo,
-            codigoAssembleia:credor.codigoAssembleia,            
-            valor:credor.valor,
-            nomeCredor:credor.nome,
-            descricaoClasse:credor.descricaoClasse,
-            codigoProcurador: credor.codigoProcurador,
-            nomeProcurador:credor.nomeProcurador,
-            sincronizado: false,
-            confOnline: true,
-            data:new Date(),
-            tipo:'',
+            _id: credor._id
         }
 
-        axios.post(`${window.Params.URL_API}/votos`, dto)
+        axios.post(`${window.Params.URL_API}/votos/confirmar`, dto)
         .then(resp => {
             list.splice(idx, 1);
             this.setState({ list });
 
-            axios.put(`${window.Params.URL_API}/credores/${credor._id}`, { ...credor, confirmouPresenca: true })
-            .then(resp => {
-                this.setState({ list });
-                if(next)
-                    next();
-                
-                toastr.success('Sucesso', 'Presença confirmada.')
-            })
-        }) 
+            if(next)
+                next();
+            
+            toastr.success('Sucesso', 'Presença confirmada.')
+        })
+        .catch(e => {
+            e.response.data.errors.forEach(error => toastr.error('Erro', error))
+        })
 
 
     }
@@ -125,25 +114,34 @@ export default class Credor extends Component {
                     onKeyUp={keyHandler}
                     placeholder='Pesquise o credor'></input>
                 
-                <button className='btn btn-success' disabled={!this.state.assembleia.podeConfirmar} onClick={() => this.confirmarPresencaTodos()}>Confirmar todos</button>
-                <br />
                 <If test={!this.state.loading && !this.state.assembleia.podeConfirmar && !this.state.assembleia.podeVotar}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Previsão de inicio da confirmação de presença {this.getHoraInicio()}</h3></center>
+                    <div className="alert alert-warning" role="alert">
+                        <center>Previsão de inicio da confirmação de presença {this.getHoraInicio()}</center>
+                    </div>
                 </If>
                 <If test={!this.state.loading && !this.podeConfirmarjaConfirmouTudo() && !this.state.assembleia.podeVotar}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial em um dos contatos enviados pelo e-mail</h3></center>
+                    <div className="alert alert-success" role="alert">
+                        <center>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial em um dos contatos enviados pelo e-mail</center>
+                    </div>
                 </If>
 
                 <If test={!this.state.loading && this.podeConfirmarjaConfirmouTudo()}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>Você já confirmou sua presença. Aguarde o início da AGC</h3></center>
+                    <div className="alert alert-warning" role="alert">
+                        <center>Você já confirmou sua presença. Aguarde o início da AGC</center>
+                    </div>
                 </If>
 
                 <If test={!this.state.loading && this.state.assembleia.podeVotar}>
-                    <center style={{color:'rgb(4, 156, 245)'}}><h3>A votação já iniciou! Vote na aba 'Votar' ou acompanhe os votos na aba 'Votação em tempo real'</h3></center>
+                    <div className="alert alert-danger" role="alert">
+                        <center>A votação já iniciou! Vote na aba 'Votar' ou acompanhe os votos na aba 'Votação em tempo real'</center>
+                    </div>
                 </If>
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>
                 </If>
+                <div style={{float:'right', margin:'5px'}}>
+                    <button className='btn btn-success' disabled={!this.state.assembleia.podeConfirmar} onClick={() => this.confirmarPresencaTodos()}>Confirmar todos</button>
+                </div>
                 <If test={!this.state.loading}>
                     <List 
                         list={this.state.list}

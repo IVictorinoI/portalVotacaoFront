@@ -37,7 +37,7 @@ export default class Chat extends Component {
 
     refresh() {
         this.setState({...this.state, loading: true})
-        axios.get(`${this.getUrl()}&sort=-data`)
+        axios.get(`${this.getUrl()}&sort=-data&limit=300`)
             .then(resp => this.setState({...this.state, list: resp.data, loading: false}));
     }
     
@@ -59,6 +59,9 @@ export default class Chat extends Component {
         .then(resp => {
             this.setState({...this.state, sending: false})
             window.socketIo.emit('sendMessage', resp.data)
+        })
+        .catch(e => {
+            e.response.data.errors.forEach(error => toastr.error('Erro', error))
         })
     }
 

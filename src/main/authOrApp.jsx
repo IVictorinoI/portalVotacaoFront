@@ -24,9 +24,7 @@ class AuthOrApp extends Component {
                     location.reload()
                 }
             })
-        }
-
-        
+        }        
     }
     render() {
         const { user, validToken } = this.props.auth

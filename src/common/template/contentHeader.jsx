@@ -8,8 +8,8 @@ export default props => (
             <div className="card">
             <ul className="list-group list-group-flush">
                 <li className="list-group-item carditem"><b>Previsão de início</b></li>
-                <li className="list-group-item carditem">Confirmação <b>{props.inicioConfPres}</b></li>
-                <li className="list-group-item carditem">Assembéia <b>{props.inicioVotacao}</b></li>
+                <li className="list-group-item carditem">Credenciamento <b>{props.inicioConfPres}</b></li>
+                <li className="list-group-item carditem">Início da Assembéia <b>{props.inicioVotacao}</b></li>
             </ul>
         </div>
 

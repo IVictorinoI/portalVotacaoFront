@@ -7,6 +7,8 @@ import List from './votarList'
 import Loading from '../common/components/Loading'
 import If from '../common/operator/if'
 
+import './votar.css'
+
 export default class Credor extends Component {
     getUrl() {
         return window.Params.URL_API+'votos';
@@ -112,7 +114,7 @@ export default class Credor extends Component {
                     </div>
                 </If>
                 <If test={!this.state.loading && this.state.assembleia.podeVotar}>
-                    <div className="alert alert-success" role="alert">
+                    <div className="alert info-pergunta" role="alert">
                         <center>{this.state.assembleia.pergunta}</center>
                     </div>
                 </If>

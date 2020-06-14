@@ -45,6 +45,7 @@ export default class Credor extends Component {
             toastr.success('Sucesso', 'Seu voto foi computado, aguarde o resultado')
             list.find(p => p._id==todo._id).tipo = opc
             this.setState({ list });
+            window.socketIo.emit('votou', todo)
             if(next)
                 next();
         })

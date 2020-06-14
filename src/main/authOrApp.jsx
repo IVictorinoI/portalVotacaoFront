@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux'
 import App from './app'
 import Auth from '../auth/auth'
 import { validateToken } from '../auth/authActions'
+import { toastr } from 'react-redux-toastr'
+
 class AuthOrApp extends Component {
     componentWillMount() {
         if (this.props.auth.user) {
@@ -23,6 +25,21 @@ class AuthOrApp extends Component {
                     localStorage.removeItem('_application_user')
                     location.reload()
                 }
+            })
+
+            window.socketIo.on('usuarioOnline', function(data){
+                if(data.id !== user.id)
+                    toastr.success('Online', `${data.nome} acabou de entrar.`)
+            })
+
+            window.socketIo.on('confirmacaoPresenca', function(credor){
+                if(user.tipo===1)
+                    toastr.success('Confirmação', `${credor.nome} acabou confirmar presença.`)
+            })
+
+            window.socketIo.on('voto', function(voto){
+                if(user.tipo===1)
+                    toastr.success('Voto', `${voto.nomeCredor} acabou de votar.`)
             })
         }        
     }

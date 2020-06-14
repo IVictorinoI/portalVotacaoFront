@@ -21,8 +21,12 @@ class Menu extends Component {
                     <MenuItem path='votos' label='Votos' icon='server' />
                     <MenuItem path='online' label='Usuários online' icon='power-off' />
                     <If test={isTipoUsuarioGladius}>
-                        <MenuItem path='logacesso' label='Logs de acesso' icon='info' />
+                        <MenuItem path='logacesso' label='Logs de acesso' icon='info' />                        
                     </If>
+                    <If test={isTipoUsuarioGladius}>
+                        <MenuItem path='notificacoes' label='Notificações' icon='envelope' />
+                    </If>
+                    
                 </MenuTree>
                 <MenuItem path='confirmarPresenca' label='Confirmar presença' icon='check-square' />
                 <MenuItem path='votar' label='Votar' icon='legal' />

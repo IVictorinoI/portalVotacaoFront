@@ -44,12 +44,11 @@ export default class Credor extends Component {
                 next();
             
             toastr.success('Sucesso', 'Presença confirmada.')
+            window.socketIo.emit('confirmouPresenca', credor)
         })
         .catch(e => {
             e.response.data.errors.forEach(error => toastr.error('Erro', error))
         })
-
-
     }
 
     confirmarPresencaTodos() {

@@ -15,6 +15,7 @@ import Login from '../login/login'
 import Chat from '../chat/chat'
 import Online from '../onlines/online'
 import LogAcesso from '../logAcesso/logAcesso'
+import Notificacao from '../notificacao/notificacao'
 
 export default props => (
     <Router history={hashHistory}>
@@ -31,6 +32,7 @@ export default props => (
             <Route path='chat' component={Chat} />
             <Route path='online' component={Online} />
             <Route path='logacesso' component={LogAcesso} />
+            <Route path='notificacoes' component={Notificacao} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

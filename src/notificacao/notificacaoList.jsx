@@ -4,7 +4,11 @@ import If from '../common/operator/if'
 export default props => {
 
     const renderTime = (date) => {
-        return date.substr(11, 8);
+        var data = new Date(date);
+
+        var dataStr = data.toLocaleTimeString('pt-BR')
+        
+        return dataStr;
     }
 
     const renderRows = () => {

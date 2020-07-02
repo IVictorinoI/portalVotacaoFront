@@ -14,9 +14,7 @@ class Dashboard extends Component {
     componentWillMount() {
         this.props.getSummary()
         this.props.getAssembleiaAtiva()
-    }
-
-    
+    }    
 
     render() {
         const { quorum, votos, quorum2, votos2 } = this.props.summary
@@ -27,7 +25,7 @@ class Dashboard extends Component {
         const renderQuorumRows = () => {
             const list = quorum2 || []
             return list.map(todo => {
-                let percentual = +(100 / todo.valorEsperado * todo.valorConfirmado).toFixed(6);
+                let percentual = (+(100 / todo.valorEsperado * todo.valorConfirmado) || 0).toFixed(6);
                 let cor = 'red';
                 if(percentual==0)
                     cor = 'red';
@@ -46,7 +44,7 @@ class Dashboard extends Component {
         const renderVotosRows = () => {
             const list = votos2 || []
             return list.map(todo => {
-                let percentual = +(100 / todo.valorEsperado * todo.valorConfirmado).toFixed(6);
+                let percentual = (+(100 / todo.valorEsperado * todo.valorConfirmado) || 0).toFixed(6);
                 let cor = 'red';
                 if(percentual==0)
                     cor = 'red';

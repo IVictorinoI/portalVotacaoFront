@@ -12,7 +12,7 @@ class Menu extends Component {
         const isTipoUsuarioGladius = tipo === 1;
         return (
             <ul className='sidebar-menu'>
-                <MenuItem path='/' label='Dashboard' icon='dashboard' />
+                <MenuItem path='/' label='Início' icon='home' />
                 {/*<MenuItem path='login' label='Login' icon='user' />*/}
                 <MenuTree label='Consultas' icon='edit'> 
                     {/*<MenuItem path='assembleias' label='Assembléias' icon='usd' />*/}

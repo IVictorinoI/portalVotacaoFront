@@ -71,8 +71,8 @@ class Dashboard extends Component {
         return (
             <div> 
                 <ContentHeader 
-                    title={`${assembleia.assunto}`} 
-                    small={`${assembleia.descricao}`} 
+                    title={`${assembleia.descricao}`} 
+                    small={`${assembleia.assunto}`} 
                     inicioConfPres={`${formataHora(assembleia.inicioConfPres)}`} 
                     inicioVotacao={`${formataHora(assembleia.inicioVotacao)}`} 
                     />

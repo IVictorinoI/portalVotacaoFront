@@ -16,6 +16,10 @@ export default class LogAcesso extends Component {
 
     }
 
+    expulsarTodos(opc){
+        window.socketIo.emit('expulsarTodos')
+    }
+
     componentDidMount() {
         this.refresh();
     }
@@ -29,9 +33,10 @@ export default class LogAcesso extends Component {
     render() {
         return (
             <div>
+                <button className='btn btn-danger' onClick={() => this.expulsarTodos()}>Expulsar todos</button>
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>
-                </If>
+                </If>                
                 <If test={!this.state.loading}>
                     <List list={this.state.list}/>
                 </If>

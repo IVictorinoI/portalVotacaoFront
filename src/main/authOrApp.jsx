@@ -27,6 +27,11 @@ class AuthOrApp extends Component {
                 }
             })
 
+            window.socketIo.on('expulsar', function(data){
+                localStorage.removeItem('_application_user')
+                window.location.href = "http://www.gladiusconsultoria.com.br/";
+            })
+
             window.socketIo.on('usuarioOnline', function(data){
                 if(data.id !== user.id)
                     toastr.success('Online', `${data.nome} acabou de entrar.`)

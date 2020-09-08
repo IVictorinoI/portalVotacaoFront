@@ -26,7 +26,12 @@ export default class Credor extends Component {
             listMeEpp: [], 
             listVotos: [],
             listConnectedUsers: [],
-            loading: false }
+            loading: false,
+            descricaoTrabalhista: "Trabalhistas",
+            descricaoQuirografario: "Quirografários",
+            descricaoGarantiaReal: "Garantia real",
+            descricaoMeEpp: "Me/Epp Microempresa e empresa de pequeno porte",
+        }
 
     }
 
@@ -55,7 +60,22 @@ export default class Credor extends Component {
                 let listGarantiaReal = resp.data.filter(p => p.codigoClasse==2);
                 let listQuirografario = resp.data.filter(p => p.codigoClasse==3);
                 let listMeEpp = resp.data.filter(p => p.codigoClasse==4);
-                this.setState({...this.state, listTrabalhista, listQuirografario, listGarantiaReal, listMeEpp, loading: false})
+                let descricaoTrabalhista = listTrabalhista[0] ? listTrabalhista[0].descricaoClasse : this.state.descricaoTrabalhista;
+                let descricaoGarantiaReal = listGarantiaReal[0] ? listGarantiaReal[0].descricaoClasse : this.state.descricaoGarantiaReal;
+                let descricaoQuirografario = listQuirografario[0] ? listQuirografario[0].descricaoClasse : this.state.descricaoQuirografario;
+                let descricaoMeEpp = listMeEpp[0] ? listMeEpp[0].descricaoClasse : this.state.descricaoMeEpp;
+                this.setState({
+                    ...this.state, 
+                    listTrabalhista, 
+                    listQuirografario, 
+                    listGarantiaReal, 
+                    listMeEpp, 
+                    descricaoTrabalhista,
+                    descricaoGarantiaReal,
+                    descricaoQuirografario,
+                    descricaoMeEpp,
+                    loading: false
+                })
 
                 this.verificaVotos(description);
             });
@@ -136,7 +156,7 @@ export default class Credor extends Component {
                         
                         <If test={this.state.listTrabalhista.length}>
                             <div>
-                                <h1>Trabalhistas</h1>
+                                <h1>{this.state.descricaoTrabalhista}</h1>
                                 <List style={({ marginButton: '5.5rem' })} list={this.state.listTrabalhista}/>
                             </div>
                         </If>
@@ -144,7 +164,7 @@ export default class Credor extends Component {
 
                         <If test={this.state.listGarantiaReal.length}>
                             <div>
-                                <h1>Garantia real</h1>
+                                <h1>{this.state.descricaoGarantiaReal}</h1>
                                 <List style={({ marginButton: '5.5rem' })} list={this.state.listGarantiaReal}/>
                             </div>
                         </If>
@@ -152,14 +172,14 @@ export default class Credor extends Component {
 
                         <If test={this.state.listQuirografario.length}>
                             <div>
-                                <h1>Quirografários</h1>
+                                <h1>{this.state.descricaoQuirografario}</h1>
                                 <List style={({ marginButton: '5.5rem' })} list={this.state.listQuirografario}/>                        
                             </div>
                         </If>
 
                         <If test={this.state.listMeEpp.length}>
                             <div>
-                                <h1>Me/Epp Microempresa e empresa de pequeno porte</h1>
+                                <h1>{this.state.descricaoMeEpp}</h1>
                                 <List style={({ marginButton: '5.5rem' })} list={this.state.listMeEpp}/>
                             </div>
                         </If>

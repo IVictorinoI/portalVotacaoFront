@@ -16,6 +16,7 @@ import Chat from '../chat/chat'
 import Online from '../onlines/online'
 import LogAcesso from '../logAcesso/logAcesso'
 import Notificacao from '../notificacao/notificacao'
+import Resultado from '../resultado/resultado'
 
 export default props => (
     <Router history={hashHistory}>
@@ -33,6 +34,7 @@ export default props => (
             <Route path='online' component={Online} />
             <Route path='logacesso' component={LogAcesso} />
             <Route path='notificacoes' component={Notificacao} />
+            <Route path='resultado' component={Resultado} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

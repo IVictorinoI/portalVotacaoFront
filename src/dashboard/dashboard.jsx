@@ -25,6 +25,10 @@ class Dashboard extends Component {
         const renderQuorumRows = () => {
             const list = quorum2 || []
             return list.map(todo => {
+                if(todo.descricaoClasse === '.')
+                    return;
+
+
                 let percentual = (+(100 / todo.valorEsperado * todo.valorConfirmado) || 0).toFixed(6);
                 let cor = 'red';
                 if(percentual==0)
@@ -44,6 +48,9 @@ class Dashboard extends Component {
         const renderVotosRows = () => {
             const list = votos2 || []
             return list.map(todo => {
+                if(todo.descricaoClasse === '.')
+                    return;
+
                 let percentual = (+(100 / todo.valorEsperado * todo.valorConfirmado) || 0).toFixed(6);
                 let cor = 'red';
                 if(percentual==0)

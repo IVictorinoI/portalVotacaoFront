@@ -31,6 +31,7 @@ class Menu extends Component {
                 <MenuItem path='confirmarPresenca' label='Confirmar presença' icon='check-square' />
                 <MenuItem path='votar' label='Votar' icon='legal' />
                 <MenuItem path='votacaoTempoReal' label='Votação em tempo real' icon='heartbeat' />
+                <MenuItem path='resultado' label='resultado' icon='line-chart' />
                 <MenuItem path='chat' label='Chat' icon='comments' />
             </ul>
         )

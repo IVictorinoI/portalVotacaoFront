@@ -52,6 +52,26 @@ export default props => {
         return <div><div>{formataValor(todo.valorAbs)}</div><div>{formataQuant(todo.quantAbs)}</div></div>
     }
 
+    const renderPercSim = todo => {
+        if(deveRetornarApenasValor(todo))
+            return formataPerc(todo.percValorSim)
+
+        if(deveRetornarApenasQuant(todo))
+            return formataPerc(todo.percQuantSim)
+
+        return <div><div>{formataPerc(todo.percValorSim)}</div><div>{formataPerc(todo.percQuantSim)}</div></div>
+    }
+
+    const renderPercNao = todo => {
+        if(deveRetornarApenasValor(todo))
+            return formataPerc(todo.percValorNao)
+
+        if(deveRetornarApenasQuant(todo))
+            return formataPerc(todo.percQuantNao)
+
+        return <div><div>{formataPerc(todo.percValorNao)}</div><div>{formataPerc(todo.percQuantNao)}</div></div>
+    }
+
     const renderRows = () => {
         const list = props.list || []
         return list.map(todo => (
@@ -62,8 +82,8 @@ export default props => {
                 <td style={{ textAlign: 'right' }}>{renderValorSim(todo)}</td>
                 <td style={{ textAlign: 'right' }}>{renderValorNao(todo)}</td>
                 <td style={{ textAlign: 'right' }}>{renderValorAbs(todo)}</td>
-                <td style={{ textAlign: 'right', backgroundColor: todo.percValorSim>todo.percValorNao ? 'yellow' : null }}>{formataPerc(todo.percValorSim)}</td>
-                <td style={{ textAlign: 'right', backgroundColor: todo.percValorNao>todo.percValorSim ? 'yellow' : null }}>{formataPerc(todo.percValorNao)}</td>
+                <td style={{ textAlign: 'right', backgroundColor: todo.percValorSim>todo.percValorNao ? 'yellow' : null }}>{renderPercSim(todo)}</td>
+                <td style={{ textAlign: 'right', backgroundColor: todo.percValorNao>todo.percValorSim ? 'yellow' : null }}>{renderPercNao(todo)}</td>
             </tr>
         ))
     }
@@ -83,6 +103,7 @@ export default props => {
                 </tr>
             </thead>
             <tbody>
+                
                 {renderRows()}
             </tbody>
         </table>

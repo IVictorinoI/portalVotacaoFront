@@ -33,13 +33,16 @@ class Dashboard extends Component {
                 let cor = 'red';
                 if(percentual==0)
                     cor = 'red';
-                else if(percentual<100)
+                else if(percentual<50)
                     cor = 'yellow'
                 else 
                     cor = 'green'
 
                 return (<ValueBox key={todo.codigoClasse+'Q'} cols='12 3' color={cor} icon='bank'
                     valorConfirmado={`${todo.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
+                    infoValorConfirmado="Credores presentes"
+                    valorEsperado={`${todo.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
+                    infoValorEsperado="Credores sugeitos"
                     percentual={`${percentual.toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
                     text={todo.descricaoClasse} />)
             })
@@ -55,13 +58,16 @@ class Dashboard extends Component {
                 let cor = 'red';
                 if(percentual==0)
                     cor = 'red';
-                else if(percentual<100)
+                else if(percentual<50)
                     cor = 'yellow'
                 else 
                     cor = 'green'
 
                 return (<ValueBox key={todo.codigoClasse+'V'} cols='12 3' color={cor} icon='bank'
                     valorConfirmado={`${todo.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
+                    infoValorConfirmado="Votos computados"
+                    valorEsperado={`${todo.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
+                    infoValorEsperado="Credores presentes"
                     percentual={`${percentual.toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
                     text={todo.descricaoClasse} />)
             })

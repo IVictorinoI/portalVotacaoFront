@@ -3,11 +3,11 @@ import React from 'react'
 export default props => {
 
     const formataValor = valor => {
-        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        return (valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
     }
 
     const formataPerc = perc => {
-        return perc.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 4, maximumFractionDigits: 6 }) + "%"
+        return (perc || 0).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 4, maximumFractionDigits: 6 }) + "%"
     }
 
     const formataQuant = quant => {

@@ -9,14 +9,20 @@ export default class Online extends Component {
 
         this.state = { list: [] }
 
+        this.expulsar = this.expulsar.bind(this)
+
         this.connectedUsers = this.connectedUsers.bind(this)
 
         window.socketIo.on('connectedUsers', this.connectedUsers)   
 
         setTimeout(function(){
-            window.socketIo.emit('getConnectedUsers')        
+            window.socketIo.emit('getConnectedUsers')
         }, 500  );
         
+    }
+
+    expulsar(user) {
+        window.socketIo.emit('expulsarId', user.id)
     }
 
     componentWillUnmount() {
@@ -30,7 +36,9 @@ export default class Online extends Component {
     render() {
         return (
             <div>
-                <List list={this.state.list}/>
+                <List 
+                    list={this.state.list}
+                    expulsar={this.expulsar}/>
             </div>
         );
     }

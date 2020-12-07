@@ -19,7 +19,9 @@ class Menu extends Component {
                     {/*<MenuItem path='classes' label='Classes' icon='usd' />*/}
                     <MenuItem path='credores' label='Credores' icon='drivers-license-o' />
                     <MenuItem path='votos' label='Votos' icon='server' />
-                    <MenuItem path='online' label='Usuários online' icon='power-off' />
+                    <If test={isTipoUsuarioGladius}>
+                        <MenuItem path='online' label='Usuários online' icon='power-off' />
+                    </If>
                     <If test={isTipoUsuarioGladius}>
                         <MenuItem path='logacesso' label='Logs de acesso' icon='info' />                        
                     </If>

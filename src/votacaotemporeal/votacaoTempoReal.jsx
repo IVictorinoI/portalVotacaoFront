@@ -11,13 +11,21 @@ export default class VotacaoTempoReal extends Component {
     constructor(props){
         super(props);
 
-        this.state = { list: [], ultimaOrdem: 0 }
+        this.state = { list: [], ultimaOrdem: 0, assembleia: {} }
 
         this.refresh();
+        this.loadAssembleia();
     }
 
     componentWillUnmount() {
         this.refresh = () => {}
+    }
+
+    loadAssembleia(){
+        axios.get(window.Params.URL_API+'assembleias/?codigo='+window.Params.codigoAssembleiaAtiva)
+            .then(resp => {
+                this.setState({...this.state, assembleia: resp.data[0]})
+            })
     }
 
     refresh() {
@@ -49,6 +57,9 @@ export default class VotacaoTempoReal extends Component {
     render() {
         return (
             <div className='conteudo-principal-com-rolagem'>
+                    <div className="alert alert-success" role="success">
+                        <center>{this.state.assembleia.pergunta}</center>
+                    </div>                
                 <List list={this.state.list}/>
             </div>
         );

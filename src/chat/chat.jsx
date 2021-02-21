@@ -133,7 +133,7 @@ export default class Chat extends Component {
                                 <div className="col-md-6">
                                     <input name='message' onKeyUp={keyHandler} className='chatinputbox' autoComplete="off" placeholder='Digite sua mensagem'></input>
                                 </div>
-                                <div className="col-md-3">
+                                {/*<div className="col-md-3">
                                 <Select 
                                     placeholder='Enviar para todos'
                                     readOnly={false} 
@@ -144,7 +144,7 @@ export default class Chat extends Component {
                                     menuPlacement = 'top'
                                     options={this.state.credores}
                                 />
-                                </div>
+                                </div>*/}
                                 <div className="col-md-1">
                                     <button className='btn btn-success' onClick={() => this.enviarMensagem()}>Enviar</button>
                                 </div>

@@ -38,7 +38,7 @@ export default class Voto extends Component {
         }
 
         return (
-            <div>
+            <div className='conteudo-principal-com-rolagem'>
                 <If test={!this.state.loading && !this.state.list.length}>                    
                     <div className='container-msg'><p>Nenhum voto computado até o momento. Aqui você poderá acompanhar os votos de todos os credores</p></div>                    
                 </If>

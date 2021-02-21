@@ -48,7 +48,7 @@ export default class VotacaoTempoReal extends Component {
     
     render() {
         return (
-            <div>
+            <div className='conteudo-principal-com-rolagem'>
                 <List list={this.state.list}/>
             </div>
         );

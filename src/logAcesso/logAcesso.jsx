@@ -32,7 +32,7 @@ export default class LogAcesso extends Component {
     
     render() {
         return (
-            <div>
+            <div className='conteudo-principal-com-rolagem'>
                 <button className='btn btn-danger' onClick={() => this.expulsarTodos()}>Expulsar todos</button>
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>

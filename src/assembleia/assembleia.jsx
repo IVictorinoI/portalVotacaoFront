@@ -34,7 +34,7 @@ export default class Assembleia extends Component {
         }
 
         return (
-            <div>
+            <div className='conteudo-principal-com-rolagem'>
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>
                 </If>

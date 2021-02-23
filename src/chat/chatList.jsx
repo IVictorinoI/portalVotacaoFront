@@ -38,7 +38,7 @@ export default props => {
     }
 
     return (
-        <div className="container">
+        <div className="container-chat">
             <div className="chatBox" id="chatBox">
                     {renderRows()}                    
             </div>

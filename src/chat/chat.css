@@ -4,6 +4,7 @@
 	padding: 10px 10px;
 	border: 1px solid #ececec;
 	border-radius: 1px;
+	height: 100%;
 	/*max-height: 80vh;
 	min-height: 50vh;
     overflow: scroll;*/
@@ -13,18 +14,36 @@
 .inputum{
 	background-color: #ececec;
 	padding:2%;
-	
+
 	left: 0;
 	bottom: 0;
 	width: 100%;
 }
 
 
-.w3-input{padding:10px;display:block;border:1px solid #ccc; width:100%; 
- margin: 1px auto !important;}
+.w3-input{
+	padding:10px;
+	display:block;
+	border:1px solid #ccc; 
+	width:100%; 
+	margin: 1px auto !important;
+}
 
  .chatdiv{
     width: 100%;
+ }
+
+.chatinputbox {
+	border-radius: 10px;
+	height: 40px;
+	width: 100%;
+	border-width: 0.1px;
+}
+
+ .chatinputdiv {
+	width: 100%;
+	padding:2%;
+	display: 'inline-block';
  }
 
  .response{
@@ -54,3 +73,18 @@
  	right: 2.5%;
  	bottom: 22%;
  }
+
+ .container-chat {
+	 height: 100%;
+	 position: relative;
+ }
+
+ .container-a {
+	height: 90%;
+	position: relative;
+ }
+ 
+ .container-b {
+	height: calc(100% - 30px);
+	position: relative;
+}

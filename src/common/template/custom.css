@@ -23,3 +23,8 @@ button {
 .carditem {
     background: #ECF0F5;
 }
+
+.conteudo-principal-com-rolagem {
+    overflow: scroll;
+    height: 100%;
+}

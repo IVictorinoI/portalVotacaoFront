@@ -103,7 +103,7 @@ export default class Credor extends Component {
         }
 
         return (
-            <div>
+            <div className='conteudo-principal-com-rolagem'>
                 <input id='description' className='form-control'
                     onKeyUp={keyHandler}
                     placeholder='Pesquise o credor'></input>

@@ -19,7 +19,7 @@ class App extends Component {
         setTimeout(() => {
             this.props.getChatNontifications(this.props.notify.lastRead)
             this.notifyLoader();
-        }, 3000)
+        }, 5000)
     }
 
     componentWillUnmount() {

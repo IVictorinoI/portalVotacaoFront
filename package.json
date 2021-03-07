@@ -40,9 +40,10 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
+    "chart.js": "^2.9.4",
     "http-server": "0.10.0",
     "react-loading": "^2.0.3",
-    "react-tooltip": "^4.2.9",
-    "react-select": "^2.4.4"
+    "react-select": "^2.4.4",
+    "react-tooltip": "^4.2.9"
   }
 }

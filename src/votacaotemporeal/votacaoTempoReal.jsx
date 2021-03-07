@@ -34,7 +34,9 @@ export default class VotacaoTempoReal extends Component {
         axios.get(`${this.getUrl()}&ordem__gt=${ultimaOrdem}&sort=-ordem`)
             .then(resp => {
                 const listaAtual = this.state.list
-                const novosRegistros = resp.data;
+                const novosRegistros = resp.data.filter(p => {
+                    return !listaAtual.filter(q => q._id === p._id).length
+                });
                 
                 Array.prototype.push.apply(novosRegistros, listaAtual)
 

@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import axios from 'axios'
 import If from '../common/operator/if'
 import Loading from '../common/components/Loading'
 import List from './chatList'
 import Select from 'react-select'
 import { toastr } from 'react-redux-toastr'
+import { setChatNotifyRead } from '../notificacao/notificacaoActions'
 
-export default class Chat extends Component {
+class Chat extends Component {
     getUrl() {
         return window.Params.URL_API+'chats/';
     }
@@ -18,6 +22,8 @@ export default class Chat extends Component {
 
         this.enviarMensagem = this.enviarMensagem.bind(this)
         this.receiveNewMessage = this.receiveNewMessage.bind(this)        
+        this.rolar = this.rolar.bind(this)        
+        this.setLastReadMessageNotify = this.setLastReadMessageNotify.bind(this)
     }
 
     componentDidMount() {
@@ -30,6 +36,8 @@ export default class Chat extends Component {
     componentWillUnmount() {
         this.enviarMensagem = () => {}
         this.receiveNewMessage = () => {}
+        this.rolar = () => {}
+        this.setLastReadMessageNotify = () => {}
     }
 
     receiveNewMessage(data) {
@@ -37,6 +45,7 @@ export default class Chat extends Component {
         list.push(data)
         this.setState({ list });
         this.rolar();
+        this.setLastReadMessageNotify() 
     }
 
     refresh() {
@@ -44,8 +53,11 @@ export default class Chat extends Component {
 
         axios.get(`${this.getUrl()}?codigoAssembleia=${window.Params.codigoAssembleiaAtiva}&sort=data&limit=300`)
             .then(resp => {
-                this.setState({...this.state, list: resp.data, loading: false})
+                const { data } = resp
+                this.setState({...this.state, list: data, loading: false})
                 this.rolar();
+
+                this.setLastReadMessageNotify()                   
             });
 
         /*axios.get(`${this.getUrl()}myChats`)
@@ -53,6 +65,16 @@ export default class Chat extends Component {
                 this.setState({...this.state, list: resp.data, loading: false});
                 this.rolar();                
             });*/
+    }
+
+    setLastReadMessageNotify() {
+        const list = this.state.list
+
+        const lastRead = list.length ? list[list.length-1].data : null
+        if(lastRead) {
+            localStorage.setItem('_chat_notify_last_read', lastRead)
+            this.props.setChatNotifyRead()
+        }   
     }
 
     refreshCredores() {
@@ -156,3 +178,7 @@ export default class Chat extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({ notify: state.notificacao.notify })
+const mapDispatchToProps = dispatch => bindActionCreators({setChatNotifyRead}, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(Chat)

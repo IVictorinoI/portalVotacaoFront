@@ -34,11 +34,11 @@ class Menu extends Component {
                 <MenuItem path='votar' label='Votar' icon='legal' />
                 <MenuItem path='votacaoTempoReal' label='Votação em tempo real' icon='heartbeat' />
                 <MenuItem path='resultado' label='resultado' icon='line-chart' />
-                <MenuItem path='chat' label='Chat' icon='comments' />
+                <MenuItem path='chat' label='Chat' icon='comments' notifyCount={this.props.notify.notifyCount} />
             </ul>
         )
     }
 }
 
-const mapStateToProps = state => ({ user: state.auth.user })
+const mapStateToProps = state => ({ user: state.auth.user, notify: state.notificacao.notify })
 export default connect(mapStateToProps)(Menu)

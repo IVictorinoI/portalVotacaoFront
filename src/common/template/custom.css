@@ -28,3 +28,14 @@ button {
     overflow: scroll;
     height: 100%;
 }
+
+.sidebar-menu li>a>.pull-right-container {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -7px
+}
+
+.bg-red,.callout.callout-danger,.alert-danger,.alert-error,.label-danger,.modal-danger .modal-body {
+    background-color: #dd4b39 !important
+}

@@ -82,8 +82,8 @@ export default props => {
                 <td style={{ textAlign: 'right' }}>{renderValorSim(todo)}</td>
                 <td style={{ textAlign: 'right' }}>{renderValorNao(todo)}</td>
                 <td style={{ textAlign: 'right' }}>{renderValorAbs(todo)}</td>
-                <td style={{ textAlign: 'right', backgroundColor: todo.percValorSim>todo.percValorNao ? 'yellow' : null }}>{renderPercSim(todo)}</td>
-                <td style={{ textAlign: 'right', backgroundColor: todo.percValorNao>todo.percValorSim ? 'yellow' : null }}>{renderPercNao(todo)}</td>
+                <td style={{ textAlign: 'right', backgroundColor: todo.percValorSim>todo.percValorNao ? '#f39c12' : null }}>{renderPercSim(todo)}</td>
+                <td style={{ textAlign: 'right', backgroundColor: todo.percValorNao>todo.percValorSim ? '#f39c12' : null }}>{renderPercNao(todo)}</td>
             </tr>
         ))
     }
@@ -107,5 +107,6 @@ export default props => {
                 {renderRows()}
             </tbody>
         </table>
+        
     )
 }

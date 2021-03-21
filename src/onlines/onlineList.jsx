@@ -21,7 +21,7 @@ export default props => {
         <table className='table table-hover'>
             <thead>
                 <tr>
-                    <th>Online agora</th>
+                    <th>Nome</th>
                 </tr>
             </thead>
             <tbody>

@@ -4,6 +4,9 @@ import axios from 'axios'
 import If from '../common/operator/if'
 import Loading from '../common/components/Loading'
 import List from './notificacaoList'
+import Content from '../common/template/content'
+import Row from  '../common/layout/row'
+import Grid from '../common/layout/grid'
 
 export default class Notificacao extends Component {
     getUrl() {
@@ -81,19 +84,36 @@ export default class Notificacao extends Component {
 
         return (
             <div className='conteudo-principal-com-rolagem'>
-                <If test={this.state.loading}>
-                    <center><Loading color="#3C8DBC" /></center>
-                </If>
-                <input id='description' className='form-control'
-                            onKeyUp={keyHandler}
-                            placeholder='Pesquise a notificação'></input>
-                <input style={{margin:'5px'}} type="checkbox" checked={this.state.apenasNaoLidos} onChange={this.handleCheckApenasNaoLidos}></input> Apenas não lidos
-                <div style={{float:'right', margin:'5px'}}>
-                    <button className='btn btn-success' onClick={() => this.marcarComoLidoTodos()}>Ler todos</button>
-                </div>
-                <List 
-                    list={this.state.list}
-                    marcarComoLido={this.marcarComoLido}/>
+                <Content>
+                    <If test={this.state.loading}>
+                        <center><Loading color="#3C8DBC" /></center>
+                    </If>
+                    <Row>
+                        <Grid cols="12">  
+                            <div className="box box-primary">
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Notificações</h3>
+
+                                    <div className="box-tools pull-right">
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div className="box-body chart-responsive">
+                                    <input id='description' className='form-control'
+                                                onKeyUp={keyHandler}
+                                                placeholder='Pesquise a notificação'></input>
+                                    <input style={{margin:'5px'}} type="checkbox" checked={this.state.apenasNaoLidos} onChange={this.handleCheckApenasNaoLidos}></input> Apenas não lidos
+                                    <div style={{float:'right', margin:'5px'}}>
+                                        <button className='btn btn-success' onClick={() => this.marcarComoLidoTodos()}>Ler todos</button>
+                                    </div>
+                                    <List 
+                                        list={this.state.list}
+                                        marcarComoLido={this.marcarComoLido}/>
+                                </div>
+                            </div>
+                        </Grid>                       
+                    </Row>
+                </Content>
             </div>
         );
     }

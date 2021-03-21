@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import If from '../common/operator/if'
 
 import List from './votacaoTempoRealList'
 
@@ -59,9 +60,11 @@ export default class VotacaoTempoReal extends Component {
     render() {
         return (
             <div className='conteudo-principal-com-rolagem'>
-                    <div className="alert alert-success" role="success">
-                        <center>{this.state.assembleia.pergunta}</center>
-                    </div>                
+                    <If test={this.state.assembleia.podeVotar}>
+                        <div className="alert alert-success" role="success">
+                            <center>{this.state.assembleia.pergunta}</center>
+                        </div>                
+                    </If>
                 <List list={this.state.list}/>
             </div>
         );

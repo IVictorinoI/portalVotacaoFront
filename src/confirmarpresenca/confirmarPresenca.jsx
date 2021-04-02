@@ -6,6 +6,10 @@ import List from './confirmarPresencaList'
 import Loading from '../common/components/Loading'
 import If from '../common/operator/if'
 
+import Content from '../common/template/content'
+import Row from  '../common/layout/row'
+import Grid from '../common/layout/grid'
+
 export default class Credor extends Component {
     getUrl() {
         return window.Params.URL_API+'credores/?codigoAssembleia='+window.Params.codigoAssembleiaAtiva;
@@ -109,44 +113,63 @@ export default class Credor extends Component {
 
         return (
             <div className='conteudo-principal-com-rolagem'>
-                <input id='description' className='form-control'
-                    onKeyUp={keyHandler}
-                    placeholder='Pesquise o credor'></input>
-                
-                <If test={!this.state.loading && !this.state.assembleia.podeConfirmar && !this.state.assembleia.podeVotar}>
-                    <div className="alert alert-warning" role="alert">
-                        <center>Previsão de inicio da confirmação de presença {this.getHoraInicio()}</center>
-                    </div>
-                </If>
-                <If test={!this.state.loading && !this.podeConfirmarjaConfirmouTudo() && !this.state.assembleia.podeVotar}>
-                    <div className="alert alert-success" role="alert">
-                        <center>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial em um dos contatos enviados pelo e-mail</center>
-                    </div>
-                </If>
+                <Content>
+                    <input id='description' className='form-control'
+                        onKeyUp={keyHandler}
+                        placeholder='Pesquise o credor'></input>
+                    
+                    <br />
+                    <If test={!this.state.loading && !this.state.assembleia.podeConfirmar && !this.state.assembleia.podeVotar}>
+                        <div className="alert alert-warning" role="alert">
+                            <center>Previsão de inicio da confirmação de presença {this.getHoraInicio()}</center>
+                        </div>
+                    </If>
+                    <If test={!this.state.loading && !this.podeConfirmarjaConfirmouTudo() && !this.state.assembleia.podeVotar}>
+                        <div className="alert alert-success" role="alert">
+                            <center>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial em um dos contatos enviados pelo e-mail</center>
+                        </div>
+                    </If>
 
-                <If test={!this.state.loading && this.podeConfirmarjaConfirmouTudo()}>
-                    <div className="alert alert-warning" role="alert">
-                        <center>Você já confirmou sua presença. Aguarde o início da AGC</center>
-                    </div>
-                </If>
+                    <If test={!this.state.loading && this.podeConfirmarjaConfirmouTudo()}>
+                        <div className="alert alert-warning" role="alert">
+                            <center>Você já confirmou sua presença. Aguarde o início da AGC</center>
+                        </div>
+                    </If>
 
-                <If test={!this.state.loading && this.state.assembleia.podeVotar}>
-                    <div className="alert alert-danger" role="alert">
-                        <center>A votação já iniciou! Vote na aba 'Votar' ou acompanhe os votos na aba 'Votação em tempo real'</center>
+                    <If test={!this.state.loading && this.state.assembleia.podeVotar}>
+                        <div className="alert alert-danger" role="alert">
+                            <center>A votação já iniciou! Vote na aba 'Votar' ou acompanhe os votos na aba 'Votação em tempo real'</center>
+                        </div>
+                    </If>
+                    <If test={this.state.loading}>
+                        <center><Loading color="#3C8DBC" /></center>
+                    </If>
+                    <div style={{float:'right', margin:'5px'}}>
+                        <button className='btn btn-success' disabled={!this.state.assembleia.podeConfirmar} onClick={() => this.confirmarPresencaTodos()}>Confirmar todos</button>
                     </div>
-                </If>
-                <If test={this.state.loading}>
-                    <center><Loading color="#3C8DBC" /></center>
-                </If>
-                <div style={{float:'right', margin:'5px'}}>
-                    <button className='btn btn-success' disabled={!this.state.assembleia.podeConfirmar} onClick={() => this.confirmarPresencaTodos()}>Confirmar todos</button>
-                </div>
-                <If test={!this.state.loading}>
-                    <List 
-                        list={this.state.list}
-                        assembleia={this.state.assembleia}
-                        confirmarPresenca={this.confirmarPresenca}/>
-                </If>
+                    <If test={!this.state.loading}>
+                        <Row>
+                            <Grid cols="12">  
+                                <div className="box box-primary">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">Votos</h3>
+
+                                        <div className="box-tools pull-right">
+                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="box-body chart-responsive">
+                                        <List 
+                                            list={this.state.list}
+                                            assembleia={this.state.assembleia}
+                                            confirmarPresenca={this.confirmarPresenca}/>
+                                    </div>
+                                </div>                                    
+
+                            </Grid>                       
+                        </Row>                              
+                    </If>
+                </Content>
             </div>
         );
     }

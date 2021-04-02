@@ -49,6 +49,10 @@ export default class AprovaAta extends Component {
             descricaoQuirografario: "Quirografários",
             descricaoGarantiaReal: "Garantia real",
             descricaoMeEpp: "Me/Epp Microempresa e empresa de pequeno porte",
+            nomeSecretario: "",
+            nomeEmpresaRecuperanda: "",
+            votoSecretario: null,
+            votoEmpresaRecuperanda: null,
             quantTrabalhista: 0,
             quantGarantiaReal: 0,
             quantQuirografario: 0,
@@ -63,7 +67,6 @@ export default class AprovaAta extends Component {
         this.refresh();
     }
 
-
     refresh(description) {
         const search = description ? `&nomeCredor__regex=/${description}/` : ''
         this.setState({...this.state, loading: true})
@@ -73,6 +76,8 @@ export default class AprovaAta extends Component {
                 let listGarantiaReal = resp.data.filter(p => p.codigoClasse==2);
                 let listQuirografario = resp.data.filter(p => p.codigoClasse==3);
                 let listMeEpp = resp.data.filter(p => p.codigoClasse==4);
+                let secretario = resp.data.filter(p => p.secretario)[0];
+                let empresaRecuperanda = resp.data.filter(p => p.empresaRecuperanda)[0]
                 let descricaoTrabalhista = listTrabalhista[0] ? listTrabalhista[0].descricaoClasse : this.state.descricaoTrabalhista;
                 let descricaoGarantiaReal = listGarantiaReal[0] ? listGarantiaReal[0].descricaoClasse : this.state.descricaoGarantiaReal;
                 let descricaoQuirografario = listQuirografario[0] ? listQuirografario[0].descricaoClasse : this.state.descricaoQuirografario;
@@ -81,6 +86,10 @@ export default class AprovaAta extends Component {
                 let quantGarantiaReal = listGarantiaReal.filter(p => p.aprovou).length;
                 let quantQuirografario = listQuirografario.filter(p => p.aprovou).length;
                 let quantMeEpp = listMeEpp.length;
+                let nomeSecretario = secretario ? secretario.nomeCredor : ''
+                let votoSecretario = secretario ? secretario.aprovou : null
+                let nomeEmpresaRecuperanda = empresaRecuperanda ? empresaRecuperanda.nomeCredor : ''                
+                let votoEmpresaRecuperanda = empresaRecuperanda ? empresaRecuperanda.aprovou : null
                 this.setState({
                     ...this.state, 
                     listTrabalhista, 
@@ -95,6 +104,10 @@ export default class AprovaAta extends Component {
                     quantGarantiaReal,
                     quantQuirografario,
                     quantMeEpp,                    
+                    nomeSecretario,
+                    votoSecretario,
+                    nomeEmpresaRecuperanda,
+                    votoEmpresaRecuperanda,
                     loading: false
                 })
             });
@@ -108,8 +121,14 @@ export default class AprovaAta extends Component {
             return "small-box bg-yellow"
 
         return "small-box bg-gray"
-
     }
+
+    colorLine(aprovou) {
+        if(aprovou)
+            return 'success'
+
+        return 'danger'
+    }    
     
     render() {
         const keyHandler = (e) => {
@@ -203,11 +222,45 @@ export default class AprovaAta extends Component {
                                 </div>
                             </div>
                             </Grid>
-
-
-
                             </div>
-                        </Row>                        
+                        </Row> 
+                        <Row>
+                            <Grid cols="12">                
+                            <div className="box box-primary">
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Secretário e empresa recuperanda</h3>
+
+                                    <div className="box-tools pull-right">
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div className="box-body chart-responsive">
+                                    <table className='table table-hover'>
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Aprovou</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <If test={this.state.nomeSecretario}>
+                                            <tr key={this.state.nomeSecretario} className={this.colorLine(this.state.votoSecretario)}>
+                                                <td>Secretário - {this.state.nomeSecretario}</td>
+                                                <td>{this.state.votoSecretario ? 'Aprovou' : 'Reprovou'}</td>
+                                            </tr>
+                                        </If>
+                                        <If test={this.state.nomeEmpresaRecuperanda}>
+                                            <tr key={this.state.nomeEmpresaRecuperanda} className={this.colorLine(this.state.votoEmpresaRecuperanda)}>
+                                                <td>Recuperanda - {this.state.nomeEmpresaRecuperanda}</td>
+                                                <td>{this.state.votoEmpresaRecuperanda ? 'Aprovou' : 'Reprovou'}</td>
+                                            </tr>
+                                        </If>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> 
+                            </Grid>                       
+                        </Row>                                                  
                         <Row>
                             <Grid cols="12">                
                             <div className="box box-primary">

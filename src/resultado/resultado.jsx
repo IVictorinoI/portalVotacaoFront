@@ -62,89 +62,91 @@ export default class Resultado extends Component {
                     </div> 
                     </Grid>                       
                 </Row>
-                <Row>
-                    <Grid cols="12">                
-                        <div className="box box-primary">
-                            <div className="box-header with-border">
-                                <h3 className="box-title">Subtotal</h3>
+                <If test={this.state.firstItem.tipoResultado=="V"}>
+                    <Row>
+                        <Grid cols="12">                
+                            <div className="box box-primary">
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Subtotal</h3>
 
-                                <div className="box-tools pull-right">
-                                    <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                    <div className="box-tools pull-right">
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="box-body chart-responsive">
-                              
-                                <Row>
-                                    <div className="box-totalgeral">                   
-                                    <Grid cols="4">
-                                            <div className={this.state.firstItem.valorSubTotalSim > this.state.firstItem.valorSubTotalNao ? "small-box bg-yellow" : "small-box bg-gray-ligh"}>
-                                                <div className="inner">
-                                                <h3>{this.formataValor(this.state.firstItem.valorSubTotalSim)}</h3>
-                                                <p>Sim</p>
+                                <div className="box-body chart-responsive">
+                                
+                                    <Row>
+                                        <div className="box-totalgeral">                   
+                                        <Grid cols="4">
+                                                <div className={this.state.firstItem.valorSubTotalSim > this.state.firstItem.valorSubTotalNao ? "small-box bg-yellow" : "small-box bg-gray-ligh"}>
+                                                    <div className="inner">
+                                                    <h3>{this.formataValor(this.state.firstItem.valorSubTotalSim)}</h3>
+                                                    <p>Sim</p>
+                                                    </div>
+                                                    <div className="icon">  
+                                                    <i className="ion ion-stats-bars"></i>
+                                                    </div>
                                                 </div>
-                                                <div className="icon">  
-                                                <i className="ion ion-stats-bars"></i>
-                                                </div>
-                                            </div>
-                                    </Grid>
-                                    <Grid cols="4">                    
-                                            <div className={this.state.firstItem.valorSubTotalNao > this.state.firstItem.valorSubTotalSim ? "small-box bg-yellow" : "small-box bg-gray-light"}>
-                                                <div className="inner">
-                                                <h3>{this.formataValor(this.state.firstItem.valorSubTotalNao)}</h3>
-                                                <p>Não</p>
-                                                </div>
-                                                <div className="icon">  
-                                                <i className="ion ion-stats-bars"></i>
-                                                </div>
-                                            </div>
-                                    </Grid>
-                                    </div>
-                                </Row>
-                                <Row>
-                                    <div className="box-totalgeral">                  
-                                    <Grid cols="4">
-                                            <div className={this.state.firstItem.percSubTotalSim > this.state.firstItem.percSubTotalNao ? "small-box bg-yellow" : "small-box bg-gray-light"}>
-                                                <div className="inner">
-                                                <h3>{this.formataPerc(this.state.firstItem.percSubTotalSim)}<sup style={({fontSize: "20px"})}>%</sup></h3>
-                                                <p>Sim</p>
-                                                </div>
-                                                <div className="icon">  
-                                                <i className="ion ion-stats-bars"></i>
-                                                </div>
-                                            </div>
-                                    </Grid>
-                                    <Grid cols="4">                    
-                                            <div className={this.state.firstItem.percSubTotalNao > this.state.firstItem.percSubTotalSim ? "small-box bg-yellow" : "small-box bg-gray-light"}>
-                                                <div className="inner">
-                                                <h3>{this.formataPerc(this.state.firstItem.percSubTotalNao)}<sup style={({fontSize: "20px"})}>%</sup></h3>
-                                                <p>Não</p>
-                                                </div>
-                                                <div className="icon">  
-                                                <i className="ion ion-stats-bars"></i>
-                                                </div>
-                                            </div>
-                                    </Grid>
-                                    </div>
-                                </Row>  
-                                <Row>
-                                    <div className="box-totalgeral">    
-                                        <Grid cols="4">   
-                                            <div className="small-box bg-yellow">
-                                                <div className="inner">
-                                                <h3>{this.formataValor(this.state.firstItem.valorTotalGeral)}</h3>
-                                                <p>Total geral</p>
-                                                </div>
-                                                <div className="icon">  
-                                                <i className="ion ion-stats-bars"></i>
-                                                </div>
-                                            </div>
                                         </Grid>
-                                    </div>
-                                </Row>                                
-                            </div>
-                        </div> 
-                    </Grid>                       
-                </Row>                                  
+                                        <Grid cols="4">                    
+                                                <div className={this.state.firstItem.valorSubTotalNao > this.state.firstItem.valorSubTotalSim ? "small-box bg-yellow" : "small-box bg-gray-light"}>
+                                                    <div className="inner">
+                                                    <h3>{this.formataValor(this.state.firstItem.valorSubTotalNao)}</h3>
+                                                    <p>Não</p>
+                                                    </div>
+                                                    <div className="icon">  
+                                                    <i className="ion ion-stats-bars"></i>
+                                                    </div>
+                                                </div>
+                                        </Grid>
+                                        </div>
+                                    </Row>
+                                    <Row>
+                                        <div className="box-totalgeral">                  
+                                        <Grid cols="4">
+                                                <div className={this.state.firstItem.percSubTotalSim > this.state.firstItem.percSubTotalNao ? "small-box bg-yellow" : "small-box bg-gray-light"}>
+                                                    <div className="inner">
+                                                    <h3>{this.formataPerc(this.state.firstItem.percSubTotalSim)}<sup style={({fontSize: "20px"})}>%</sup></h3>
+                                                    <p>Sim</p>
+                                                    </div>
+                                                    <div className="icon">  
+                                                    <i className="ion ion-stats-bars"></i>
+                                                    </div>
+                                                </div>
+                                        </Grid>
+                                        <Grid cols="4">                    
+                                                <div className={this.state.firstItem.percSubTotalNao > this.state.firstItem.percSubTotalSim ? "small-box bg-yellow" : "small-box bg-gray-light"}>
+                                                    <div className="inner">
+                                                    <h3>{this.formataPerc(this.state.firstItem.percSubTotalNao)}<sup style={({fontSize: "20px"})}>%</sup></h3>
+                                                    <p>Não</p>
+                                                    </div>
+                                                    <div className="icon">  
+                                                    <i className="ion ion-stats-bars"></i>
+                                                    </div>
+                                                </div>
+                                        </Grid>
+                                        </div>
+                                    </Row>  
+                                    <Row>
+                                        <div className="box-totalgeral">    
+                                            <Grid cols="4">   
+                                                <div className="small-box bg-yellow">
+                                                    <div className="inner">
+                                                    <h3>{this.formataValor(this.state.firstItem.valorTotalGeral)}</h3>
+                                                    <p>Total geral</p>
+                                                    </div>
+                                                    <div className="icon">  
+                                                    <i className="ion ion-stats-bars"></i>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                        </div>
+                                    </Row>                                
+                                </div>
+                            </div> 
+                        </Grid>                       
+                    </Row> 
+                </If>                                 
                 
    
                 </Content>           

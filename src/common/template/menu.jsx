@@ -35,6 +35,7 @@ class Menu extends Component {
                 <MenuItem path='votacaoTempoReal' label='Votação em tempo real' icon='heartbeat' />
                 <MenuItem path='resultado' label='resultado' icon='line-chart' />
                 <MenuItem path='chat' label='Chat' icon='comments' notifyCount={this.props.notify.notifyCount} />
+                <MenuItem path='aprovaAta' label='Aprovação Ata' icon='legal' />            
             </ul>
         )
     }

@@ -9,6 +9,7 @@ import ValueBox from  '../common/widget/valueBox'
 import Row from  '../common/layout/row'
 import Grid from '../common/layout/grid'
 import Chart from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 
 class Dashboard extends Component {
@@ -75,6 +76,7 @@ class Dashboard extends Component {
         });
 
         var myChart = new Chart(ctx, {
+            plugins: [ChartDataLabels],
             type: 'bar',
             data: {
                 labels: classes,
@@ -87,6 +89,13 @@ class Dashboard extends Component {
                 }]
             },
             options: {
+                plugins: {
+                    datalabels: {
+                        formatter: function(value, context) {
+                            return (value * 1).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 }) + '%';
+                        }
+                    }
+                },
                 animation: {
                     duration: 0
                 },
@@ -97,7 +106,7 @@ class Dashboard extends Component {
                             max: 100,
                             min: 0,
                             callback: function(value, index, values) {
-                                return value + ' %' 
+                                return null/*value + ' %' */
                             }
                         }
                     }]
@@ -137,6 +146,7 @@ class Dashboard extends Component {
         });
 
         var myChart = new Chart(ctx, {
+            plugins: [ChartDataLabels],
             type: 'bar',
             data: {
                 labels: classes,
@@ -149,6 +159,14 @@ class Dashboard extends Component {
                 }]
             },
             options: {
+                plugins: {
+                    datalabels: {
+                        formatter: function(value, context) {
+                            return (value * 1).toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 }) + '%';
+                        }
+                    }
+                },
+
                 animation: {
                     duration: 0
                 },
@@ -159,7 +177,7 @@ class Dashboard extends Component {
                             max: 100,
                             min: 0,
                             callback: function(value, index, values) {
-                                return value + ' %' 
+                                return null//value + ' %' 
                             }
                         }
                     }]

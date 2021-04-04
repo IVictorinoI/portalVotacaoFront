@@ -3,6 +3,9 @@ import axios from 'axios'
 import If from '../common/operator/if'
 import Loading from '../common/components/Loading'
 import List from './credorList'
+import Content from '../common/template/content'
+import Row from  '../common/layout/row'
+import Grid from '../common/layout/grid'
 
 export default class Credor extends Component {
     getUrl() {
@@ -145,46 +148,111 @@ export default class Credor extends Component {
 
         return (
             <div className='conteudo-principal-com-rolagem'>
+                <Content>
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>
                 </If>
                 <If test={!this.state.loading}>
                     <div>
-                        <input id='description' className='form-control'
-                            onKeyUp={keyHandler}
-                            placeholder='Pesquise o credor'></input>
+                            <Row>
+                                <Grid cols="12">                
+                                <div className="box box-primary">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">Pesquisa</h3>
+
+                                        <div className="box-tools pull-right">
+                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="box-body chart-responsive">
+                                    <input id='description' className='form-control'
+                                        onKeyUp={keyHandler}
+                                        placeholder='Pesquise o credor'></input>
+                                    </div>
+                                </div> 
+                                </Grid>                       
+                            </Row>                            
                         
                         <If test={this.state.listTrabalhista.length}>
-                            <div>
-                                <h1>{this.state.descricaoTrabalhista}</h1>
-                                <List style={({ marginButton: '5.5rem' })} list={this.state.listTrabalhista}/>
-                            </div>
+                            <Row>
+                                <Grid cols="12">                
+                                <div className="box box-primary">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">{this.state.descricaoTrabalhista}</h3>
+
+                                        <div className="box-tools pull-right">
+                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="box-body chart-responsive">
+                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listTrabalhista}/>
+                                    </div>
+                                </div> 
+                                </Grid>                       
+                            </Row>
                         </If>
                         
 
                         <If test={this.state.listGarantiaReal.length}>
-                            <div>
-                                <h1>{this.state.descricaoGarantiaReal}</h1>
-                                <List style={({ marginButton: '5.5rem' })} list={this.state.listGarantiaReal}/>
-                            </div>
+                            <Row>
+                                <Grid cols="12">                
+                                <div className="box box-primary">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">{this.state.descricaoGarantiaReal}</h3>
+
+                                        <div className="box-tools pull-right">
+                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="box-body chart-responsive">
+                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listGarantiaReal}/>
+                                    </div>
+                                </div> 
+                                </Grid>                       
+                            </Row>                            
                         </If>
 
 
                         <If test={this.state.listQuirografario.length}>
-                            <div>
-                                <h1>{this.state.descricaoQuirografario}</h1>
-                                <List style={({ marginButton: '5.5rem' })} list={this.state.listQuirografario}/>                        
-                            </div>
+                            <Row>
+                                <Grid cols="12">                
+                                <div className="box box-primary">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">{this.state.descricaoQuirografario}</h3>
+
+                                        <div className="box-tools pull-right">
+                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="box-body chart-responsive">
+                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listQuirografario}/>
+                                    </div>
+                                </div> 
+                                </Grid>                       
+                            </Row>                              
                         </If>
 
                         <If test={this.state.listMeEpp.length}>
-                            <div>
-                                <h1>{this.state.descricaoMeEpp}</h1>
-                                <List style={({ marginButton: '5.5rem' })} list={this.state.listMeEpp}/>
-                            </div>
+                            <Row>
+                                <Grid cols="12">                
+                                <div className="box box-primary">
+                                    <div className="box-header with-border">
+                                        <h3 className="box-title">{this.state.descricaoMeEpp}</h3>
+
+                                        <div className="box-tools pull-right">
+                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div className="box-body chart-responsive">
+                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listMeEpp}/>
+                                    </div>
+                                </div> 
+                                </Grid>                       
+                            </Row>                               
                         </If>
                     </div>
                 </If>
+                </Content>
             </div>
         );
     }

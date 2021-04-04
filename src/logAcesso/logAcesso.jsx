@@ -3,6 +3,9 @@ import axios from 'axios'
 import Loading from '../common/components/Loading'
 import If from '../common/operator/if'
 import List from './logAcessoList'
+import Content from '../common/template/content'
+import Row from  '../common/layout/row'
+import Grid from '../common/layout/grid'
 
 export default class LogAcesso extends Component {
     getUrl() {
@@ -33,13 +36,31 @@ export default class LogAcesso extends Component {
     render() {
         return (
             <div className='conteudo-principal-com-rolagem'>
-                <button className='btn btn-danger' onClick={() => this.expulsarTodos()}>Expulsar todos</button>
-                <If test={this.state.loading}>
-                    <center><Loading color="#3C8DBC" /></center>
-                </If>                
-                <If test={!this.state.loading}>
-                    <List list={this.state.list}/>
-                </If>
+                <Content>
+                    <Row>
+                        <Grid cols="12">  
+                            <div className="box box-primary">
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Logs de acesso</h3>
+
+                                    <div className="box-tools pull-right">
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div className="box-body chart-responsive">
+                                    <button className='btn btn-danger' onClick={() => this.expulsarTodos()}>Expulsar todos</button>
+                                    <If test={this.state.loading}>
+                                        <center><Loading color="#3C8DBC" /></center>
+                                    </If>                
+                                    <If test={!this.state.loading}>
+                                        <List list={this.state.list}/>
+                                    </If>
+                                </div>
+                            </div> 
+                        </Grid>                       
+                    </Row>                        
+
+                </Content>
             </div>
         );
     }

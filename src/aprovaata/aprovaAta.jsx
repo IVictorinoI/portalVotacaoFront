@@ -40,6 +40,8 @@ export default class AprovaAta extends Component {
         super(props);
 
         this.state = { 
+            assembleia: {},
+            dashboard: {},
             listTrabalhista: [], 
             listQuirografario: [], 
             listGarantiaReal: [], 
@@ -56,7 +58,11 @@ export default class AprovaAta extends Component {
             quantTrabalhista: 0,
             quantGarantiaReal: 0,
             quantQuirografario: 0,
-            quantMeEpp: 0
+            quantMeEpp: 0,
+            quantConfTrabalhista: 0,
+            quantConfGarantiaReal: 0,
+            quantConfQuirografario: 0,
+            quantConfMeEpp: 0
         }
 
         window.socketIo.on('reprovouata', () => { this.refresh() })
@@ -65,6 +71,13 @@ export default class AprovaAta extends Component {
 
     componentDidMount() {
         this.refresh();
+        this.refreshAssembleia();
+        this.refreshDashboard();
+    }
+
+    componentWillUnmount() {
+        this.refreshAssembleia = () => {}
+        this.refreshDashboard = () => {}
     }
 
     refresh(description) {
@@ -113,6 +126,38 @@ export default class AprovaAta extends Component {
             });
     }
 
+    refreshAssembleia(){
+        axios.get(window.Params.URL_API+'assembleias/?codigo='+window.Params.codigoAssembleiaAtiva)
+            .then(resp => {
+                this.setState({...this.state, assembleia: resp.data[0]})
+
+                setTimeout(() => this.refreshAssembleia(), 5000);
+            })
+    }
+
+    refreshDashboard() {
+        axios.get(window.Params.URL_API+'votos/dashboard/')
+            .then(resp => {
+                const dashboard = resp.data
+                this.setState({...this.state, dashboard})
+
+                if(!dashboard.resConfPres)
+                    return
+
+                const trabalhista = dashboard.resConfPres.filter(p => p.codigoClasse == 1)[0];
+                const garantiaReal = dashboard.resConfPres.filter(p => p.codigoClasse == 2)[0];
+                const quirografario = dashboard.resConfPres.filter(p => p.codigoClasse == 3)[0];
+                const meEpp = dashboard.resConfPres.filter(p => p.codigoClasse == 4)[0];
+
+                let quantConfTrabalhista = trabalhista ? trabalhista.quant : 0;
+                let quantConfGarantiaReal = garantiaReal ? garantiaReal.quant : 0;
+                let quantConfQuirografario = quirografario ? quirografario.quant : 0;
+                let quantConfMeEpp = meEpp ? meEpp.quant : 0;
+
+                this.setState({ ...this.state, quantConfTrabalhista, quantConfGarantiaReal, quantConfQuirografario, quantConfMeEpp})
+            })
+    }
+
     colorCardAprovacao(quant) {
         if(quant>=2)
             return "small-box bg-green"
@@ -156,8 +201,8 @@ export default class AprovaAta extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
-                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' onClick={() => this.aprovarAta()}>Sim. Eu aprovo a ata</button>
-                                    <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button>
+                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.aprovarAta()}>Sim. Eu aprovo a ata</button>
+                                    <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button>
                                 </div>
                             </div>
                             </Grid>
@@ -179,6 +224,7 @@ export default class AprovaAta extends Component {
                                     <div className={this.colorCardAprovacao(this.state.quantTrabalhista)}>
                                         <div className="inner">
                                         <h3>{this.state.quantTrabalhista}</h3>
+                                        <span>de {this.state.quantConfTrabalhista}</span>
                                         <p>{this.state.descricaoTrabalhista}</p>
                                         </div>
                                         <div className="icon">  
@@ -190,6 +236,7 @@ export default class AprovaAta extends Component {
                                     <div className={this.colorCardAprovacao(this.state.quantQuirografario)}>
                                         <div className="inner">
                                         <h3>{this.state.quantQuirografario}</h3>
+                                        <span>de {this.state.quantConfQuirografario}</span>
                                         <p>{this.state.descricaoQuirografario}</p>
                                         </div>
                                         <div className="icon">  
@@ -201,6 +248,7 @@ export default class AprovaAta extends Component {
                                     <div className={this.colorCardAprovacao(this.state.quantGarantiaReal)}>
                                         <div className="inner">
                                         <h3>{this.state.quantGarantiaReal}</h3>
+                                        <span>de {this.state.quantConfGarantiaReal}</span>
                                         <p>{this.state.descricaoGarantiaReal}</p>
                                         </div>
                                         <div className="icon">  
@@ -212,6 +260,7 @@ export default class AprovaAta extends Component {
                                     <div className={this.colorCardAprovacao(this.state.quantMeEpp)}>
                                         <div className="inner">
                                         <h3>{this.state.quantMeEpp}</h3>
+                                        <span>de {this.state.quantConfMeEpp}</span>
                                         <p>{this.state.descricaoMeEpp}</p>
                                         </div>
                                         <div className="icon">  
@@ -224,6 +273,23 @@ export default class AprovaAta extends Component {
                             </Grid>
                             </div>
                         </Row> 
+                        <Row>
+                            <Grid cols="12">                
+                            <div className="box box-primary">
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Pesquisa</h3>
+                                    <div className="box-tools pull-right">
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div className="box-body chart-responsive">
+                                <input id='description' className='form-control'
+                                    onKeyUp={keyHandler}
+                                    placeholder='Pesquise o credor'></input>
+                                </div>
+                            </div> 
+                            </Grid>                       
+                        </Row>                           
                         <Row>
                             <Grid cols="12">                
                             <div className="box box-primary">
@@ -261,24 +327,7 @@ export default class AprovaAta extends Component {
                             </div> 
                             </Grid>                       
                         </Row>                                                  
-                        <Row>
-                            <Grid cols="12">                
-                            <div className="box box-primary">
-                                <div className="box-header with-border">
-                                    <h3 className="box-title">Pesquisa</h3>
-
-                                    <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div className="box-body chart-responsive">
-                                <input id='description' className='form-control'
-                                    onKeyUp={keyHandler}
-                                    placeholder='Pesquise o credor'></input>
-                                </div>
-                            </div> 
-                            </Grid>                       
-                        </Row>                            
+                         
                         
                         <If test={this.state.listTrabalhista.length}>
                             <Row>

@@ -22,6 +22,7 @@ export default props => {
         return list.map(todo => (
             <tr key={todo._id}  className={colorLine(todo.aprovou)}>
                 <td>{todo.nomeCredor}</td>
+                <td>{todo.nomeProcurador}</td>
                 <td>{renderTime(todo.data)}</td>
                 <td>{todo.aprovou ? 'Aprovou' : 'Reprovou'}</td>
             </tr>
@@ -33,6 +34,7 @@ export default props => {
             <thead>
                 <tr>
                     <th>Nome</th>
+                    <th>Procurador</th>
                     <th>Hora</th>
                     <th>Voto</th>
                 </tr>

@@ -70,6 +70,7 @@ export default class Credor extends Component {
         let search = description ? `&nome__regex=/${description}/` : ''
 
         search += '&confirmouPresenca__ne=true'
+        search += '&apenasProcurador__ne=true'
 
         let usuario = JSON.parse(localStorage.getItem('_application_user'));
         if(usuario.tipo !== 1){

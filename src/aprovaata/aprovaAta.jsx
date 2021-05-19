@@ -220,54 +220,62 @@ export default class AprovaAta extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
-                                <Grid cols="3">
-                                    <div className={this.colorCardAprovacao(this.state.quantTrabalhista)}>
-                                        <div className="inner">
-                                        <h3>{this.state.quantTrabalhista}</h3>
-                                        <span>de {this.state.quantConfTrabalhista}</span>
-                                        <p>{this.state.descricaoTrabalhista}</p>
+                                <If test={this.state.quantConfTrabalhista}>
+                                    <Grid cols="3">
+                                        <div className={this.colorCardAprovacao(this.state.quantTrabalhista)}>
+                                            <div className="inner">
+                                            <h3>{this.state.quantTrabalhista}</h3>
+                                            <span>de {this.state.quantConfTrabalhista} dos credores presentes</span>
+                                            <p>{this.state.descricaoTrabalhista}</p>
+                                            </div>
+                                            <div className="icon">  
+                                            <i className="ion ion-stats-bars"></i>
+                                            </div>
                                         </div>
-                                        <div className="icon">  
-                                        <i className="ion ion-stats-bars"></i>
+                                    </Grid>
+                                </If>
+                                <If test={this.state.quantConfGarantiaReal}>
+                                    <Grid cols="3">                    
+                                        <div className={this.colorCardAprovacao(this.state.quantGarantiaReal)}>
+                                            <div className="inner">
+                                            <h3>{this.state.quantGarantiaReal}</h3>
+                                            <span>de {this.state.quantConfGarantiaReal} dos credores presentes</span>
+                                            <p>{this.state.descricaoGarantiaReal}</p>
+                                            </div>
+                                            <div className="icon">  
+                                            <i className="ion ion-stats-bars"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Grid>
-                                <Grid cols="3">                    
-                                    <div className={this.colorCardAprovacao(this.state.quantQuirografario)}>
-                                        <div className="inner">
-                                        <h3>{this.state.quantQuirografario}</h3>
-                                        <span>de {this.state.quantConfQuirografario}</span>
-                                        <p>{this.state.descricaoQuirografario}</p>
+                                    </Grid> 
+                                </If>
+                                <If test={this.state.quantConfQuirografario}>
+                                    <Grid cols="3">                    
+                                        <div className={this.colorCardAprovacao(this.state.quantQuirografario)}>
+                                            <div className="inner">
+                                            <h3>{this.state.quantQuirografario}</h3>
+                                            <span>de {this.state.quantConfQuirografario} dos credores presentes</span>
+                                            <p>{this.state.descricaoQuirografario}</p>
+                                            </div>
+                                            <div className="icon">  
+                                            <i className="ion ion-stats-bars"></i>
+                                            </div>
                                         </div>
-                                        <div className="icon">  
-                                        <i className="ion ion-stats-bars"></i>
+                                    </Grid>
+                                </If>                                
+                                <If test={this.state.quantConfMeEpp}>
+                                    <Grid cols="3">                    
+                                        <div className={this.colorCardAprovacao(this.state.quantMeEpp)}>
+                                            <div className="inner">
+                                            <h3>{this.state.quantMeEpp}</h3>
+                                            <span>de {this.state.quantConfMeEpp} dos credores presentes</span>
+                                            <p>{this.state.descricaoMeEpp}</p>
+                                            </div>
+                                            <div className="icon">  
+                                            <i className="ion ion-stats-bars"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Grid>
-                                <Grid cols="3">                    
-                                    <div className={this.colorCardAprovacao(this.state.quantGarantiaReal)}>
-                                        <div className="inner">
-                                        <h3>{this.state.quantGarantiaReal}</h3>
-                                        <span>de {this.state.quantConfGarantiaReal}</span>
-                                        <p>{this.state.descricaoGarantiaReal}</p>
-                                        </div>
-                                        <div className="icon">  
-                                        <i className="ion ion-stats-bars"></i>
-                                        </div>
-                                    </div>
-                                </Grid> 
-                                <Grid cols="3">                    
-                                    <div className={this.colorCardAprovacao(this.state.quantMeEpp)}>
-                                        <div className="inner">
-                                        <h3>{this.state.quantMeEpp}</h3>
-                                        <span>de {this.state.quantConfMeEpp}</span>
-                                        <p>{this.state.descricaoMeEpp}</p>
-                                        </div>
-                                        <div className="icon">  
-                                        <i className="ion ion-stats-bars"></i>
-                                        </div>
-                                    </div>
-                                </Grid>                                                                   
+                                    </Grid> 
+                                </If>                                                                  
                                 </div>
                             </div>
                             </Grid>

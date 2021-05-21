@@ -41,7 +41,7 @@ class Dashboard extends Component {
         setTimeout(() => {
             this.refresh()
             this.autoRefresh()
-        }, 2000)
+        }, 10000)
     }
 
     refreshQuorumChartJs(){

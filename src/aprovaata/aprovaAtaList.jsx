@@ -24,7 +24,7 @@ export default props => {
                 <td>{todo.nomeCredor}</td>
                 <td>{todo.nomeProcurador}</td>
                 <td>{renderTime(todo.data)}</td>
-                <td>{todo.aprovou ? 'Aprovou' : 'Reprovou'}</td>
+                <td>{todo.aprovou ? 'Assinou' : 'Reprovou'}</td>
             </tr>
         ))
     }   
@@ -36,7 +36,7 @@ export default props => {
                     <th>Nome</th>
                     <th>Procurador</th>
                     <th>Hora</th>
-                    <th>Voto</th>
+                    <th>Assinou</th>
                 </tr>
             </thead>
             <tbody>

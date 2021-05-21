@@ -194,15 +194,15 @@ export default class AprovaAta extends Component {
                             <Grid cols="12"> 
                             <div className="box box-primary">
                                 <div className="box-header with-border">
-                                    <h3 className="box-title">Você aprova a ata?</h3>
+                                    <h3 className="box-title">Você assina a ata?</h3>
 
                                     <div className="box-tools pull-right">
                                         <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
                                     </div>
                                 </div>
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
-                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.aprovarAta()}>Sim. Eu aprovo a ata</button>
-                                    <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button>
+                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.aprovarAta()}>Assinar ata</button>
+                                    {/* <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button> */ }
                                 </div>
                             </div>
                             </Grid>
@@ -213,7 +213,7 @@ export default class AprovaAta extends Component {
                             <Grid cols="12"> 
                             <div className="box box-primary">
                                 <div className="box-header with-border">
-                                    <h3 className="box-title">Resultado de aprovadores da ata</h3>
+                                    <h3 className="box-title">Resultado de assinadores da ata</h3>
 
                                     <div className="box-tools pull-right">
                                         <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
@@ -313,20 +313,20 @@ export default class AprovaAta extends Component {
                                         <thead>
                                             <tr>
                                                 <th>Nome</th>
-                                                <th>Aprovou</th>
+                                                <th>Assinou</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <If test={this.state.nomeSecretario}>
                                             <tr key={this.state.nomeSecretario} className={this.colorLine(this.state.votoSecretario)}>
                                                 <td>Secretário - {this.state.nomeSecretario}</td>
-                                                <td>{this.state.votoSecretario ? 'Aprovou' : 'Reprovou'}</td>
+                                                <td>{this.state.votoSecretario ? 'Assinou' : 'Reprovou'}</td>
                                             </tr>
                                         </If>
                                         <If test={this.state.nomeEmpresaRecuperanda}>
                                             <tr key={this.state.nomeEmpresaRecuperanda} className={this.colorLine(this.state.votoEmpresaRecuperanda)}>
                                                 <td>Recuperanda - {this.state.nomeEmpresaRecuperanda}</td>
-                                                <td>{this.state.votoEmpresaRecuperanda ? 'Aprovou' : 'Reprovou'}</td>
+                                                <td>{this.state.votoEmpresaRecuperanda ? 'Assinou' : 'Reprovou'}</td>
                                             </tr>
                                         </If>
                                         </tbody>

@@ -215,7 +215,7 @@ class Dashboard extends Component {
                     valorConfirmado={`${todo.valorConfirmado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
                     infoValorConfirmado="Credores presentes"
                     valorEsperado={`${todo.valorEsperado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} 
-                    infoValorEsperado="Credores sugeitos"
+                    infoValorEsperado="Credores sujeitos"
                     percentual={`${percentual.toLocaleString('pt-BR', { style: 'decimal', currency: 'BRL', maximumFractionDigits:0 })}%`} 
                     text={todo.descricaoClasse} />)
             })

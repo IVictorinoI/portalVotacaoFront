@@ -1,15 +1,7 @@
 import React from 'react'
+import { convertStringToTime } from '../common/util/dateTimeConversor'
 
 export default props => {
-
-    const renderTime = (date) => {
-        var data = new Date(date);
-
-        var dataStr = data.toLocaleTimeString('pt-BR')
-        
-        return dataStr;
-    }
-
     const renderVoto = (opc) => {
         if(opc === 'S')
             return 'Sim'
@@ -41,7 +33,7 @@ export default props => {
                 <td style={{ textAlign: 'right' }}>{todo.percentualClasse.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 4, maximumFractionDigits: 6 })}</td>
                 <td>{todo.descricaoClasse}</td>
                 <td>{renderVoto(todo.tipo)}</td>
-                <td>{renderTime(todo.data)}</td>
+                <td>{convertStringToTime(todo.data)}</td>
                 <td>{todo.nomeProcurador}</td>
             </tr>
         ))

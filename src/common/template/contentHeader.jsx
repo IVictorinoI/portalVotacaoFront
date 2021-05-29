@@ -2,7 +2,12 @@ import React from 'react'
 
 export default props => (
     <section className='content-header'>
-        <div className="divline"><h2>{props.title}</h2><h4>{props.small}</h4></div>
+        <div className="divline">
+            <center>
+                <h2>{props.title}</h2>
+                <h4>{props.small}</h4>
+            </center>
+        </div>
         <div className="divright">
 
             <div className="card">

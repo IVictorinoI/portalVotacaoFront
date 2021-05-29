@@ -1,14 +1,7 @@
 import React from 'react'
+import { convertStringToTime } from '../common/util/dateTimeConversor'
 
 export default props => {
-    const renderTime = (date) => {
-        var data = new Date(date);
-
-        var dataStr = data.toLocaleTimeString('pt-BR')
-        
-        return dataStr;
-    }
-
     const colorLine = (aprovou) => {
         if(aprovou)
             return 'success'
@@ -23,7 +16,7 @@ export default props => {
             <tr key={todo._id}  className={colorLine(todo.aprovou)}>
                 <td>{todo.nomeCredor}</td>
                 <td>{todo.nomeProcurador}</td>
-                <td>{renderTime(todo.data)}</td>
+                <td>{convertStringToTime(todo.data)}</td>
                 <td>{todo.aprovou ? 'Assinou' : 'Reprovou'}</td>
             </tr>
         ))

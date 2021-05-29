@@ -1,20 +1,13 @@
 import React from 'react'
+import { convertStringToTime } from '../common/util/dateTimeConversor'
 
 export default props => {
-    const renderTime = (date) => {
-        var data = new Date(date);
-
-        var dataStr = data.toLocaleTimeString('pt-BR')
-        
-        return dataStr;
-    }
-
     const renderRows = () => {
         const list = props.list || []
         return list.map(todo => (
             <tr key={todo._id} className={classNameRow(todo.tipo)}>
                 <td>{todo.nome}</td>
-                <td>{renderTime(todo.data)}</td>
+                <td>{convertStringToTime(todo.data)}</td>
                 <td>{todo.tipo == 0 ? 'Login' : 'Logout'}</td>
             </tr>
         ))

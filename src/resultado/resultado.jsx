@@ -46,22 +46,24 @@ export default class Resultado extends Component {
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>
                 </If>
-                <Row>
-                    <Grid cols="12">                
-                    <div className="box box-primary">
-                        <div className="box-header with-border">
-                            <h3 className="box-title">Resultado</h3>
+                <If test={this.state.firstItem.tipoResultado!="V"}>
+                    <Row>
+                        <Grid cols="12">                
+                        <div className="box box-primary">
+                            <div className="box-header with-border">
+                                <h3 className="box-title">Resultado</h3>
 
-                            <div className="box-tools pull-right">
-                                <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                <div className="box-tools pull-right">
+                                    <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="box-body chart-responsive">
-                            <List list={this.state.list}/>
-                        </div>
-                    </div> 
-                    </Grid>                       
-                </Row>
+                            <div className="box-body chart-responsive">
+                                <List list={this.state.list}/>
+                            </div>
+                        </div> 
+                        </Grid>                       
+                    </Row>
+                </If>
                 <If test={this.state.firstItem.tipoResultado=="V"}>
                     <Row>
                         <Grid cols="12">                

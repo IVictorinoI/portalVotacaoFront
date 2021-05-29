@@ -15,9 +15,11 @@ button {
 }
 .divline {
     display: inline-block;
+    width: 75%;
 }
 .divright {
     float: right;
+    width: 25%;
 }
 
 .carditem {

@@ -1,17 +1,9 @@
 import './chat.css'
 import React from 'react'
 import If from '../common/operator/if'
+import { convertStringToTime } from '../common/util/dateTimeConversor'
 
 export default props => {
-
-    const renderTime = (date) => {
-        var data = new Date(date);
-
-        var dataStr = data.toLocaleTimeString('pt-BR')
-        
-        return dataStr;
-    }
-
     const renderRows = () => {
         const usuario = JSON.parse(localStorage.getItem('_application_user'))
         const list = props.list || []
@@ -20,7 +12,7 @@ export default props => {
                 <If test={todo.idUsuario==usuario.id}>
                     <div className="response">
                         <div> 
-                            <strong>{todo.nomeCredor}</strong> {renderTime(todo.data)}
+                            <strong>{todo.nomeCredor}</strong> {convertStringToTime(todo.data)}
                             <p>{todo.msg}</p>
                         </div>
                     </div>
@@ -28,7 +20,7 @@ export default props => {
                 <If test={todo.idUsuario!=usuario.id}>
                     <div className="request">
                         <div> 
-                            <strong>{todo.nomeCredor}</strong> {renderTime(todo.data)}
+                            <strong>{todo.nomeCredor}</strong> {convertStringToTime(todo.data)}
                             <p>{todo.msg}</p>
                         </div>
                     </div>

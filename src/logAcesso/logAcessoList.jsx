@@ -8,6 +8,7 @@ export default props => {
             <tr key={todo._id} className={classNameRow(todo.tipo)}>
                 <td>{todo.nome}</td>
                 <td>{convertStringToTime(todo.data)}</td>
+                <td>{convertStringToTime(todo.dataUltimoAcesso)}</td>
                 <td>{todo.tipo == 0 ? 'Login' : 'Logout'}</td>
             </tr>
         ))
@@ -27,7 +28,8 @@ export default props => {
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Hora</th>
+                    <th>Hora login</th>
+                    <th>Ultimo acesso</th>
                     <th>Operação</th>
                 </tr>
             </thead>

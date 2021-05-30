@@ -7,12 +7,14 @@ import SideBar from '../common/template/sideBar'
 import Footer from '../common/template/footer'
 import Messages from '../common/msg/messages'
 import { getChatNontifications } from '../notificacao/notificacaoActions'
+import { register } from '../logAcesso/logAcessoRegister'
 class App extends Component {
 
     constructor(props) {
         super(props);
 
         this.notifyLoader()
+        this.logRegister()
     }
 
     notifyLoader() {
@@ -22,8 +24,16 @@ class App extends Component {
         }, 5000)
     }
 
+    logRegister() {
+        setTimeout(() => {
+            register()
+            this.logRegister()
+        }, 30000);
+    }
+
     componentWillUnmount() {
         this.notifyLoader = () => {}
+        this.logRegister = () => {}
     }
 
     render() {

@@ -201,8 +201,8 @@ export default class AprovaAta extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
-                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.aprovarAta()}>Assinar ata</button>
-                                    {/* <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' disabled={!this.state.assembleia.podeVotar} onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button> */ }
+                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeAta} onClick={() => this.aprovarAta()}>Assinar ata</button>
+                                    {/* <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' disabled={!this.state.assembleia.podeAta} onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button> */ }
                                 </div>
                             </div>
                             </Grid>

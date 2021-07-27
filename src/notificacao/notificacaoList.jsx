@@ -14,13 +14,13 @@ export default props => {
                     <If test={todo.lido}>
                     <button className='btn btn-warning' 
                             onClick={() => props.marcarComoLido(todo, false)}>
-                                Não lido
+                                Lido
                         </button>
                     </If>
                     <If test={!todo.lido}>
                         <button className='btn btn-success' 
                             onClick={() => props.marcarComoLido(todo, true)}>
-                                Lido
+                                Não lido
                         </button>
                     </If>
                     

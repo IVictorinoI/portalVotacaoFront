@@ -54,14 +54,24 @@ export default class Credor extends Component {
         this.marcaOnlines();
     }
 
+    sortCredores(a, b) {
+        if (a.nome.toLowerCase() > b.nome.toLowerCase()) {
+          return 1;
+        }
+        if (a.nome.toLowerCase() < b.nome.toLowerCase()) {
+          return -1;
+        }
+        return 0;
+    }
+
     refresh(description) {
         const search = description ? `&nome__regex=/${description}/` : ''
         this.setState({...this.state, loading: true})
         axios.get(`${this.getUrl()}&sort=-_id${search}`)
             .then(resp => {
-                let listTrabalhista = resp.data.filter(p => p.codigoClasse==1);                
-                let listGarantiaReal = resp.data.filter(p => p.codigoClasse==2);
-                let listQuirografario = resp.data.filter(p => p.codigoClasse==3);
+                let listTrabalhista = resp.data.filter(p => p.codigoClasse==1).sort(this.sortCredores);                
+                let listGarantiaReal = resp.data.filter(p => p.codigoClasse==2).sort(this.sortCredores);
+                let listQuirografario = resp.data.filter(p => p.codigoClasse==3).sort(this.sortCredores);
                 let listMeEpp = resp.data.filter(p => p.codigoClasse==4);
                 let descricaoTrabalhista = listTrabalhista[0] ? listTrabalhista[0].descricaoClasse : this.state.descricaoTrabalhista;
                 let descricaoGarantiaReal = listGarantiaReal[0] ? listGarantiaReal[0].descricaoClasse : this.state.descricaoGarantiaReal;
@@ -81,7 +91,22 @@ export default class Credor extends Component {
                 })
 
                 this.verificaVotos(description);
+                this.verificaProcuradores();
             });
+    }
+
+    verificaProcuradores() {
+        const setaProcuradorVazio = (credor) => {
+            if(credor.nome == credor.nomeProcurador)
+                credor.nomeProcurador=''
+        }
+
+        let {listTrabalhista, listQuirografario, listGarantiaReal, listMeEpp} = this.state
+
+        listTrabalhista.forEach(p => setaProcuradorVazio(p));
+        listQuirografario.forEach(p => setaProcuradorVazio(p));
+        listGarantiaReal.forEach(p => setaProcuradorVazio(p));
+        listMeEpp.forEach(p => setaProcuradorVazio(p));
     }
 
     verificaVotos(description) {

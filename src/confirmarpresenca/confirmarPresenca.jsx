@@ -78,9 +78,22 @@ export default class Credor extends Component {
         }
         this.setState({...this.state, loading: true})
         axios.get(`${this.getUrl()}&sort=-_id${search}`)
-            .then(resp => this.setState({...this.state, list: resp.data, loading: false}));
+            .then(resp => this.setState({...this.state, list: this.sortData(resp.data), loading: false}));
+    }
 
-        
+    sortData(data) {      
+        return (data || []).sort(this.sortCredores)
+    
+    }
+
+    sortCredores(a, b) {
+        if (a.nome.toLowerCase() > b.nome.toLowerCase()) {
+          return 1;
+        }
+        if (a.nome.toLowerCase() < b.nome.toLowerCase()) {
+          return -1;
+        }
+        return 0;
     }
 
     refreshAssembleia(){
@@ -127,7 +140,7 @@ export default class Credor extends Component {
                     </If>
                     <If test={!this.state.loading && !this.podeConfirmarjaConfirmouTudo() && !this.state.assembleia.podeVotar}>
                         <div className="alert alert-success" role="alert">
-                            <center>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial em um dos contatos enviados pelo e-mail</center>
+                            <center>Você possui estes credores abaixo vinculados em seu nome. Caso discorde, favor contatar a Administração Judicial pelo email: atendiento@gladiusconsultoria.com.br ou pelos telefones: (48) 3433-8525 / (48) 99102-5411</center>
                         </div>
                     </If>
 

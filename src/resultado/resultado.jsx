@@ -7,6 +7,7 @@ import Row from  '../common/layout/row'
 import Grid from '../common/layout/grid'
 import './resultado.css'
 import Content from '../common/template/content'
+import ResultadoBox from './resultadoBox'
 
 export default class Resultado extends Component {
     getUrl() {
@@ -24,7 +25,7 @@ export default class Resultado extends Component {
     constructor(props){
         super(props);
 
-        this.state = { list: [], firstItem: {}, loading: false }
+        this.state = { list: [], firstItem: {}, assembleia: {}, loading: false }
     }
 
     componentDidMount() {
@@ -37,6 +38,11 @@ export default class Resultado extends Component {
             .then(resp => {
                 this.setState({...this.state, list: resp.data, firstItem: resp.data[0] || {}, loading: false})
             });
+
+        axios.get(`${window.Params.URL_API}/assembleias/?ativo=true`)
+            .then(resp => {
+                this.setState({...this.state, assembleia: resp.data[0] || {}})
+            });            
     }
     
     render() {
@@ -46,6 +52,22 @@ export default class Resultado extends Component {
                 <If test={this.state.loading}>
                     <center><Loading color="#3C8DBC" /></center>
                 </If>
+                <Row>
+                    <Grid cols="12">                
+                    <div className="box box-primary">
+                        <div className="box-header with-border">
+                            <h3 className="box-title">Pergunta</h3>
+
+                            <div className="box-tools pull-right">
+                                <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div className="box-body chart-responsive">
+                            <center><h2>{this.state.assembleia.pergunta}</h2></center>
+                        </div>
+                    </div> 
+                    </Grid>                       
+                </Row>                
                 <If test={this.state.firstItem.tipoResultado!="V"}>
                     <Row>
                         <Grid cols="12">                
@@ -76,71 +98,52 @@ export default class Resultado extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body chart-responsive">
-                                
                                     <Row>
                                         <div className="box-totalgeral">                   
                                         <Grid cols="4">
-                                                <div className={this.state.firstItem.valorSubTotalSim > this.state.firstItem.valorSubTotalNao ? "small-box bg-yellow" : "small-box bg-gray-ligh"}>
-                                                    <div className="inner">
-                                                    <h3>{this.formataValor(this.state.firstItem.valorSubTotalSim)}</h3>
-                                                    <p>Sim</p>
-                                                    </div>
-                                                    <div className="icon">  
-                                                    <i className="ion ion-stats-bars"></i>
-                                                    </div>
-                                                </div>
+                                            <ResultadoBox 
+                                                yellow={this.state.firstItem.valorSubTotalSim > this.state.firstItem.valorSubTotalNao} 
+                                                value={this.formataValor(this.state.firstItem.valorSubTotalSim)}
+                                                text="Sim"                                                
+                                            />
                                         </Grid>
                                         <Grid cols="4">                    
-                                                <div className={this.state.firstItem.valorSubTotalNao > this.state.firstItem.valorSubTotalSim ? "small-box bg-yellow" : "small-box bg-gray-light"}>
-                                                    <div className="inner">
-                                                    <h3>{this.formataValor(this.state.firstItem.valorSubTotalNao)}</h3>
-                                                    <p>Não</p>
-                                                    </div>
-                                                    <div className="icon">  
-                                                    <i className="ion ion-stats-bars"></i>
-                                                    </div>
-                                                </div>
+                                            <ResultadoBox 
+                                                yellow={this.state.firstItem.valorSubTotalNao > this.state.firstItem.valorSubTotalSim} 
+                                                value={this.formataValor(this.state.firstItem.valorSubTotalNao)}
+                                                text="Não"                                                
+                                            />
                                         </Grid>
                                         </div>
                                     </Row>
                                     <Row>
                                         <div className="box-totalgeral">                  
                                         <Grid cols="4">
-                                                <div className={this.state.firstItem.percSubTotalSim > this.state.firstItem.percSubTotalNao ? "small-box bg-yellow" : "small-box bg-gray-light"}>
-                                                    <div className="inner">
-                                                    <h3>{this.formataPerc(this.state.firstItem.percSubTotalSim)}<sup style={({fontSize: "20px"})}>%</sup></h3>
-                                                    <p>Sim</p>
-                                                    </div>
-                                                    <div className="icon">  
-                                                    <i className="ion ion-stats-bars"></i>
-                                                    </div>
-                                                </div>
+                                            <ResultadoBox 
+                                                yellow={this.state.firstItem.percSubTotalSim > this.state.firstItem.percSubTotalNao} 
+                                                value={this.formataPerc(this.state.firstItem.percSubTotalSim)}
+                                                perc={true}
+                                                text="Sim"                                                
+                                            />
                                         </Grid>
                                         <Grid cols="4">                    
-                                                <div className={this.state.firstItem.percSubTotalNao > this.state.firstItem.percSubTotalSim ? "small-box bg-yellow" : "small-box bg-gray-light"}>
-                                                    <div className="inner">
-                                                    <h3>{this.formataPerc(this.state.firstItem.percSubTotalNao)}<sup style={({fontSize: "20px"})}>%</sup></h3>
-                                                    <p>Não</p>
-                                                    </div>
-                                                    <div className="icon">  
-                                                    <i className="ion ion-stats-bars"></i>
-                                                    </div>
-                                                </div>
+                                            <ResultadoBox 
+                                                yellow={this.state.firstItem.percSubTotalNao > this.state.firstItem.percSubTotalSim} 
+                                                value={this.formataPerc(this.state.firstItem.percSubTotalNao)}
+                                                perc={true}
+                                                text="Não"                                                
+                                            />
                                         </Grid>
                                         </div>
                                     </Row>  
                                     <Row>
                                         <div className="box-totalgeral">    
-                                            <Grid cols="4">   
-                                                <div className="small-box bg-yellow">
-                                                    <div className="inner">
-                                                    <h3>{this.formataValor(this.state.firstItem.valorTotalGeral)}</h3>
-                                                    <p>Total geral</p>
-                                                    </div>
-                                                    <div className="icon">  
-                                                    <i className="ion ion-stats-bars"></i>
-                                                    </div>
-                                                </div>
+                                            <Grid cols="4">  
+                                                <ResultadoBox 
+                                                    yellow={true} 
+                                                    value={this.formataValor(this.state.firstItem.valorTotalGeral)}
+                                                    text="Total geral"                                                
+                                                />
                                             </Grid>
                                         </div>
                                     </Row>                                

@@ -158,8 +158,8 @@ export default class AprovaAta extends Component {
             })
     }
 
-    colorCardAprovacao(quant) {
-        if(quant>=2)
+    colorCardAprovacao(quant, total) {
+        if(quant>=2 || quant==total)
             return "small-box bg-green"
 
         if(quant>=1)
@@ -222,7 +222,7 @@ export default class AprovaAta extends Component {
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
                                 <If test={this.state.quantConfTrabalhista}>
                                     <Grid cols="3">
-                                        <div className={this.colorCardAprovacao(this.state.quantTrabalhista)}>
+                                        <div className={this.colorCardAprovacao(this.state.quantTrabalhista, this.state.quantConfTrabalhista)}>
                                             <div className="inner">
                                             <h3>{this.state.quantTrabalhista}</h3>
                                             <span>de {this.state.quantConfTrabalhista} dos credores presentes</span>
@@ -236,7 +236,7 @@ export default class AprovaAta extends Component {
                                 </If>
                                 <If test={this.state.quantConfGarantiaReal}>
                                     <Grid cols="3">                    
-                                        <div className={this.colorCardAprovacao(this.state.quantGarantiaReal)}>
+                                        <div className={this.colorCardAprovacao(this.state.quantGarantiaReal, this.state.quantConfGarantiaReal)}>
                                             <div className="inner">
                                             <h3>{this.state.quantGarantiaReal}</h3>
                                             <span>de {this.state.quantConfGarantiaReal} dos credores presentes</span>
@@ -250,7 +250,7 @@ export default class AprovaAta extends Component {
                                 </If>
                                 <If test={this.state.quantConfQuirografario}>
                                     <Grid cols="3">                    
-                                        <div className={this.colorCardAprovacao(this.state.quantQuirografario)}>
+                                        <div className={this.colorCardAprovacao(this.state.quantQuirografario, this.state.quantConfQuirografario)}>
                                             <div className="inner">
                                             <h3>{this.state.quantQuirografario}</h3>
                                             <span>de {this.state.quantConfQuirografario} dos credores presentes</span>
@@ -264,7 +264,7 @@ export default class AprovaAta extends Component {
                                 </If>                                
                                 <If test={this.state.quantConfMeEpp}>
                                     <Grid cols="3">                    
-                                        <div className={this.colorCardAprovacao(this.state.quantMeEpp)}>
+                                        <div className={this.colorCardAprovacao(this.state.quantMeEpp, this.state.quantConfMeEpp)}>
                                             <div className="inner">
                                             <h3>{this.state.quantMeEpp}</h3>
                                             <span>de {this.state.quantConfMeEpp} dos credores presentes</span>

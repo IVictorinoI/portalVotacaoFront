@@ -14,7 +14,7 @@ export default props => {
     }
 
     const renderRows = () => {
-        const list = props.list || []
+        const list = (props.list || []).filter(p => p.tipo)
         return list.map(todo => (
             <tr key={todo._id}>
                 <td>{todo.nomeCredor}</td>

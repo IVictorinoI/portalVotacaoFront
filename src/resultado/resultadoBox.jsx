@@ -10,7 +10,7 @@ export default props => (
                 <sup style={({fontSize: "20px"})}>%</sup>
             </If>
         </h3>
-        <p><h4>{props.text}</h4></p>
+        <p><h3>{props.text}</h3></p>
         </div>
         <div className="icon">  
         <i className="ion ion-stats-bars"></i>

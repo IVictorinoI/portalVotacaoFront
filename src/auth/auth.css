@@ -10,3 +10,12 @@
   .login-box a:hover {
     cursor: pointer;
   }
+  .login-title-font {
+    font-size: large;
+  }
+
+  .table-contacts-style {
+    table-layout: fixed;
+    text-align: left;
+    font-size: large;
+    }

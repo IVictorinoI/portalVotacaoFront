@@ -8,6 +8,7 @@ import Row from  '../common/layout/row'
 import Grid from '../common/layout/grid'
 import './aprovaAta.css'
 import { toastr } from 'react-redux-toastr'
+import BoxResultadoQuant from './boxResultadoQuant'
 
 export default class AprovaAta extends Component {
     getUrl() {
@@ -158,16 +159,6 @@ export default class AprovaAta extends Component {
             })
     }
 
-    colorCardAprovacao(quant, total) {
-        if(quant>=2 || quant==total)
-            return "small-box bg-green"
-
-        if(quant>=1)
-            return "small-box bg-yellow"
-
-        return "small-box bg-gray"
-    }
-
     colorLine(aprovou) {
         if(aprovou)
             return 'success'
@@ -220,62 +211,26 @@ export default class AprovaAta extends Component {
                                     </div>
                                 </div>
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
-                                <If test={this.state.quantConfTrabalhista}>
-                                    <Grid cols="3">
-                                        <div className={this.colorCardAprovacao(this.state.quantTrabalhista, this.state.quantConfTrabalhista)}>
-                                            <div className="inner">
-                                            <h3>{this.state.quantTrabalhista}</h3>
-                                            <span>de {this.state.quantConfTrabalhista} dos credores presentes</span>
-                                            <p>{this.state.descricaoTrabalhista}</p>
-                                            </div>
-                                            <div className="icon">  
-                                            <i className="ion ion-stats-bars"></i>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                </If>
-                                <If test={this.state.quantConfGarantiaReal}>
-                                    <Grid cols="3">                    
-                                        <div className={this.colorCardAprovacao(this.state.quantGarantiaReal, this.state.quantConfGarantiaReal)}>
-                                            <div className="inner">
-                                            <h3>{this.state.quantGarantiaReal}</h3>
-                                            <span>de {this.state.quantConfGarantiaReal} dos credores presentes</span>
-                                            <p>{this.state.descricaoGarantiaReal}</p>
-                                            </div>
-                                            <div className="icon">  
-                                            <i className="ion ion-stats-bars"></i>
-                                            </div>
-                                        </div>
-                                    </Grid> 
-                                </If>
-                                <If test={this.state.quantConfQuirografario}>
-                                    <Grid cols="3">                    
-                                        <div className={this.colorCardAprovacao(this.state.quantQuirografario, this.state.quantConfQuirografario)}>
-                                            <div className="inner">
-                                            <h3>{this.state.quantQuirografario}</h3>
-                                            <span>de {this.state.quantConfQuirografario} dos credores presentes</span>
-                                            <p>{this.state.descricaoQuirografario}</p>
-                                            </div>
-                                            <div className="icon">  
-                                            <i className="ion ion-stats-bars"></i>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                </If>                                
-                                <If test={this.state.quantConfMeEpp}>
-                                    <Grid cols="3">                    
-                                        <div className={this.colorCardAprovacao(this.state.quantMeEpp, this.state.quantConfMeEpp)}>
-                                            <div className="inner">
-                                            <h3>{this.state.quantMeEpp}</h3>
-                                            <span>de {this.state.quantConfMeEpp} dos credores presentes</span>
-                                            <p>{this.state.descricaoMeEpp}</p>
-                                            </div>
-                                            <div className="icon">  
-                                            <i className="ion ion-stats-bars"></i>
-                                            </div>
-                                        </div>
-                                    </Grid> 
-                                </If>                                                                  
+                                <BoxResultadoQuant 
+                                    quantConf={this.state.quantConfTrabalhista}
+                                    quant={this.state.quantTrabalhista}
+                                    descricao={this.state.descricaoTrabalhista}
+                                />
+                                <BoxResultadoQuant 
+                                    quantConf={this.state.quantConfGarantiaReal}
+                                    quant={this.state.quantGarantiaReal}
+                                    descricao={this.state.descricaoGarantiaReal}
+                                />
+                                <BoxResultadoQuant 
+                                    quantConf={this.state.quantConfQuirografario}
+                                    quant={this.state.quantQuirografario}
+                                    descricao={this.state.descricaoQuirografario}
+                                />
+                                <BoxResultadoQuant 
+                                    quantConf={this.state.quantConfMeEpp}
+                                    quant={this.state.quantMeEpp}
+                                    descricao={this.state.descricaoMeEpp}
+                                />
                                 </div>
                             </div>
                             </Grid>

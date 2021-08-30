@@ -30,17 +30,6 @@ export default class AprovaAta extends Component {
         })
     }
 
-    naoAprovarAta() {
-        axios.post(`${this.getUrl()}reprovar`)
-        .then(resp => {
-            toastr.success('Sucesso', 'Você reprovou a ata')
-            window.socketIo.emit('reprovarata')
-        })
-        .catch(e => {
-            e.response.data.errors.forEach(error => toastr.error('Erro', error))
-        })
-    }
-
     constructor(props){
         super(props);
 
@@ -190,14 +179,11 @@ export default class AprovaAta extends Component {
                                 </div>
                                 <div className="box-body chart-responsive box-botoes-aprovacao">
                                     <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeAta} onClick={() => this.aprovarAta()}>Assinar ata</button>
-                                    {/* <button style={({ marginRight: '1rem' })} className='btn btn-danger btn-lg' disabled={!this.state.assembleia.podeAta} onClick={() => this.naoAprovarAta()}>Não. Eu não aprovo a ata</button> */ }
                                 </div>
                             </div>
                             </Grid>
                         </Row>
                         <Row>
-                            <div className="box-botoes-aprovacao">       
-
                             <Grid cols="12"> 
                             <div className="box box-primary">
                                 <div className="box-header with-border">
@@ -231,7 +217,6 @@ export default class AprovaAta extends Component {
                                 </div>
                             </div>
                             </Grid>
-                            </div>
                         </Row> 
                         <Row>
                             <Grid cols="12">                

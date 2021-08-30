@@ -12,6 +12,7 @@ import BoxResultadoQuant from './boxResultadoQuant'
 import VotosAtaList from './votosAtaList'
 import { colorLine } from './aprovaAtaService.js'
 import SecretarioRecuperandaBox from './secretarioRecuperandaBox'
+import Search from './search'
 
 export default class AprovaAta extends Component {
     getUrl() {
@@ -234,19 +235,9 @@ export default class AprovaAta extends Component {
                         </Row> 
                         <Row>
                             <Grid cols="12">                
-                            <div className="box box-primary">
-                                <div className="box-header with-border">
-                                    <h3 className="box-title">Pesquisa</h3>
-                                    <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div className="box-body chart-responsive">
-                                <input id='description' className='form-control'
-                                    onKeyUp={keyHandler}
-                                    placeholder='Pesquise o credor'></input>
-                                </div>
-                            </div> 
+                                <Search 
+                                    keyHandler={keyHandler}
+                                />
                             </Grid>                       
                         </Row>                           
                         <Row>

@@ -45,7 +45,11 @@ class Dashboard extends Component {
     }
 
     refreshQuorumChartJs(){
-        var ctx = document.getElementById('bar-chart-dashboard-quorum').getContext('2d');
+        var chart = document.getElementById('bar-chart-dashboard-quorum')
+        if (!chart) 
+            return
+
+        var ctx = chart.getContext('2d');
         const classes = []
         const colors = []
         const borderColor = []
@@ -116,7 +120,11 @@ class Dashboard extends Component {
     }   
 
     refreshVotosChartJs(){
-        var ctx = document.getElementById('bar-chart-dashboard-votos').getContext('2d');
+        var chart = document.getElementById('bar-chart-dashboard-votos')
+        if (!chart)
+            return
+            
+        var ctx = chart.getContext('2d');
         const classes = []
         const colors = []
         const borderColor = []

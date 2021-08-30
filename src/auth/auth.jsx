@@ -9,6 +9,7 @@ import Grid from '../common/layout/grid'
 import If from '../common/operator/if'
 import Messages from '../common/msg/messages'
 import Input from '../common/form/inputAuth'
+import AuthContact from './auth-contact'
 class Auth extends Component {
     constructor(props) {
         super(props)
@@ -28,7 +29,7 @@ class Auth extends Component {
         return (
             <div>
                 <div className="login-box">
-                    <div className="login-logo"><img src="./logo_login.png" alt="Votação gladius" width="256" height="115"></img></div>
+                    <div className="login-logo login-logo-style"><img src="./logo_login.png" alt="Votação gladius" width="256" height="115"></img></div>
                     <p className="login-box-msg login-title-font">Bem-Vindo ao Sistema de Assembleia Online da Gladius Consultoria</p>
                     <div className="login-box-body">
                         <p className="login-box-msg">Digite o login e senha enviados previamente por e-mail</p>
@@ -59,26 +60,7 @@ class Auth extends Component {
                         </a>*/}
                     </div>                
                     <Messages />
-                </div>
-                <div>
-
-                    <p className="login-box-msg login-title-font">Caso não consiga acessar o sistema, entre em contato com a Administração Judicial através das vias abaixo: </p>
-                    <center>
-                        <table className="table-contacts-style">
-                        <tr>
-                            <td width="100"><b>Telefones:</b></td>
-                            <td>(48) 3433-8525</td>
-                        </tr>
-                        <tr>
-                            <td width="100"></td>
-                            <td>(48) 9102-5411 – WhatsApp</td>
-                        </tr>
-                        <tr>
-                            <td width="100"><b>E-mail:</b></td>
-                            <td>atendimento@gladiusconsultoria.com.br</td>
-                        </tr>
-                        </table>
-                    </center>                    
+                    <AuthContact />
                 </div>
             </div>
         )

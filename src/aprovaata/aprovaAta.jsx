@@ -9,6 +9,7 @@ import Grid from '../common/layout/grid'
 import './aprovaAta.css'
 import { toastr } from 'react-redux-toastr'
 import BoxResultadoQuant from './boxResultadoQuant'
+import VotosAtaList from './votosAtaList'
 
 export default class AprovaAta extends Component {
     getUrl() {
@@ -291,84 +292,25 @@ export default class AprovaAta extends Component {
                             </Grid>                       
                         </Row>                                                  
                          
+                        <VotosAtaList 
+                            list={this.state.listTrabalhista}
+                            descricao={this.state.descricaoTrabalhista}
+                        />
                         
-                        <If test={this.state.listTrabalhista.length}>
-                            <Row>
-                                <Grid cols="12">                
-                                <div className="box box-primary">
-                                    <div className="box-header with-border">
-                                        <h3 className="box-title">{this.state.descricaoTrabalhista}</h3>
+                        <VotosAtaList 
+                            list={this.state.listGarantiaReal}
+                            descricao={this.state.descricaoGarantiaReal}
+                        />
 
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                        </div>
-                                    </div>
-                                    <div className="box-body chart-responsive">
-                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listTrabalhista}/>
-                                    </div>
-                                </div> 
-                                </Grid>                       
-                            </Row>
-                        </If>
-                        
+                        <VotosAtaList 
+                            list={this.state.listQuirografario}
+                            descricao={this.state.descricaoQuirografario}
+                        />
 
-                        <If test={this.state.listGarantiaReal.length}>
-                            <Row>
-                                <Grid cols="12">                
-                                <div className="box box-primary">
-                                    <div className="box-header with-border">
-                                        <h3 className="box-title">{this.state.descricaoGarantiaReal}</h3>
-
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                        </div>
-                                    </div>
-                                    <div className="box-body chart-responsive">
-                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listGarantiaReal}/>
-                                    </div>
-                                </div> 
-                                </Grid>                       
-                            </Row>                            
-                        </If>
-
-
-                        <If test={this.state.listQuirografario.length}>
-                            <Row>
-                                <Grid cols="12">                
-                                <div className="box box-primary">
-                                    <div className="box-header with-border">
-                                        <h3 className="box-title">{this.state.descricaoQuirografario}</h3>
-
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                        </div>
-                                    </div>
-                                    <div className="box-body chart-responsive">
-                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listQuirografario}/>
-                                    </div>
-                                </div> 
-                                </Grid>                       
-                            </Row>                              
-                        </If>
-
-                        <If test={this.state.listMeEpp.length}>
-                            <Row>
-                                <Grid cols="12">                
-                                <div className="box box-primary">
-                                    <div className="box-header with-border">
-                                        <h3 className="box-title">{this.state.descricaoMeEpp}</h3>
-
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                        </div>
-                                    </div>
-                                    <div className="box-body chart-responsive">
-                                    <List style={({ marginButton: '5.5rem' })} list={this.state.listMeEpp}/>
-                                    </div>
-                                </div> 
-                                </Grid>                       
-                            </Row>                               
-                        </If>
+                        <VotosAtaList 
+                            list={this.state.listMeEpp}
+                            descricao={this.state.descricaoMeEpp}
+                        />
                     </div>
                 </If>
                 </Content>

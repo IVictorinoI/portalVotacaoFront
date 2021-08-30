@@ -3,8 +3,6 @@ import axios from 'axios'
 import If from '../common/operator/if'
 import Loading from '../common/components/Loading'
 import Content from '../common/template/content'
-import Row from  '../common/layout/row'
-import Grid from '../common/layout/grid'
 import './aprovaAta.css'
 import VotosAtaList from './votosAtaList'
 import SecretarioRecuperandaBox from './secretarioRecuperandaBox'
@@ -154,49 +152,34 @@ export default class AprovaAta extends Component {
                 </If>
                 <If test={!this.state.loading}>
                     <div>
-                        <Row>
-                            <Grid cols="12"> 
-                                <VotoAction 
-                                    podeAta={this.state.assembleia.podeAta}
-                                />
-                            </Grid>
-                        </Row>
-                        <Row>
-                            <Grid cols="12"> 
-                                <ResultadoQuant 
-                                    quantConfTrabalhista={this.state.quantConfTrabalhista}
-                                    quantTrabalhista={this.state.quantTrabalhista}
-                                    descricaoTrabalhista={this.state.descricaoTrabalhista}
-                                    quantConfGarantiaReal={this.state.quantConfGarantiaReal}
-                                    quantGarantiaReal={this.state.quantGarantiaReal}
-                                    descricaoGarantiaReal={this.state.descricaoGarantiaReal}
-                                    quantConfQuirografario={this.state.quantConfQuirografario}
-                                    quantQuirografario={this.state.quantQuirografario}
-                                    descricaoQuirografario={this.state.descricaoQuirografario}
-                                    quantConfMeEpp={this.state.quantConfMeEpp}
-                                    quantMeEpp={this.state.quantMeEpp}
-                                    descricaoMeEpp={this.state.descricaoMeEpp}                            
-                                />
-                            </Grid>
-                        </Row> 
-                        <Row>
-                            <Grid cols="12">                
-                                <Search 
-                                    keyHandler={keyHandler}
-                                />
-                            </Grid>                       
-                        </Row>                           
-                        <Row>
-                            <Grid cols="12">    
-                                <SecretarioRecuperandaBox 
-                                    nomeSecretario={this.state.nomeSecretario}
-                                    votoSecretario={this.state.votoSecretario}
-                                    nomeEmpresaRecuperanda={this.state.nomeEmpresaRecuperanda}
-                                    votoEmpresaRecuperanda={this.state.votoEmpresaRecuperanda}
-                                />            
-                            </Grid>                       
-                        </Row>                                                  
-                         
+                        <VotoAction 
+                            podeAta={this.state.assembleia.podeAta}
+                        />
+                        <ResultadoQuant 
+                            quantConfTrabalhista={this.state.quantConfTrabalhista}
+                            quantTrabalhista={this.state.quantTrabalhista}
+                            descricaoTrabalhista={this.state.descricaoTrabalhista}
+                            quantConfGarantiaReal={this.state.quantConfGarantiaReal}
+                            quantGarantiaReal={this.state.quantGarantiaReal}
+                            descricaoGarantiaReal={this.state.descricaoGarantiaReal}
+                            quantConfQuirografario={this.state.quantConfQuirografario}
+                            quantQuirografario={this.state.quantQuirografario}
+                            descricaoQuirografario={this.state.descricaoQuirografario}
+                            quantConfMeEpp={this.state.quantConfMeEpp}
+                            quantMeEpp={this.state.quantMeEpp}
+                            descricaoMeEpp={this.state.descricaoMeEpp}                            
+                        />
+
+                        <Search 
+                            keyHandler={keyHandler}
+                        />
+                        <SecretarioRecuperandaBox 
+                            nomeSecretario={this.state.nomeSecretario}
+                            votoSecretario={this.state.votoSecretario}
+                            nomeEmpresaRecuperanda={this.state.nomeEmpresaRecuperanda}
+                            votoEmpresaRecuperanda={this.state.votoEmpresaRecuperanda}
+                        />
+
                         <VotosAtaList 
                             list={this.state.listTrabalhista}
                             descricao={this.state.descricaoTrabalhista}

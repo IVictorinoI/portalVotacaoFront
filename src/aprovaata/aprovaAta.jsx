@@ -2,32 +2,19 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import If from '../common/operator/if'
 import Loading from '../common/components/Loading'
-import List from './aprovaAtaList'
 import Content from '../common/template/content'
 import Row from  '../common/layout/row'
 import Grid from '../common/layout/grid'
 import './aprovaAta.css'
-import { toastr } from 'react-redux-toastr'
-import BoxResultadoQuant from './boxResultadoQuant'
 import VotosAtaList from './votosAtaList'
-import { colorLine } from './aprovaAtaService.js'
 import SecretarioRecuperandaBox from './secretarioRecuperandaBox'
 import Search from './search'
+import VotoAction from './votoAction'
+import ResultadoQuant from './resultadoQuant'
 
 export default class AprovaAta extends Component {
     getUrl() {
         return window.Params.URL_API+'aprovaAtas/';
-    }
-
-    aprovarAta() {
-        axios.post(`${this.getUrl()}aprovar`)
-        .then(resp => {
-            toastr.success('Sucesso', 'Você aprovou a ata')
-            window.socketIo.emit('aprovarata')
-        })
-        .catch(e => {
-            e.response.data.errors.forEach(error => toastr.error('Erro', error))
-        })
     }
 
     constructor(props){
@@ -169,53 +156,27 @@ export default class AprovaAta extends Component {
                     <div>
                         <Row>
                             <Grid cols="12"> 
-                            <div className="box box-primary">
-                                <div className="box-header with-border">
-                                    <h3 className="box-title">Você assina a ata?</h3>
-
-                                    <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div className="box-body chart-responsive box-botoes-aprovacao">
-                                    <button style={({ marginRight: '1rem' })} className='btn btn-success btn-lg' disabled={!this.state.assembleia.podeAta} onClick={() => this.aprovarAta()}>Assinar ata</button>
-                                </div>
-                            </div>
+                                <VotoAction 
+                                    podeAta={this.state.assembleia.podeAta}
+                                />
                             </Grid>
                         </Row>
                         <Row>
                             <Grid cols="12"> 
-                            <div className="box box-primary">
-                                <div className="box-header with-border">
-                                    <h3 className="box-title">Resultado de assinadores da ata</h3>
-
-                                    <div className="box-tools pull-right">
-                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div className="box-body chart-responsive box-botoes-aprovacao">
-                                <BoxResultadoQuant 
-                                    quantConf={this.state.quantConfTrabalhista}
-                                    quant={this.state.quantTrabalhista}
-                                    descricao={this.state.descricaoTrabalhista}
+                                <ResultadoQuant 
+                                    quantConfTrabalhista={this.state.quantConfTrabalhista}
+                                    quantTrabalhista={this.state.quantTrabalhista}
+                                    descricaoTrabalhista={this.state.descricaoTrabalhista}
+                                    quantConfGarantiaReal={this.state.quantConfGarantiaReal}
+                                    quantGarantiaReal={this.state.quantGarantiaReal}
+                                    descricaoGarantiaReal={this.state.descricaoGarantiaReal}
+                                    quantConfQuirografario={this.state.quantConfQuirografario}
+                                    quantQuirografario={this.state.quantQuirografario}
+                                    descricaoQuirografario={this.state.descricaoQuirografario}
+                                    quantConfMeEpp={this.state.quantConfMeEpp}
+                                    quantMeEpp={this.state.quantMeEpp}
+                                    descricaoMeEpp={this.state.descricaoMeEpp}                            
                                 />
-                                <BoxResultadoQuant 
-                                    quantConf={this.state.quantConfGarantiaReal}
-                                    quant={this.state.quantGarantiaReal}
-                                    descricao={this.state.descricaoGarantiaReal}
-                                />
-                                <BoxResultadoQuant 
-                                    quantConf={this.state.quantConfQuirografario}
-                                    quant={this.state.quantQuirografario}
-                                    descricao={this.state.descricaoQuirografario}
-                                />
-                                <BoxResultadoQuant 
-                                    quantConf={this.state.quantConfMeEpp}
-                                    quant={this.state.quantMeEpp}
-                                    descricao={this.state.descricaoMeEpp}
-                                />
-                                </div>
-                            </div>
                             </Grid>
                         </Row> 
                         <Row>

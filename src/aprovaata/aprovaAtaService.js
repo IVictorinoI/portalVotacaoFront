@@ -7,3 +7,10 @@ export function colorCardAprovacao(quant, total) {
 
     return "small-box bg-gray"
 }
+
+export function colorLine(aprovou) {
+    if(aprovou)
+        return 'success'
+
+    return 'danger'
+}     

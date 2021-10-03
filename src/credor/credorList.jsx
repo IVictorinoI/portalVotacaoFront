@@ -38,7 +38,7 @@ export default props => {
                     <th>Nome</th>
                     <th>Classe</th>
                     <th>Cpf/Cnpj</th>
-                    <th>Crédito</th>
+                    <th style={{ textAlign: 'right' }}>Crédito</th>
                     <th>Procurador</th>
                     <th>Votou</th>
                     <th>Confirmou</th>
@@ -46,6 +46,16 @@ export default props => {
             </thead>
             <tbody>
                 {renderRows()}
+                <tr key="total" className="info">
+                    <td></td>
+                    <td><b>Total</b></td>
+                    <td></td>
+                    <td></td>
+                    <td style={{ textAlign: 'right' }}><b>{((props.list || []).map(p => p.valor).reduce((a, b) => a + b, 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>                
             </tbody>
         </table>
     )

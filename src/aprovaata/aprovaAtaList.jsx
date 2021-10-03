@@ -1,14 +1,8 @@
 import React from 'react'
 import { convertStringToTime } from '../common/util/dateTimeConversor'
+import { colorLine } from './aprovaAtaService.js'
 
 export default props => {
-    const colorLine = (aprovou) => {
-        if(aprovou)
-            return 'success'
-
-        return 'danger'
-    }     
-
     const renderRows = () => {
         const list = props.list || []
         

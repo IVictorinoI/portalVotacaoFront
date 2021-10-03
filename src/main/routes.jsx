@@ -18,6 +18,7 @@ import LogAcesso from '../logAcesso/logAcesso'
 import Notificacao from '../notificacao/notificacao'
 import Resultado from '../resultado/resultado'
 import AprovaAta from '../aprovaata/aprovaAta'
+import Contato from '../contato/contato'
 
 export default props => (
     <Router history={hashHistory}>
@@ -37,6 +38,7 @@ export default props => (
             <Route path='notificacoes' component={Notificacao} />
             <Route path='resultado' component={Resultado} />
             <Route path='aprovaAta' component={AprovaAta} />
+            <Route path='Contato' component={Contato} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

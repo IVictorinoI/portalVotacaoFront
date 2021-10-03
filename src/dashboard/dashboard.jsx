@@ -239,7 +239,7 @@ class Dashboard extends Component {
                 let cor = 'red';
                 if(percentual==0)
                     cor = 'red';
-                else if(percentual<50)
+                else if(percentual<100)
                     cor = 'yellow'
                 else 
                     cor = 'green'

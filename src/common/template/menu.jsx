@@ -28,6 +28,9 @@ class Menu extends Component {
                     <If test={isTipoUsuarioGladius}>
                         <MenuItem path='notificacoes' label='Notificações' icon='envelope' />
                     </If>
+                    <If test={isTipoUsuarioGladius}>
+                        <MenuItem path='links' label='Links' icon='external-link' />
+                    </If>
                     
                 </MenuTree>
                 <MenuItem path='confirmarPresenca' label='Confirmar presença' icon='check-square' />
@@ -37,6 +40,7 @@ class Menu extends Component {
                 <MenuItem path='chat' label='Chat' icon='comments' notifyCount={this.props.notify.notifyCount} />
                 <MenuItem path='aprovaAta' label='Aprovação Ata' icon='legal' />
                 <MenuItem path='contato' label='Contato' icon='phone' />
+                <MenuItem path='links-uteis' label='Links úteis' icon='external-link' />
             </ul>
         )
     }

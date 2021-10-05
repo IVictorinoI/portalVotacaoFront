@@ -19,6 +19,8 @@ import Notificacao from '../notificacao/notificacao'
 import Resultado from '../resultado/resultado'
 import AprovaAta from '../aprovaata/aprovaAta'
 import Contato from '../contato/contato'
+import Link from '../link/link'
+import LinkUtil from '../link-util/link'
 
 export default props => (
     <Router history={hashHistory}>
@@ -39,6 +41,8 @@ export default props => (
             <Route path='resultado' component={Resultado} />
             <Route path='aprovaAta' component={AprovaAta} />
             <Route path='Contato' component={Contato} />
+            <Route path='links' component={Link} />
+            <Route path='links-uteis' component={LinkUtil} />
         </Route>
         <Redirect from='*' to='/' />
     </Router>

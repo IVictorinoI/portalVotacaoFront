@@ -35,13 +35,13 @@ export default props => {
             <thead>
                 <tr>
                     <th></th>
-                    <th>Nome</th>
-                    <th>Classe</th>
-                    <th>Cpf/Cnpj</th>
-                    <th style={{ textAlign: 'right' }}>Crédito</th>
+                    <th style={({ width: '40%' })}>Nome</th>
+                    <th style={({ width: '250px' })}>Classe</th>
+                    <th style={({ width: '120px' })}>Cpf/Cnpj</th>
+                    <th style={{ textAlign: 'right', width: '100px' }}>Crédito</th>
                     <th>Procurador</th>
-                    <th>Votou</th>
-                    <th>Confirmou</th>
+                    <th style={({ width: '50px' })}>Votou</th>
+                    <th style={({ width: '80px' })}>Confirmou</th>
                 </tr>
             </thead>
             <tbody>

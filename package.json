@@ -42,7 +42,7 @@
   "dependencies": {
     "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
-    "http-server": "0.10.0",
+    "http-server": "14.1.1",
     "moment-timezone": "^0.5.33",
     "react-loading": "^2.0.3",
     "react-select": "^2.4.4",

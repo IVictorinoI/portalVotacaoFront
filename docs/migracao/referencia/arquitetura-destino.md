@@ -1,4 +1,5 @@
-﻿# Arquitetura de destino para migração de outro sistema
+﻿> Este arquivo foi incluído como referência técnica no pacote independente. Para executar a migração, siga ../instrucoes.md e os prompts do pacote. As sugestões de instalação e prompts históricos abaixo não substituem esse procedimento. Os exemplos das duas tecnologias estão disponíveis localmente apenas para consulta; nenhuma etapa depende do progresso do outro projeto.
+# Arquitetura de destino para migração de outro sistema
 
 Referência verificada em 11/10/2026 nos repositórios minhassenhas-back e minhassenhas-front. Este pacote descreve código existente; não é um diagnóstico do sistema que será migrado.
 
@@ -131,4 +132,5 @@ nem inicie a próxima etapa automaticamente.
 Backend: package.json, tsconfig.json, src/app.module.ts, src/api.module.ts, src/database/database.module.ts, src/config/configure-app.ts, src/modules/passwords e test/README.md. ADRs 0001 a 0005 em docs/decisoes-arquiteturais registram módulos, persistência, compatibilidade/criptografia, fronteiras e qualidade.
 
 Frontend: package.json, tsconfig.json, src/main.tsx, src/App.tsx, src/lib, src/auth/Session.tsx, src/password e playwright.config.js. ADRs 0001 a 0005 em docs/decisoes-arquiteturais do frontend registram SPA, MUI/forms, cache, sessão e qualidade. O ADR de sessão relata o contexto da migração original do front; a descrição conjunta deste pacote considera também o backend atual.
+
 

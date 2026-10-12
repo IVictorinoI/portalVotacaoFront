@@ -1,5 +1,8 @@
+const backendUrl = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://gladius-portalvotacao-back.herokuapp.com'
+
 export default {
-    API_URL: 'https://gladius-portalvotacao-back.herokuapp.com/api',
-    OAPI_URL: 'https://gladius-portalvotacao-back.herokuapp.com/oapi',
-  }
-  
+    API_URL: `${backendUrl}/api`,
+    OAPI_URL: `${backendUrl}/oapi`
+}

@@ -9,9 +9,10 @@ import thunk from 'redux-thunk'
 
 import Routes from './main/routes'
 import reducers from './main/reducers'
+import consts from './consts'
 
 window.Params = {
-    URL_API: 'https://gladius-portalvotacao-back.herokuapp.com/api/',
+    URL_API: `${consts.API_URL}/`,
     codigoAssembleiaAtiva: 5
 }
 

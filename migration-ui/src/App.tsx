@@ -21,6 +21,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useSession } from './auth/Session';
+import { ChatProvider, ChatMenuItem } from './chat/ChatState';
 import {
   commonMenu,
   consultationMenu,
@@ -37,6 +38,7 @@ const VotesPage = lazy(() => import('./consultations/VotesPage'));
 const ResultsPage = lazy(() => import('./results/ResultsPage'));
 const LivePage = lazy(() => import('./live/LivePage'));
 const MinutesPage = lazy(() => import('./minutes/MinutesPage'));
+const ChatPage = lazy(() => import('./chat/ChatPage'));
 class PageBoundary extends Component<
   { children: ReactNode },
   { failed: boolean }
@@ -105,6 +107,14 @@ export default function App() {
       </Container>
     );
   function item(path: string) {
+    if (path === '/chat')
+      return (
+        <ChatMenuItem
+          key={path}
+          selected={route === path}
+          onClick={() => setOpen(false)}
+        />
+      );
     return (
       <ListItemButton
         key={path}
@@ -129,7 +139,7 @@ export default function App() {
     </Box>
   );
   return (
-    <>
+    <ChatProvider key={state.generation}>
       <AppBar position="static">
         <Toolbar sx={{ gap: 2, flexWrap: 'wrap', py: 1 }}>
           <Button
@@ -207,6 +217,8 @@ export default function App() {
                 <LivePage />
               ) : route === '/aprovaAta' ? (
                 <MinutesPage />
+              ) : route === '/chat' ? (
+                <ChatPage />
               ) : (
                 <PendingPage title={routes[route] ?? 'Início'} />
               )}
@@ -225,6 +237,6 @@ export default function App() {
           </Box>
         </Container>
       </Box>
-    </>
+    </ChatProvider>
   );
 }

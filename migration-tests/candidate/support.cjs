@@ -1,7 +1,7 @@
 const f=require('../support/fixtures.cjs');
 const UI='http://127.0.0.1:18182';
 async function domain(context,options={}) {
- const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],minutes:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
+ const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],minutes:[],chats:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
  await context.addInitScript(user=>{if(!sessionStorage.getItem('domain-fixture')){sessionStorage.setItem('domain-fixture','1');localStorage.setItem('_application_user',JSON.stringify(user));}},state.user);
  await context.route('**/*',async route=>{
   const request=route.request();const url=new URL(request.url());
@@ -16,6 +16,18 @@ async function domain(context,options={}) {
   if(path==='/api//assembleias/'||path==='/api/assembleias/')return json([state.assembly]);
   if(path==='/api//votos/dashboard'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Dashboard indisponível']}});return json(state.summary);}
   if(path==='/api/resultados/'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Resultado indisponível']}});return json(state.resultado);}
+  if((path==='/api/chats/'||path==='/api//chats/')&&method==='GET'){
+   if(state.failReads)return route.fulfill({status:500,json:{errors:['Chat indisponível']}});
+   let rows=state.chats.filter(row=>row.codigoAssembleia===Number(url.searchParams.get('codigoAssembleia')));
+   if(url.searchParams.has('data__gt'))rows=rows.filter(row=>Date.parse(row.data)>Date.parse(url.searchParams.get('data__gt')));
+   return json([...rows].sort((a,b)=>Date.parse(a.data)-Date.parse(b.data)).slice(0,300));
+  }
+  if(path==='/api/chats/'&&method==='POST'){
+   if(state.delay)await new Promise(resolve=>setTimeout(resolve,state.delay));
+   if(state.failChat)return route.fulfill({status:500,json:{errors:['Envio recusado no teste']}});
+   const row={...body,_id:'chat-'+(state.chats.length+1),data:'2026-10-18T12:00:'+String(state.chats.length).padStart(2,'0')+'.000Z'};state.chats.push(row);
+   if(state.loseAck)return route.abort('failed');return json(row);
+  }
   if(path==='/api/votos/dashboard/')return json(state.summary);
   if(path==='/api/aprovaAtas/'){
    if(state.failReads)return route.fulfill({status:500,json:{errors:['Ata indisponível']}});

@@ -60,3 +60,7 @@ Procedimento: registrar incidente sem tokens/credenciais → confirmar versão/a
 Reverter código não desfaz votos, presenças, mensagens, assinaturas ou leitura de notificações. Não restaurar banco automaticamente: isso apagaria gravações legítimas posteriores ao backup. Correção de dados exige investigação, plano e autorização própria do responsável. Chaves de leitura novas podem permanecer inertes para o legado; incompatibilidade de sessão deve ter saída de logout/login prevista e aprovada, nunca reset amplo do storage do usuário.
 
 Critério de sucesso: artefato anterior volta a servir rotas/recursos/sessão com dados atuais legíveis, nenhuma escrita é repetida cegamente, configurações/hashes e evidência do ensaio permitem identificar o estado real. Nenhuma operação descrita de produção foi executada.
+
+## Compatibilidade de leitura de chat aprovada na FRONT-10
+
+Candidata usa _chat_notify_last_read:<id codificado>:<assembleia>. Não importa nem apaga a chave global antiga, cuja identidade não pode ser inferida. Novas chaves guardam somente data e permanecem inertes para o legado em reversão; ele volta à própria política global. Nenhuma migração de banco, limpeza ampla de localStorage ou restauração automática de dados. Troca de sessão limpa cache/socket em memória; não desfaz POST aceito. Esta documentação prepara compatibilidade e não executa publicação/reversão.

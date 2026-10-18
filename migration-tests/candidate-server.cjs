@@ -21,7 +21,7 @@ if(kind === 'valid') {
   if(req.method === 'POST') {
    let body='';req.on('data',part=>{body+=part;});req.on('end',()=>{
     const {event,data}=JSON.parse(body);
-   if(!['derrubar','expulsar','expulsarId','getUser','connectedUsers','aprovouata','reprovouata'].includes(event)){res.writeHead(400).end();return;}
+   if(!['derrubar','expulsar','expulsarId','getUser','connectedUsers','aprovouata','reprovouata','newMessage'].includes(event)){res.writeHead(400).end();return;}
     namespace.emit(event,data);res.writeHead(204).end();
    });return;
   }
@@ -34,7 +34,7 @@ if(kind === 'valid') {
   socket.emit('getUser',{});
   socket.on('setUser',user=>{users.set(socket.id,{id:user.id,tipo:user.tipo});online.set(socket.id,{id:user.id,nome:user.nome,codigoCredor:user.codigoCredor});});
   socket.on('getConnectedUsers',()=>socket.emit('connectedUsers',[...online.values()]));
-  for(const name of ['confirmouPresenca','votou','aprovarata','sendMessage'])socket.on(name,data=>events.push({name,data}));
+  for(const name of ['confirmouPresenca','votou','aprovarata','sendMessage'])socket.on(name,data=>{events.push({name,data});if(name==='sendMessage')namespace.emit('newMessage',data);});
   socket.on('disconnect',()=>{users.delete(socket.id);online.delete(socket.id);});
  });
  fixture.listen(19300,'127.0.0.1');

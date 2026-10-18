@@ -24,6 +24,7 @@ async function setup(context,{stored=null,valid=true,active=[{codigo:6}],loginEr
    if(url.pathname==='/api/votos')return route.fulfill({json:[]});
    if(url.pathname==='/api/votos/'||url.pathname==='/api/credores/')return route.fulfill({json:[]});
    if(url.pathname==='/api//votos/dashboard')return route.fulfill({json:{quorum2:[],votos2:[]}});
+   if(url.pathname==='/api//chats/')return route.fulfill({json:[]});
    if(url.pathname==='/api//logsAcessos/register')return route.fulfill({json:{Ok:true}});
   }
   unexpected.push(req.url());return route.abort();

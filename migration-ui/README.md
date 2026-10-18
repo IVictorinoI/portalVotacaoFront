@@ -96,3 +96,7 @@ Limitação preservada enquanto falta decisão: cursor calculado pela lista ante
 ## FRONT-09 — assinatura/ata
 
 /#/aprovaAta migrada em src/minutes: POST /api/aprovaAtas/aprovar sem corpo, evento aprovarata só após resposta, consulta filtrada e eventos aprovouata/reprovouata, grupos 1–4 e secretário/recuperanda, resumo de presentes pelo caminho /api/votos/dashboard/ com barra final. Janela 5s e assinatura com trava/revisão após falha, sem retry automático. Cores/Me-Epp preservam D3; tabela acessível completa com rolagem mobile. Não há reprovar, PDF ou upload acrescentados. Fluxo integrado candidato presença→voto→resultado→ata é simulado, não comprova persistência/apuração do produto.
+
+## FRONT-10 — chat/badge
+
+/#/chat migrada e ChatProvider compartilhado somente sob sessão/escopo prontos. Histórico/limite 300, DTO original com privateMessageTo={} e destinatário omitido, POST seguido de atualização confirmada do cache/evento, dedup de eco por _id; input/Enter/foco/rolagem e rascunho em falhas. Trava síncrona e revisão por GET em resultado incerto, nunca POST automático. Sem seleção privada. Badge inicia em 5s e segue a cada 5s, cache por geração, ids/datas de não lidos compartilhados. Marcador de leitura por id/assembleia sem reaproveitar/apagar global; leitura entre abas e troca de assembleia testadas. Eventos com código de outra assembleia ignorados localmente, sem prometer isolamento do servidor. Novo nome acessível do link inclui contador. Todos os timers/listeners/queries pertencem ao contexto e são limpos na saída.

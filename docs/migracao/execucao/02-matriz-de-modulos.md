@@ -97,3 +97,7 @@ Resultados completos por classe/modo V, pergunta/subtotais/total remoto, precis�
 ## FRONT-09 — assinatura/ata
 
 Fluxo completo assinar/reconsultar, grupos/roles/contagens/resConfPres e janela 5s implementados e verificados simulado. POST vazio/evento após HTTP, trava/reconciliação sem repetir escrita. Listeners aprovouata/reprovouata limpos e respeitam filtro atual. Me/Epp, limiar de cores e datas preservados D3; nenhuma reprovação nova/PDF/upload. Fluxo presença→voto→resultado→ata coberto com fixture estática para resultado, sem inferir apuração remota. API real/homologação não executadas.
+
+## FRONT-10 — chat/badge
+
+Histórico 300, envio Enter/foco/rolagem, DTO privado vazio/destinatário omitido, documento retornado/eco dedup, rascunho e resultado ambíguo implementados. Badge compartilhado 5s, marcador por usuário/assembleia sem herdar global, troca de geração/cache/socket e leitura entre abas. Evento explicitamente de outra assembleia é descartado localmente; não implica ACL/privacidade no transporte. Sem privado novo. Integração real/homologação ausentes; detalhe de UI/API e checks no progresso.

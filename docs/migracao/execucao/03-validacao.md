@@ -162,3 +162,7 @@ live.spec.cjs testa novos registros/ordem__gt/sort, não duplicar _id conhecido,
 ## FRONT-09 — ata
 
 minutes.spec.cjs: POST sem corpo/token/evento após HTTP/clique duplicado; classes/roles/Me-Epp/presença; eventos e saída de rota; resposta perdida/reconsulta sem POST extra; janela e fluxo integrado de quatro páginas. Unitários caracterizam contagem/cores D3. Nomes acessíveis estão nas tabelas, não apenas no contêiner. Relógio é instalado antes de montar timers. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- minutes.spec.cjs --project=desktop --headed. Runner global 360s para suíte crescente, mantendo 15s por teste/workers1/retries0; não há aumento de tolerância das asserções. Nenhum teste remoto.
+
+## FRONT-10 — chat/badge
+
+chat.spec.cjs: payload/Enter/eco/foco, erro/rascunho/clique repetido, resposta perdida sem POST extra, badge 5s e marcador global ignorado, dedup/escopo de evento e troca usuário/assembleia 6→7 sem cache anterior. Smokes continuam zero rede antes da sessão. Unitários cobrem DTO/omitido, keys segregadas, cursor temporal/limite, merge/data. Badge possui nome acessível no próprio link. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- chat.spec.cjs --project=desktop --headed. HTTP simulado + Socket.IO sintético; não comprova 300+ mensagens/concorrência/persistência/privacidade reais, ainda D5.

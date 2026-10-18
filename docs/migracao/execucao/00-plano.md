@@ -149,3 +149,9 @@ Gate piloto FRONT-04, gate consolidação FRONT-13 e gate entrega FRONT-14. Comm
 ## Autorização da FRONT-01 — 18/10/2026
 
 Registro posterior à preparação: usuário autorizou somente FRONT-01, atualizando progresso com commit documental 1cd0ce66650ef9a2811fa66248182bb032a61829, preservando comportamentos e mantendo D1–D6/M1–M5 pendentes. Proibidos acesso ao backend e commit nesta execução. Não autoriza FRONT-02 ou correções funcionais. O cabeçalho de 12/10 registra aprovação histórica da preparação, não limita esta nova autorização específica. Harness/comandos/evidências em migration-tests/README.md e 04-progresso.md; estado final de execução somente no checkpoint mais recente.
+
+## Autorização e infraestrutura FRONT-02 — 18/10/2026
+
+Após commit FRONT-01 64453aeba35dcc725d1995903fe64aad580cfd01 e proposta explícita da FRONT-02, usuário respondeu “Pode avançar”. Autorizado somente infraestrutura mínima isolada; sem commit ou FRONT-03. Implementada migration-ui com lock/node_modules próprios e checks, mantendo legado. Configuração e adapters testados sem servidor do produto; handshake Socket.IO usa fixture local 2.3, não backend. Documentação técnica e versões escolhidas em migration-ui/README.md, resultados no progresso.
+
+D1–D6 e M1–M5 ainda pendentes. A candidata ainda não tem login/sessão/menu/formulários ou módulos; os hashes conhecidos exibem aviso honesto de preparação. Não é entrega parcial publicável. FRONT-03 exige decisões afetadas e autorização posterior, sem resolver política de escopo ou acesso unilateralmente.

@@ -4,7 +4,7 @@
 
 Este chat/pacote trata somente do frontend em C:/Desenvolvimento/React/portalVotacaoFront. Não alterar o backend, seus documentos, branch, dependências ou dados. Instruções explícitas do usuário prevalecem. Ler [instruções da migração](docs/migracao/instrucoes.md), [plano](docs/migracao/execucao/00-plano.md), [progresso](docs/migracao/execucao/04-progresso.md), [matriz](docs/migracao/execucao/02-matriz-de-modulos.md), [validação](docs/migracao/execucao/03-validacao.md) e [contratos originais](docs/migracao/execucao/06-contratos-originais.md) antes de trabalhar na migração.
 
-Plano aprovado em 12/10/2026 somente para executar preparação, mantendo D1–D6 e M1–M5 pendentes. Não inferir aprovação das mudanças funcionais a partir dessa aprovação. Preparação não implementa FRONT-01. Em 18/10/2026 o usuário autorizou especificamente FRONT-01, sem acessar backend ou fazer commit, mantendo D1–D6 e M1–M5 pendentes. Implementação exige ID autorizado pelo prompt 04; commits exigem validação do usuário e prompt 05. Não fazer commit, push, deploy ou operações de produção sem autorização correspondente. Não usar tempo decorrido como aprovação.
+Plano aprovado em 12/10/2026 somente para executar preparação, mantendo D1–D6 e M1–M5 pendentes. Não inferir aprovação das mudanças funcionais a partir dessa aprovação. Preparação não implementa FRONT-01. Em 18/10/2026 o usuário autorizou especificamente FRONT-01, sem acessar backend ou fazer commit, mantendo D1–D6 e M1–M5 pendentes. Em 18/10/2026 “Pode avançar” autorizou somente FRONT-02 após proposta explícita dessa etapa, sem commit ou acesso ao backend. Implementação exige ID autorizado pelo prompt 04; commits exigem validação do usuário e prompt 05. Não fazer commit, push, deploy ou operações de produção sem autorização correspondente. Não usar tempo decorrido como aprovação.
 
 ## Referência e preservação
 
@@ -18,7 +18,7 @@ React + TypeScript estrito + Vite + MUI/Emotion + React Hook Form + TanStack Que
 
 Tipar fronteiras sem any indiscriminado ou suppressions para esconder erros. Tipagem estática não valida respostas em runtime. Query keys incluem identidade/assembleia/filtros pertinentes, nunca senha/token; não persistir cache sensível. Cancelar leituras antigas/descartar respostas tardias, limpar cache e conexão por identidade conforme mudanças aprovadas. Cleanup de listeners/timers/charts faz parte da etapa aplicável. Não impor dialogs, tabelas reduzidas, novos endpoints ou paginação inexistente.
 
-Preservar marca/contato/assets e recursos de teclado/mobile. Escolher versões compatíveis verificadas na etapa de infraestrutura, sem copiar números da referência automaticamente. Diretórios/scripts candidatos descritos no plano são propostas ainda inexistentes: verificar sua criação antes de usá-los; não executar script presumido.
+Preservar marca/contato/assets e recursos de teclado/mobile. Escolher versões compatíveis verificadas na etapa de infraestrutura, sem copiar números da referência automaticamente. FRONT-02 criou migration-ui isolada, com infraestrutura apenas; ler migration-ui/README.md e manifesto antes de usar scripts. Rotas candidatas são avisos de preparação, não módulos migrados. Não executar scripts futuros presumidos.
 
 ## Checks existentes e limites
 
@@ -29,7 +29,7 @@ $buildLegado = Join-Path $env:TEMP ('portal-votacao-legado-' + [guid]::NewGuid()
 npm.cmd run production -- --output-path $buildLegado
 ```
 
-Não executar build/testes desnecessariamente em mudanças só documentais. A partir de FRONT-01 existe runner isolado em migration-tests: npm.cmd --prefix migration-tests run test:unit e npm.cmd --prefix migration-tests run test:baseline. Ler migration-tests/README.md antes de executar. Scripts da candidata (tipos/formato/Vite/E2E candidata) ainda são futuros; não existem e não devem ser relatados como executados. Conferir Git/diff, links e consistência para documentação. Após implementação executar checks adequados reais, registrar comandos/resultados e limitações sem enfraquecer testes. Build não equivale a homologação.
+Não executar build/testes desnecessariamente em mudanças só documentais. A partir de FRONT-01 existe runner isolado em migration-tests: npm.cmd --prefix migration-tests run test:unit e npm.cmd --prefix migration-tests run test:baseline. Ler migration-tests/README.md antes de executar. FRONT-02 disponibiliza na candidata typecheck, format:check, test:unit e build; no runner separado test:candidate. Executar com npm.cmd --prefix migration-ui ou migration-tests conforme README. Integração real continua ausente; não relatá-la como executada. Conferir Git/diff, links e consistência para documentação. Após implementação executar checks adequados reais, registrar comandos/resultados e limitações sem enfraquecer testes. Build não equivale a homologação.
 
 API simulada não valida CORS, MongoDB ou autorização real. Integração requer backend original isolado e banco/dados exclusivos identificados de teste; não iniciar fallback local, usar .env/segredos/dados de produção ou executar contra endpoint Heroku por padrão. Não inventar seed ou variável de teste inexistente no original. Sem ambiente, registrar R como não executado; migração do backend não é pré-requisito.
 

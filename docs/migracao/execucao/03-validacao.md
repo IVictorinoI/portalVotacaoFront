@@ -108,3 +108,23 @@ Instalação inicial realizada com npm.cmd install --prefix migration-tests --no
 42 casos browser simulados previstos: 21 cenários x desktop/mobile; 4 dos cenários são diagnósticos explícitos, não requisitos da candidata. Mais 2 unitários do código original puro. Resultado final e exit codes no checkpoint do progresso, não presumir sucesso deste roteiro. test:e2e candidata, typecheck/Vite/formato e test:integration não foram criados, pois pertencem às etapas posteriores.
 
 Rede: todos HTTPs do host de API recebem fixture em memória; desconhecidos abortam/falham; CSS Google Fonts é respondido vazio localmente, socket.io.js local entrega double sem conexão e WebSocket real é recusado. Não acessa servidor original/produção. O baseline integrado testa requests/navegação/projeção de resultado fixture, não cálculo de apuração ou persistência. Detalhes, falhas diagnósticas, comandos e revisão acompanhada: [README do harness](../../../migration-tests/README.md).
+
+## Comandos efetivos FRONT-02 — 18/10/2026
+
+Candidata isolada migration-ui criada. Scripts efetivos da raiz do frontend:
+
+```powershell
+npm.cmd --prefix migration-ui ci
+npm.cmd --prefix migration-ui run typecheck
+npm.cmd --prefix migration-ui run format:check
+npm.cmd --prefix migration-ui run test:unit
+npm.cmd --prefix migration-ui run build
+npm.cmd --prefix migration-tests run test:candidate
+npm.cmd --prefix migration-tests run test:baseline
+```
+
+Instalação inicial realizada com install --no-audit --no-fund; lock próprio gerado. npm ls --depth=0 validou conjunto instalado, após prune remover somente yaml extraneous da instalação candidata. npm ci é comando para instalação limpa futura a partir do lock, não execução de instalação limpa de release comprovada nesta etapa. Sem script lint, test:integration ou CI criados.
+
+Build padrão sem variáveis públicas deve abrir erro de configuração e não fallback remoto. Para revisão configurada, copiar migration-ui/.env.example para .env.local somente nesse diretório e executar dev (watcher) ou recompilar e preview. Nenhum endpoint dessa configuração é chamado no bootstrap atual. Typecheck inclui testes/config, strict/noUncheckedIndexedAccess/exactOptionalPropertyTypes. Testes cobrem URLs/barras, token atual/direto, null/omitido, errors[]/rede/403 sem retry, cache separado e EIO3 com servidor sintético local; não validam políticas de sessão futuras.
+
+Smoke via candidate.config.cjs é separado de specs/legado: 18182/18183, builds com env sintético/ausente, interceptação de chamadas de negócio/WS, recursos locais/imagem e aviso em /#/votar. Screenshots ignorados inspecionados visualmente; não é homologação funcional de votação ou acessibilidade completa. Candidato e legado não compartilham DOM, node_modules ou saída de build. Documentação: [candidata](../../../migration-ui/README.md).

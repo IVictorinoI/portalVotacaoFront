@@ -14,7 +14,7 @@
 
 ## Etapa e checkpoints
 
-Etapa atual: FRONT-01 — proteção do original, implementada e validada por testes simulados; aguardando revisão do usuário, sem commit. Histórico de preparação/planejamento preservado; FRONT-02 não iniciada.
+Etapa atual: FRONT-02 — infraestrutura candidata implementada e verificada localmente, aguardando revisão do usuário, sem commit. FRONT-01 commitada em 64453ae. Histórico anterior preservado; FRONT-03 não iniciada.
 
 | Subetapa/área | Estado | Evidência/resultado |
 | --- | --- | --- |
@@ -138,3 +138,44 @@ Usuário autorizou explicitamente: “Pode fazer o commit”, após entrega dos 
 Commit local desta entrega contém este registro; obter seu hash pelo histórico Git, sem criar outro commit só para escrever o próprio hash. Nenhum log, node_modules, .baseline, screenshot ou test-results incluído. D1–D6 e M1–M5 permanecem pendentes. Sem backend, push, deploy ou dados de produção.
 
 Próximo passo recomendado: FRONT-02 — infraestrutura mínima candidata (React/TypeScript/Vite/MUI/Emotion/Query/RHF), mediante autorização específica pelo ID. FRONT-02 não iniciada neste pedido. Revisar decisões afetadas antes de implementar mudanças funcionais. A autorização de commit não autoriza avanço automático.
+
+## FRONT-02.A — início autorizado — 18/10/2026
+
+Usuário respondeu “Pode avançar” após proposta explícita FRONT-02. Autorizado somente infraestrutura mínima candidata, sem commit/avanço FRONT-03. Git inicialmente limpo, branch migracao-arquitetura-front, HEAD 64453aeba35dcc725d1995903fe64aad580cfd01 (FRONT-01 já commitada). D1–D6 e M1–M5 continuam pendentes. Sem acesso ao repositório backend.
+
+Conferidos AGENTS/plano/progresso/validação/matriz e package da raiz. Dependências candidatas terão lock/node_modules próprios em migration-ui, sem substituir legado. Registry e documentação oficial Vite/MUI/Socket.IO consultados para engines/peers. public/socket.io.js identifica Socket.IO 2.3.0: candidato manterá essa versão em adapter sem conexão automática; ensaio de protocolo em servidor sintético local, sem importar/iniciar backend do produto. Checkpoint seguinte: arquivos candidatos/providers/tema/config/adapters/testes e instalação isolada.
+
+FRONT-02.B parcial: arquivos candidatos, providers/tema/marca, validação de configuração sem fallback, clientes HTTP/Socket e testes criados. Cópia de assets inicialmente encontrou diretório public candidato ausente; diretório criado e cópia concluída, sem alterar originais. Corrigida codificação UTF-8 da geração via pipeline PowerShell antes dos checks. Instalação isolada em execução (sessão 47749, log ignorado migration-ui/install.log); primeiro typecheck/unit tentou antes de binários estarem disponíveis e falhou por comando ausente, não por erro de aplicação. Não repetir instalação; aguardar conclusão e executar checks reais. Smoke separado para configuração válida/ausente e rede de negócio bloqueada em migration-tests/candidate; baseline legado preservada. Socket 2.3 mantido por compatibilidade apresenta avisos de dependências transitivas antigas; não atualizar major unilateralmente, documentar limite.
+
+FRONT-02.C checkpoint: instalação concluiu com exit 0. Primeira tipagem identificou Stack.alignItems removido na API MUI e acesso interno io.engine sem contrato público nas declarations; ajustados para sx e handshake de conexão pública socket.request. Typecheck posterior passou. Unitários 15/15 aprovados (4 arquivos); teste socket após ajuste final reexecutado isoladamente, 1/1, exit 0. npm ls identificou yaml extraneous; npm prune apenas no node_modules candidato removeu 1 pacote, ls final sem missing/invalid/extraneous. Nenhuma alteração das dependências legadas.
+
+Formato passou. Build Vite 8.3.4 + tsc passou (4,16 s Vite, 1010 módulos, JS 385,46 kB / gzip 122,78 kB). Smoke candidato 4/4 aprovados em 21,5 s, CANDIDATE_SMOKE_EXIT=0 (sessão 82233). Baseline legada concluída com BASELINE_EXIT=0 (sessão 83551); contagem final no log a conferir no fechamento. Capturas desktop/mobile da candidata inspecionadas visualmente, marca/textos/aviso sem cortes; nenhuma tela funcional de produto migrada. Logs ignorados migration-ui/install.log, migration-tests/candidate-run.log e baseline-run.log. Sem acesso ao backend ou APIs reais.
+
+
+FRONT-02.C ajuste final de composição: InfrastructureProvider adicionado para disponibilizar factories HTTP/socket sem leitura de storage/rede automática; garante que ambos adapters também sejam compilados/carregados pelo browser candidato, não somente por teste Node. Typecheck/build final passaram (1119 módulos, JS 510,60 kB / gzip 161,16 kB, Vite 1,91 s). Aviso de chunk >500 kB preservado; lazy de páginas/performance permanecem etapas posteriores, sem aumentar limite. Smoke candidato reexecutando após essa composição; nenhum fluxo funcional adicionado. Baseline legada reexecutada: 42/42 aprovados em 59,2 s, exit 0. Próximo: revisão de arquivos/links/ignore/ports e encerramento, sem commit.
+
+## FRONT-02.C — encerramento para revisão — 18/10/2026
+
+FRONT-02 implementada e verificada localmente, NÃO commitada. Fonte legado intacta; candidata ainda é infraestrutura/aviso de preparação, sem migração de login/sessão/menus/formulários/consultas ou escrita de produto. D1–D6 e M1–M5 continuam pendentes. Nenhum acesso ao backend nesta execução; servidor Socket.IO dos testes é fixture sintética local de devDependency.
+
+Resultados finais:
+- npm.cmd --prefix migration-ui run typecheck: exit 0 (também integrado ao build final).
+- npm.cmd --prefix migration-ui run format:check: exit 0 após documentação/correções de encoding/EOF; sem erro git diff --check, somente avisos LF/CRLF.
+- npm.cmd --prefix migration-ui run test:unit: 15/15 aprovados em 4 arquivos, exit 0 (17,44 s na primeira execução); após ajuste da API pública tipada, npm.cmd --prefix migration-ui run test:unit -- tests/socket.test.ts passou 1/1, exit 0 (0,982 s). Nenhum skip/retry para esconder falha.
+- npm.cmd --prefix migration-ui run build: exit 0, TS estrito + Vite 8.3.4, 1119 módulos, JS 510,60 kB/gzip 161,16 kB, Vite 1,91 s. Aviso >500 kB registrado, sem suprimir limiar; lazy/performance ficam etapas pertinentes. dist fica ignorado e não será servido em produção nesta entrega.
+- npm.cmd --prefix migration-tests run test:candidate: última execução após InfrastructureProvider passou 4/4 em 13,5 s, CANDIDATE_SMOKE_EXIT=0, sessão 22365 encerrada. Dois builds com/sem env sintético e zero chamadas de negócio; adapters carregados no bundle de navegador sem conexões no bootstrap. Capturas desktop/mobile inspecionadas, apenas aviso/brand.
+- npm.cmd --prefix migration-tests run test:baseline: 42/42 em 59,2 s, BASELINE_EXIT=0, sessão 83551 encerrada. Relatórios ignorados de baseline/candidata status passed e failedTests vazio.
+- npm ls --depth=0 em migration-ui: coerente, sem missing/invalid/extraneous após prune de 1 pacote yaml não utilizado. Instalação inicial exit 0; não houve npm ci de release, CI remota ou auditoria de segurança/atualização forçada dos pacotes legados.
+- Git diff --exit-code para src/public/package.json/package-lock.json/webpack.config.js/Procfile: 0. Logos/logo_login/profile copiados com SHA-256 idêntico ao original. Portas 18181/18182/18183 livres depois dos runners. Links Markdown locais de docs/AGENTS/READMEs: zero ausentes; node --check nos 3 CJS novos aprovado. Dependências, logs, dist, screenshots e saídas .candidate-* ignorados.
+
+Arquivos desta etapa: candidata migration-ui (package/lock/engines, TS/Vite/Prettier/config, .env.example sintético, marca pública selecionada, providers/tema/aviso de rotas, factories HTTP/Query/socket e 4 arquivos de testes), mais migration-tests/candidate-server.cjs, candidate.config.cjs, candidate/smoke.spec.cjs, novo script test:candidate e regras ignore/README associados. Atualizados AGENTS.md e execução 00/02/03/04 para autorização restrita, comandos reais e estado. Diagnóstico/contratos/release e código legados preservados. Nenhum staging/commit/push/deploy. Branch/HEAD continuam migracao-arquitetura-front/64453aeba35dcc725d1995903fe64aad580cfd01; início limpo, sem alterações alheias.
+
+Roteiro manual revisável em migration-ui/README.md: env.example → .env.local somente na candidata com endpoints fictícios, dev em 127.0.0.1:18182, abrir /#/votar e conferir aviso/brand em desktop/mobile; sem config verificar Portal indisponível. Watcher é revisão manual opcional, não evidência de check finito. Nenhuma API real ou dispositivo físico validado, nem homologação funcional, acessibilidade completa, banco, CI, release ou restauração. Socket 2.3/transitivos antigos preservados por compatibilidade, não declaração de segurança ou aprovação de política remota.
+
+Próximo passo: usuário revisar/validar FRONT-02 e, se satisfeito, autorizar prompt 05 para commit somente deste escopo. Próxima implementação proposta FRONT-03 — sessão/escopo/rotas/shell — depende de autorização própria e decisões D2/M3 pertinentes; não iniciada automaticamente. Nenhuma aprovação de políticas foi inferida de “Pode avançar”. Parar aqui para revisão.
+
+## FRONT-02 — validação e commit autorizado — 18/10/2026
+
+Usuário declarou “Revisado, pode comitar e avançar”. FRONT-02 validada para commit local do escopo entregue e autorização para iniciar a próxima FRONT-03; não implica responder D1–D6/M1–M5. Conferidos diff/checks/relatórios da entrega e ausência de alterações de produção ou alheias. Nenhuma alteração funcional desde checks finais que justifique repetir toda a suíte apenas para commitar. O hash deste registro deve ser obtido pelo histórico, sem commit recursivo para gravá-lo.
+
+Commit inclui candidata/lock/fixtures e documentos associados da FRONT-02. Exclui node_modules, dist, logs, .candidate-*, screenshots/resultados e .env locais. Sem push/deploy/backend. Após commit, FRONT-03 prossegue somente em partes independentes; perguntas sobre precedência de assembleia (D2) e proteção de sessão (parte de M3) apresentadas ao usuário, sem presumir respostas.

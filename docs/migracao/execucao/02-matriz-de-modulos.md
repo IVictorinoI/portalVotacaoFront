@@ -63,3 +63,9 @@ Ao executar cada módulo, atualizar esta matriz com: subetapa, arquivos, status 
 Infraestrutura de testes implementada em migration-tests/ (runner/fixtures/servidor local/HTTP e socket doubles); fontes de produto não migradas. Unitários históricos datas/cores: 2/2 aprovados. Navegador simulado: 42/42 aprovados, exit 0 (42,2 s); resultado registrado no progresso. Nenhuma linha de módulo deve ser marcada migrada ou validada real por esses mocks. API real, MongoDB, protocolo socket, A11Y completa, dispositivo físico, CI remota e homologação permanecem não executados. D1–D6 e M1–M5 pendentes; FRONT-02 não iniciada.
 
 Cobertura: 16 cenários de contrato e 4 diagnósticos originais, mais token restaurado inválido (17 contratos + 4 diagnósticos), cada um em desktop/mobile, e 2 unitários. Diagnósticos separados em specs/diagnostics.spec.cjs; não congelar falha/vulnerabilidade como requisito da candidata. Todos os arquivos de teste ainda sem commit nesta etapa.
+
+## Checkpoint FRONT-02 — 18/10/2026
+
+Runtime/config/assets implementados e verificados localmente em migration-ui, sem migrar módulos de produto. React/TS strict/Vite/MUI/Emotion/Query/RHF instalados em conjunto compatível e fixado; client HTTP/socket sob factories sem conexões automáticas no bootstrap. 15 testes de infraestrutura, tipos/formato/build aprovados; smoke candidato 4/4 desktop/mobile aprovado, rede de negócio bloqueada. Protocolo EIO3/namespace /api/ demonstrado somente com servidor Socket.IO 2.3 sintético em porta efêmera. Baseline do legado permanece protegida e foi reexecutada.
+
+Auth/escopo/menus/formulários e fluxos continuam NÃO migrados; rotas candidatas são avisos de preparação. Assets selecionados copiados sem alterações; nenhum runtime legado removido. API real/protocolo do servidor original/MongoDB/CI remota/homologação do usuário não executados. D1–D6/M1–M5 pendentes. Commit não realizado; próxima etapa proposta FRONT-03 mediante revisão/autorização própria.

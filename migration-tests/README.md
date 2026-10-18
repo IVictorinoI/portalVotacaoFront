@@ -48,3 +48,9 @@ D1–D6 e M1–M5 permanecem pendentes. Nenhum teste skipped/expected-failure pa
 Revisar diff de testes/documentos e preservação do fonte; executar unitários e baseline; conferir manifest e contagem real do relatório. Para execução acompanhada com browser visível: `npm.cmd --prefix migration-tests run test:baseline -- --project=desktop --headed`. Somente viewport/browser simulado, sem integração real ou dispositivo físico. Todos os dados são fixtures criadas no processo.
 
 Referências técnicas consultadas: [configuração Playwright](https://playwright.dev/docs/test-configuration), [interceptação de rede](https://playwright.dev/docs/network). Próxima etapa FRONT-02 precisa de autorização própria; não há candidata/Vite criada nesta entrega.
+
+## Smoke da candidata — FRONT-02
+
+`npm.cmd --prefix migration-tests run test:candidate` (da raiz) usa candidate.config.cjs, separado da baseline. Requer migration-ui já instalada; compila duas saídas ignoradas .candidate-* com configuração sintética válida/ausente e serve somente esses artefatos em 127.0.0.1:18182/18183. Sem reuse de processos externos, servidores encerrados pelo runner. Testes em candidate/ não são carregados pela configuração baseline em specs/.
+
+Verifica marca/imagem, aviso de preparação no hash /#/votar e erro sem configuração, em desktop/mobile, com zero chamadas de negócio. Capturas em test-results-candidate (ignorado). A candidata não possui fluxos migrados e este smoke não valida autenticação ou integração remota. Nenhuma dependência do runner foi alterada nesta etapa; novo script no package não muda seu lock de dependências.

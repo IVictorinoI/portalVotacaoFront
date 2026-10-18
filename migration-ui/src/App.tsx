@@ -36,6 +36,7 @@ const CreditorsPage = lazy(() => import('./consultations/CreditorsPage'));
 const VotesPage = lazy(() => import('./consultations/VotesPage'));
 const ResultsPage = lazy(() => import('./results/ResultsPage'));
 const LivePage = lazy(() => import('./live/LivePage'));
+const MinutesPage = lazy(() => import('./minutes/MinutesPage'));
 class PageBoundary extends Component<
   { children: ReactNode },
   { failed: boolean }
@@ -204,6 +205,8 @@ export default function App() {
                 <ResultsPage />
               ) : route === '/votacaoTempoReal' ? (
                 <LivePage />
+              ) : route === '/aprovaAta' ? (
+                <MinutesPage />
               ) : (
                 <PendingPage title={routes[route] ?? 'Início'} />
               )}

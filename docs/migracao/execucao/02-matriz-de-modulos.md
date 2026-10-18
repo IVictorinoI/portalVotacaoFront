@@ -93,3 +93,7 @@ Dois fluxos completos implementados/verificados: credores por quatro classes/tot
 ## FRONT-08 — acompanhamento/resultados
 
 Resultados completos por classe/modo V, pergunta/subtotais/total remoto, precisão/cores, erro/vazio. Acompanhamento incremental 3s/cancelável, lista agregada por escopo e tabela completa. Preservada provisoriamente política original de cursor pela lista anterior e de ignorar _id já conhecido, porque correção ainda não aprovada; limitação explícita, não requisito de entrega definitivo. Pergunta sobre correção continua aberta. Nenhuma apuração ou escrita nova. Queries/cache/socket não comprovam escopo/ACL remotos; validação real/homologação ausentes.
+
+## FRONT-09 — assinatura/ata
+
+Fluxo completo assinar/reconsultar, grupos/roles/contagens/resConfPres e janela 5s implementados e verificados simulado. POST vazio/evento após HTTP, trava/reconciliação sem repetir escrita. Listeners aprovouata/reprovouata limpos e respeitam filtro atual. Me/Epp, limiar de cores e datas preservados D3; nenhuma reprovação nova/PDF/upload. Fluxo presença→voto→resultado→ata coberto com fixture estática para resultado, sem inferir apuração remota. API real/homologação não executadas.

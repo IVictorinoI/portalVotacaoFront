@@ -1,7 +1,7 @@
 const f=require('../support/fixtures.cjs');
 const UI='http://127.0.0.1:18182';
 async function domain(context,options={}) {
- const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
+ const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],minutes:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
  await context.addInitScript(user=>{if(!sessionStorage.getItem('domain-fixture')){sessionStorage.setItem('domain-fixture','1');localStorage.setItem('_application_user',JSON.stringify(user));}},state.user);
  await context.route('**/*',async route=>{
   const request=route.request();const url=new URL(request.url());
@@ -16,6 +16,17 @@ async function domain(context,options={}) {
   if(path==='/api//assembleias/'||path==='/api/assembleias/')return json([state.assembly]);
   if(path==='/api//votos/dashboard'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Dashboard indisponível']}});return json(state.summary);}
   if(path==='/api/resultados/'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Resultado indisponível']}});return json(state.resultado);}
+  if(path==='/api/votos/dashboard/')return json(state.summary);
+  if(path==='/api/aprovaAtas/'){
+   if(state.failReads)return route.fulfill({status:500,json:{errors:['Ata indisponível']}});
+   const name=url.searchParams.get('nomeCredor__regex')?.slice(1,-1).toLowerCase()||'';return json(state.minutes.filter(row=>row.nomeCredor.toLowerCase().includes(name)));
+  }
+  if(path==='/api/aprovaAtas/aprovar'){
+   if(state.delay)await new Promise(resolve=>setTimeout(resolve,state.delay));
+   if(state.failSign)return route.fulfill({status:500,json:{errors:['Assinatura recusada no teste']}});
+   state.minutes=state.credores.map(row=>({_id:'ata-'+row._id,codigoClasse:row.codigoClasse,descricaoClasse:row.descricaoClasse,nomeCredor:row.nome,nomeProcurador:row.nomeProcurador,data:'2026-10-18T11:00:00.000Z',aprovou:true}));
+   if(state.loseAck)return route.abort('failed');return json({Ok:true});
+  }
   if(path==='/api/credores/'){
    if(state.failReads)return route.fulfill({status:500,json:{errors:['Leitura indisponível']}});
    const name=url.searchParams.get('nome__regex')?.slice(1,-1).toLowerCase()||'';

@@ -158,3 +158,7 @@ consultations.spec.cjs em desktop/mobile: quatro grupos/joins/totais/indicador s
 ## FRONT-08 — acompanhamento/resultados
 
 live.spec.cjs testa novos registros/ordem__gt/sort, não duplicar _id conhecido, poll 3s/cleanup e sessão. results.spec.cjs testa classes/colunas/modo V, precisão, pergunta, subtotal/total remoto e erro/vazio; desktop/mobile. Unitários: projeções classes 1/4 versus 2/3, defaults/precisão, merge de feed e caracterização explícita do cursor original pendente. Não contar teste de caracterização do cursor como aprovação da sua correção ou garantia de atualização por _id. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- results.spec.cjs live.spec.cjs --project=desktop --headed. Sem API real.
+
+## FRONT-09 — ata
+
+minutes.spec.cjs: POST sem corpo/token/evento após HTTP/clique duplicado; classes/roles/Me-Epp/presença; eventos e saída de rota; resposta perdida/reconsulta sem POST extra; janela e fluxo integrado de quatro páginas. Unitários caracterizam contagem/cores D3. Nomes acessíveis estão nas tabelas, não apenas no contêiner. Relógio é instalado antes de montar timers. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- minutes.spec.cjs --project=desktop --headed. Runner global 360s para suíte crescente, mantendo 15s por teste/workers1/retries0; não há aumento de tolerância das asserções. Nenhum teste remoto.

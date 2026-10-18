@@ -21,7 +21,7 @@ if(kind === 'valid') {
   if(req.method === 'POST') {
    let body='';req.on('data',part=>{body+=part;});req.on('end',()=>{
     const {event,data}=JSON.parse(body);
-   if(!['derrubar','expulsar','expulsarId','getUser','connectedUsers'].includes(event)){res.writeHead(400).end();return;}
+   if(!['derrubar','expulsar','expulsarId','getUser','connectedUsers','aprovouata','reprovouata'].includes(event)){res.writeHead(400).end();return;}
     namespace.emit(event,data);res.writeHead(204).end();
    });return;
   }

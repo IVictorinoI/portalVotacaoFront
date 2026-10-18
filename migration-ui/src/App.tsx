@@ -34,6 +34,8 @@ const VotingPage = lazy(() => import('./voting/VotingPage'));
 const DashboardPage = lazy(() => import('./dashboard/DashboardPage'));
 const CreditorsPage = lazy(() => import('./consultations/CreditorsPage'));
 const VotesPage = lazy(() => import('./consultations/VotesPage'));
+const ResultsPage = lazy(() => import('./results/ResultsPage'));
+const LivePage = lazy(() => import('./live/LivePage'));
 class PageBoundary extends Component<
   { children: ReactNode },
   { failed: boolean }
@@ -198,6 +200,10 @@ export default function App() {
                 <CreditorsPage />
               ) : route === '/votos' ? (
                 <VotesPage />
+              ) : route === '/resultado' ? (
+                <ResultsPage />
+              ) : route === '/votacaoTempoReal' ? (
+                <LivePage />
               ) : (
                 <PendingPage title={routes[route] ?? 'Início'} />
               )}

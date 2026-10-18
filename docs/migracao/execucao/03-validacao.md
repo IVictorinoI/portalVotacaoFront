@@ -154,3 +154,7 @@ Dashboard testado por projeções numéricas/limiares/zeros/horários e dashboar
 ## FRONT-07 — consultas
 
 consultations.spec.cjs em desktop/mobile: quatro grupos/joins/totais/indicador socket, regex pareadas e vazio, votos apenas computados/4–6 casas/horário/sentinela, fluxo presença→voto→consulta. Assert de largura mantém rolagem somente na tabela. Unitários: grupos/ordenação Me-Epp, codigo estrito, voto vazio confirma e online/procurador, precisão/data. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- consultations.spec.cjs --project=desktop --headed. Fixture não comprova permissões/persistência/online do servidor original.
+
+## FRONT-08 — acompanhamento/resultados
+
+live.spec.cjs testa novos registros/ordem__gt/sort, não duplicar _id conhecido, poll 3s/cleanup e sessão. results.spec.cjs testa classes/colunas/modo V, precisão, pergunta, subtotal/total remoto e erro/vazio; desktop/mobile. Unitários: projeções classes 1/4 versus 2/3, defaults/precisão, merge de feed e caracterização explícita do cursor original pendente. Não contar teste de caracterização do cursor como aprovação da sua correção ou garantia de atualização por _id. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- results.spec.cjs live.spec.cjs --project=desktop --headed. Sem API real.

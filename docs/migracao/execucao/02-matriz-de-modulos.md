@@ -89,3 +89,7 @@ Cards e gráficos de quorum/votos, metadados e aberturas implementados, com GET 
 ## FRONT-07 — consultas credores/votos
 
 Dois fluxos completos implementados/verificados: credores por quatro classes/totais, ordenação específica e joins por codigo de presença/voto/online, CPF-CNPJ/valor/procurador/indicadores; consulta de votos computados com filtro/ordem/precisão/horários originais. Sem filtro de papel novo, paginação ou limite artificial. Listener online/timer 500ms com cleanup; pesquisa/paineis/tabelas acessíveis com rolagem interna mobile. Queries escopadas/canceláveis. API real/homologação não executadas. Checks e commit no progresso.
+
+## FRONT-08 — acompanhamento/resultados
+
+Resultados completos por classe/modo V, pergunta/subtotais/total remoto, precisão/cores, erro/vazio. Acompanhamento incremental 3s/cancelável, lista agregada por escopo e tabela completa. Preservada provisoriamente política original de cursor pela lista anterior e de ignorar _id já conhecido, porque correção ainda não aprovada; limitação explícita, não requisito de entrega definitivo. Pergunta sobre correção continua aberta. Nenhuma apuração ou escrita nova. Queries/cache/socket não comprovam escopo/ACL remotos; validação real/homologação ausentes.

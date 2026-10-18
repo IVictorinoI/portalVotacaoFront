@@ -86,3 +86,9 @@ M1/M2/M4/M5 e marcador M3 foram aprovados para os módulos correspondentes, sem 
 ## FRONT-07 — consultas
 
 /#/credores e /#/votos migrados em src/consultations. Mantêm tabelas completas, quatro classes/totais, regex e ordens distintas, joins estritos por codigo e online, 4–6 casas e horários históricos sem conversão de fuso. Pesquisa RHF e estados Query/erro/vazio, painéis recolhíveis, colunas por rolagem interna mobile. Formatação compartilhada em common/format.ts; VotesTable reutilizável somente para a mesma projeção de votos. Não confundir /votos (consulta) com /votar (escrita). Nenhum filtro/ACL novo. Listener/timer online pertencem à página e são removidos na saída.
+
+## FRONT-08 — acompanhamento/resultados
+
+/#/resultado preserva colunas/regras de apresentação por classe, modo V com subtotais/total do primeiro registro, pergunta e cores/precisão originais. /#/votacaoTempoReal usa feed incremental a cada 3s, corpo remoto sem recálculo e tabela compartilhada. Cache do feed guarda rows/cursor na key agregada por identidade/assembleia/geração; leitura incremental usa cursor desse estado e não cria cache por página de resposta. HTTP cancelável e Query impede sobreposição da mesma leitura.
+
+Limitação preservada enquanto falta decisão: cursor calculado pela lista anterior e documento com _id conhecido não atualizado. Teste específico é caracterização provisória, não requisito definitivo; pergunta de correção continua aberta. Não modificar sem resposta. Falha de leitura mostra retry manual e interrompe esse polling até recuperar. Resultados e acompanhamento não provam apuração/persistência/ACL do produto.

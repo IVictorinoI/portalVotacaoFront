@@ -45,6 +45,10 @@ interface Dependencies {
 }
 // Ownership of reads, cache, socket and scheduler follows one generation.
 export class SessionController {
+  socket: ReturnType<typeof createSocket> | null = null;
+  get http() {
+    return this.deps.http.api;
+  }
   state: SessionState = { status: 'checking' };
   token: string | null = null;
   private generation = 0;
@@ -75,6 +79,7 @@ export class SessionController {
     this.abort.abort();
     this.abort = new AbortController();
     this.cleanups.splice(0).forEach((cleanup) => cleanup());
+    this.socket = null;
     void this.deps.cache.cancelQueries();
     this.deps.cache.clear();
     this.token = null;
@@ -178,6 +183,7 @@ export class SessionController {
   }
   private startEffects(user: User, generation: number) {
     const socket = this.deps.newSocket();
+    this.socket = socket;
     const current = () => generation === this.generation;
     const on: typeof socket.on = (event, listener) => {
       const off = socket.on(event, (...args) => {

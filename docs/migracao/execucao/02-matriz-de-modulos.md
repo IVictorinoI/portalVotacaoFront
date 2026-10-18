@@ -73,3 +73,7 @@ Auth/escopo/menus/formulários e fluxos continuam NÃO migrados; rotas candidata
 ## Checkpoint FRONT-03 — 18/10/2026
 
 Auth principal, sessão, precedência de escopo, shell/menus/hash/lazy implementados na candidata e verificados com API simulada; aguardam revisão, sem commit. D2/precedência e parte de M3 aprovadas conforme plano atualizado. Login/logout/restauração, token inválido, storage corrompido, ausência de ativo, cleanup, expulsão, heartbeat e identidade entre abas cobertos. Sem novos guards administrativos. Rotas inclusive ocultas e Contato/contato preservadas; unknown volta ao início. Módulos FRONT-04–12 continuam avisos de preparação: nenhum marcado concluído por navegação funcionar. Heartbeat técnico antecipado para seu dono de sessão; tela/consulta de logs ainda FRONT-11. Badge/chat não implementados, marcador M3 segue pendente. Integração real e homologação não executadas; resultados finais em progresso.
+
+## FRONT-04 — piloto de presença
+
+Fluxo completo implementado na candidata: consulta/regex/representação/ordenação, todas as colunas/BRL, janela 5s, confirmação individual e todos filtrado sequencial, POST {_id}, evento após sucesso, remoção local/invalidações e recuperação de falha sem repetir escrita. Guard local M1 aprovado, sem garantia de idempotência entre abas. Queries segregadas e canceláveis, polling encerra ao sair. Credor próprio continua filtro original de procurador: D2 de permissões não resolvida por esta migração. Estado técnico e commits no progresso; integração real/homologação não executadas.

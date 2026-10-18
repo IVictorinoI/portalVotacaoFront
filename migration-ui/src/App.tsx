@@ -29,6 +29,7 @@ import {
 } from './navigation/routes';
 const AuthPage = lazy(() => import('./auth/AuthPage'));
 const PendingPage = lazy(() => import('./navigation/PendingPage'));
+const PresencePage = lazy(() => import('./presence/PresencePage'));
 class PageBoundary extends Component<
   { children: ReactNode },
   { failed: boolean }
@@ -183,7 +184,11 @@ export default function App() {
           </Typography>
           <PageBoundary key={route}>
             <Suspense fallback={waiting}>
-              <PendingPage title={routes[route] ?? 'Início'} />
+              {route === '/confirmarPresenca' ? (
+                <PresencePage />
+              ) : (
+                <PendingPage title={routes[route] ?? 'Início'} />
+              )}
             </Suspense>
           </PageBoundary>
           <Box component="footer" sx={{ mt: 4 }}>

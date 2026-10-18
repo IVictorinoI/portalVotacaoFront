@@ -1,0 +1,92 @@
+﻿# Validação da migração do frontend
+
+12/10/2026 — ROTEIRO PROPOSTO, não executado nesta etapa. Fontes: [plano](00-plano.md), [matriz](02-matriz-de-modulos.md), [contratos](06-contratos-originais.md). Nenhum script de teste é hoje fornecido pelo projeto.
+
+## Comandos atuais e pré-requisitos
+
+Raiz autorizada: `C:/Desenvolvimento/React/portalVotacaoFront`. Git/Node/npm e dependências já instaladas. Node v24.21.0 e npm.cmd 11.19.0 observados no diagnóstico, não engines já homologadas para a candidata. Usar npm.cmd no PowerShell sem alterar ExecutionPolicy. Não instalar/atualizar lockfiles durante planejamento.
+
+```powershell
+git status --short
+git branch --show-current
+git rev-parse HEAD
+git diff -- src public package.json package-lock.json webpack.config.js Procfile
+node --version
+npm.cmd --version
+```
+
+Somente scripts atuais: `npm.cmd run dev` (watcher, não check finito) e `npm.cmd run production` (Webpack finito, sobrescreve public por padrão). Para L usar saída exclusiva temporária:
+
+```powershell
+$buildLegado = Join-Path $env:TEMP ('portal-votacao-legado-' + [guid]::NewGuid().ToString('N'))
+npm.cmd run production -- --output-path $buildLegado
+```
+
+Não executar o bundle production para testar contra host real: ele contém URL Heroku. Testes de navegador baseline devem interceptar HTTP e socket e falhar em qualquer tráfego não simulado; integração real precisa de cópia configurada explicitamente para teste. Build sozinho não chama API. Resultado histórico: exit 0, hash adda313c43a66ad871e2, avisos UglifyJs; não repetido no planejamento.
+
+## Comandos futuros — ainda NÃO existentes
+
+FRONT-01 criará `migration-tests/` com harness Playwright/configuração, scripts `test:baseline` e `test:e2e`; FRONT-02 criará scripts em `migration-ui/`. Instalar somente após etapa autorizada e versões compatíveis escolhidas. Uma instalação limpa futura ocorre em cópia/candidata isolada, nunca substitui node_modules do legado por conveniência.
+
+| Local / etapa | Comando futuro | Definição proposta / pré-requisito |
+| --- | --- | --- |
+| migration-tests, FRONT-01 | npm.cmd ci | Lockfile próprio já criado e revisado; rede/instalação autorizada na etapa |
+| migration-tests, FRONT-01 | npm.cmd exec -- playwright install chromium | Pacote Playwright já fixado; não usar npx para baixar versão arbitrária |
+| migration-tests | npm.cmd run test:baseline | Playwright baseline isolado, fixtures HTTP/socket; servidor legado de teste acompanhado e rede externa bloqueada |
+| migration-ui, FRONT-02 | npm.cmd run typecheck | tsc --noEmit, strict/noUncheckedIndexedAccess; zero suppressions sem justificativa |
+| migration-ui | npm.cmd run format:check | prettier --check nos arquivos configurados, sem reformatar legado fora de escopo |
+| migration-ui | npm.cmd run test:unit | vitest run, execução finita; runner é proposta a escolher/fixar |
+| migration-ui | npm.cmd run build | Typecheck + vite build; saída migration-ui/dist |
+| migration-tests | npm.cmd run test:e2e | Playwright candidata build atualizado, API e socket simulados, desktop/mobile |
+| migration-tests, FRONT-14 | npm.cmd run test:integration | Projeto Playwright separado sem interceptar endpoints; ambiente real exclusivo e guardas de configuração |
+| raiz consolidada, FRONT-13 | npm.cmd ci; depois os scripts finitos acima | Executar separadamente em cópia limpa; revisar scripts e atualizar caminho exato antes da execução |
+
+Os nomes acima são especificação a implementar, não afirmação de que existem. FRONT-13 registra o mapeamento definitivo após consolidação; não executar comandos ausentes. Q = typecheck + format:check + build + test:unit relevantes + test:e2e dos fluxos prontos. CI proposta executa os mesmos comandos finitos em ambiente com filesystem sensível à caixa; não adiciona deploy automático. CI real só conta com URL/status do run observado. Logs/traces devem ser ignorados e conter apenas dados sintéticos, sem token/senha; integração real não grava bodies de login/storage.
+
+Servidores necessários ao harness são infraestrutura acompanhada, não checks que passam por timeout. Registrar porta/PID/sessão/log, readiness e encerramento do processo criado. Não matar processos desconhecidos ou repetir escrita após sessão perdida. Em interrupção, inspecionar processo/efeitos e salvar checkpoint.
+
+## Camadas de evidência
+
+1. Unitários: lógica pura de payload, escopo/transições, seleção/lote, joins/cursor/formatadores e contagens. Assert de regra/resultado, não detalhes internos.
+2. Navegador com API simulada: DOM, navegação, foco, responsividade, estado/cache, requests/status/erros simulados e socket controlado. Não valida CORS, MongoDB ou autorização real.
+3. Integração real: browser → HTTP/Socket.IO originais → MongoDB de teste; sem mocks dos endpoints sob teste. Conferir persistência/efeitos e escopo, não só toast.
+4. Homologação manual: perfis/volumes/browser acordados, dados históricos anonimizados, ensaio release/reversão. Um teste ignorado não equivale a sucesso.
+
+Baseline que reproduz bug deve registrar falha existente e caso específico; correção futura tem expectativa aprovada separada. Não transformar requisito em sucesso artificial com skip, snapshots novos indiscriminados ou testes de mock que já assumem a correção.
+
+## Pré-requisitos da integração real (D5)
+
+Cópia isolada do backend ORIGINAL `d1bd37e031d8b699a8dd5a33e039b4ef8a861c8a`, sem checkout/reset no diretório em migração; sem dependência de Nest ou etapas de backend. Provisionamento fora do frontend precisa de escopo de teste autorizado: nenhum arquivo do backend será alterado por este plano. Segredo sintético local fora do Git; não copiar .env original. MONGODB_URI explícita para banco exclusivo aleatório identificado como teste e PORT separado. Original aceita essas variáveis, mas possui fallback local: não iniciar sem verificar URI real e identidade do banco. TEST_MONGODB_URI não é variável implementada pelo backend legado e não deve ser presumida.
+
+Após provisionamento validado, entrypoint original conhecido: `node src/loader.js`, executado na cópia e com ambiente de teste, nunca no checkout em alteração. Instalação original e seed devem ser documentados com comandos reais no ensaio; não há seed/restauração/test script original comprovado a inventar. Validar cada comando antes de executar, limitar limpeza ao banco comprovadamente exclusivo e não usar comandos globais. Sem esses pré-requisitos, R fica NÃO EXECUTADO e FRONT-14 impedida.
+
+Fixtures: admin tipo=1; credor próprio; procurador com vários representados; usuário sem vínculo; duas assembleias (uma ativa), classes 1–4, presença pendente/confirmada, S/N/A e vazio, ata secretário/recuperanda, zero/null/omitido, datas sentinelas e offsets, limites 299/300/301 mensagens/logs, nomes longos/acentos e volume acordado D5. Não criar usuários/assembleias por endpoints administrativos no ambiente desconhecido. Snapshot sintético antes de cada ensaio; original/candidata escrevem em bancos distintos com fixtures equivalentes quando comparação exigir reset.
+
+## Cenários técnicos e roteiro manual
+
+| ID / etapas | Execução e resultado esperado |
+| --- | --- |
+| V01 / 01–03 | Capturar requests login/validateToken e header token direto; erros 400/403 conforme original, rede sem response; sem expor signup. Restaurar/sair/outro usuário e bloquear respostas da identidade anterior |
+| V02 / 03,13 | Abrir cada rota do catálogo abaixo com sessão/restauração; refresh, voltar/avançar, desconhecida → raiz; comparar menu e caixa Contato/contato; nenhuma página omitida |
+| V03 / 03,11 | Admin/comum/próprio/procurador/sem vínculo via menu e deep link; validar matriz aprovada, registrar acesso permitido no servidor original sem alegar proteção por menu |
+| V04 / 03–05,10 | Trocar identidade e assembleia com GET retardado, sem ativo/storage inválido/duas abas; query keys sem token e cache limpo. Precedência D2 com exemplo aprovado, nunca atualização tardia em outro escopo |
+| V05 / 04 | Filtrar subconjunto de credores; confirmar individual e todos; conferir ne=true, procuração, ordem, janela 5s, voto vazio criado/credor/notificação/evento. Erro no item 2 interrompe e preserva item 1 confirmado |
+| V06 / 05 | Votar S/N/A em distintos pendentes e todos filtrado; PUT exato, evento pós-sucesso, janela/representação; duas abas e resposta perdida. Sem retry de escrita ou duplicação introduzida pela UI; limites remotos explícitos |
+| V07 / 06–08 | Comparar BRL, percentuais 4–6 casas, zeros/classe '.', joins por codigo, ordenação distinta das classes, filtros regex com acentos/&/barra; medir limites implícitos sem truncar lista no cliente |
+| V08 / 08 | Poll 3s/ordem__gt, respostas fora de ordem/duplicadas, _id já existente alterado, troca de rota/reconexão; cursor conforme política aprovada. Resultado V/demais, classes 1/4 e 2/3, pergunta/subtotal/total sem recálculo de apuração |
+| V09 / 09 | Assinar POST sem corpo; conferir representantes, secretário/recuperanda, eventos e podeAta; Me/Epp/cores conforme D3. Falha ambígua não dispara novamente e UI não promete rollback |
+| V10 / 10 | Dois contexts enviam/recebem chat com Enter e clique; eco duplicado, desconexão/reconexão, 300 itens, lastRead/badge e foco/rolagem. Privado continua inativo, rascunho/política de leitura conforme M2/M3 |
+| V11 / 11 | Logs e heartbeat 30s sem acumular ao navegar, ack separado de gravação; expulsar id/todos só sintéticos; lido/regex/todos filtrado e falha no meio |
+| V12 / 12 | Criar links _id=null, editar objeto/payload original, excluir e abrir nova aba; campos vazios/omitidos, erro; assembleias/classes/login legado/contato sem remover rotas ocultas |
+| V13 / todas | Tab/Shift+Tab/Enter/Escape, foco visível e nomes acessíveis, menu sem mouse; viewport desktop 1366x768/mobile 390x844 provisórios, zoom 200%, tabelas/colunas/botões/scroll/footer; matriz final depende D6 |
+| V14 / 02,13 | Logos/fontes/chunks/assets sem 404, imports case Linux, base de subcaminho e hash, erro de chunk; sem upload/PDF/exportação inventado; servidor só expõe dist, não fontes/lock/.env |
+| V15 / todas | Duplo clique/Enter concorrente/lote repetido, HTTP 500/403/rede/timeout, erro depois de servidor gravar, unmount/escopo alterado; M1 evita repetição local, não garante idempotência remota |
+| V16 / 13–14 | Instalação limpa/build/CI e equivalência fonte/artefato; ensaio de backup/restauração/reversão, browser antigo aberto com chunk anterior, dados gravados pela candidata legíveis pelo original |
+
+Catálogo de rotas: /#/, /#/assembleias, /#/classes, /#/credores, /#/votos, /#/confirmarPresenca, /#/votar, /#/login, /#/votacaoTempoReal, /#/chat, /#/online, /#/logacesso, /#/notificacoes, /#/resultado, /#/aprovaAta, /#/Contato, /#/links, /#/links-uteis; investigar variante /#/contato do menu sem impor resultado presumido.
+
+Roteiro integrado final: iniciar fixtures exclusivas → login procurador → filtrar/confirmar → admin observa credores/quórum → votar S/N/A e lote parcial → observar tempo real/resultado → assinar ata → trocar mensagens/ler badge → ações administrativas e links → logout/outro perfil → reabrir todas as rotas em mobile/teclado → ensaio de reversão e reconciliação. Repetir com dados históricos anonimizados e volume D5, usando snapshot de teste separado.
+
+## Evidência e gates
+
+Registrar por execução: etapa/subetapa, fonte/artefato/hash/config pública sem segredos, comando/cwd/runtime/porta, casos e resultados, simulated/real, fixture/banco exclusivo identificado sem credenciais, logs ignorados, discrepâncias e decisões. Guardar falhas conhecidas; não considerar build equivalente a homologação. FRONT-04 exige padrão piloto revisado; FRONT-13 cobertura sem placeholder; FRONT-14 Q+R+manual+rollback e decisões impeditivas resolvidas. Sem D5/D6, documentar bloqueio e não liberar entrega final.

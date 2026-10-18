@@ -29,7 +29,6 @@ import {
   routes,
 } from './navigation/routes';
 const AuthPage = lazy(() => import('./auth/AuthPage'));
-const PendingPage = lazy(() => import('./navigation/PendingPage'));
 const PresencePage = lazy(() => import('./presence/PresencePage'));
 const VotingPage = lazy(() => import('./voting/VotingPage'));
 const DashboardPage = lazy(() => import('./dashboard/DashboardPage'));
@@ -42,6 +41,10 @@ const ChatPage = lazy(() => import('./chat/ChatPage'));
 const OnlinePage = lazy(() => import('./admin/OnlinePage'));
 const LogsPage = lazy(() => import('./admin/LogsPage'));
 const NotificationsPage = lazy(() => import('./admin/NotificationsPage'));
+const ReferencesPage = lazy(() => import('./references/ReferencesPage'));
+const ContactPage = lazy(() => import('./references/ContactPage'));
+const LinksPage = lazy(() => import('./references/LinksPage'));
+const LegacyLoginPage = lazy(() => import('./references/LegacyLoginPage'));
 class PageBoundary extends Component<
   { children: ReactNode },
   { failed: boolean }
@@ -228,8 +231,16 @@ export default function App() {
                 <LogsPage />
               ) : route === '/notificacoes' ? (
                 <NotificationsPage />
+              ) : route === '/assembleias' || route === '/classes' ? (
+                <ReferencesPage
+                  kind={route === '/classes' ? 'classes' : 'assembleias'}
+                />
+              ) : route === '/links' || route === '/links-uteis' ? (
+                <LinksPage editable={route === '/links'} />
+              ) : route === '/login' ? (
+                <LegacyLoginPage />
               ) : (
-                <PendingPage title={routes[route] ?? 'Início'} />
+                <ContactPage />
               )}
             </Suspense>
           </PageBoundary>

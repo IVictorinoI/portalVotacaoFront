@@ -1,3 +1,4 @@
+import type { LegacyUser } from '../references/legacy';
 import io from 'socket.io-client';
 export interface SocketUser {
   id: string;
@@ -8,7 +9,7 @@ export interface SocketUser {
   token?: string;
 }
 interface ClientEvents {
-  setUser: [user: SocketUser];
+  setUser: [user: SocketUser | LegacyUser];
   getConnectedUsers: [];
   confirmouPresenca: [credor: unknown];
   votou: [voto: unknown];

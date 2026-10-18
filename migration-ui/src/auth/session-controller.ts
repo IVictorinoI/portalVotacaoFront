@@ -92,6 +92,10 @@ export class SessionController {
     this.reset();
     this.store(() => this.deps.storage.removeItem(USER_KEY));
     this.store(() => this.deps.storage.removeItem(ASSEMBLY_KEY));
+    this.store(() => this.deps.storage.removeItem('usuarioLogado'));
+    this.store(() =>
+      this.deps.storage.removeItem('usuarioLogado:primaryOwner'),
+    );
     this.publish({ status: 'anonymous', messages: [] });
   };
   async restore() {

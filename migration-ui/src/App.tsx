@@ -39,6 +39,9 @@ const ResultsPage = lazy(() => import('./results/ResultsPage'));
 const LivePage = lazy(() => import('./live/LivePage'));
 const MinutesPage = lazy(() => import('./minutes/MinutesPage'));
 const ChatPage = lazy(() => import('./chat/ChatPage'));
+const OnlinePage = lazy(() => import('./admin/OnlinePage'));
+const LogsPage = lazy(() => import('./admin/LogsPage'));
+const NotificationsPage = lazy(() => import('./admin/NotificationsPage'));
 class PageBoundary extends Component<
   { children: ReactNode },
   { failed: boolean }
@@ -219,6 +222,12 @@ export default function App() {
                 <MinutesPage />
               ) : route === '/chat' ? (
                 <ChatPage />
+              ) : route === '/online' ? (
+                <OnlinePage />
+              ) : route === '/logacesso' ? (
+                <LogsPage />
+              ) : route === '/notificacoes' ? (
+                <NotificationsPage />
               ) : (
                 <PendingPage title={routes[route] ?? 'Início'} />
               )}

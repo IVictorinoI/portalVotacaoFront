@@ -33,8 +33,8 @@ if(kind === 'valid') {
  namespace.on('connection',socket=>{
   socket.emit('getUser',{});
   socket.on('setUser',user=>{users.set(socket.id,{id:user.id,tipo:user.tipo});online.set(socket.id,{id:user.id,nome:user.nome,codigoCredor:user.codigoCredor});});
-  socket.on('getConnectedUsers',()=>socket.emit('connectedUsers',[...online.values()]));
-  for(const name of ['confirmouPresenca','votou','aprovarata','sendMessage'])socket.on(name,data=>{events.push({name,data});if(name==='sendMessage')namespace.emit('newMessage',data);});
+  socket.on('getConnectedUsers',()=>{events.push({name:'getConnectedUsers'});socket.emit('connectedUsers',[...online.values()]);});
+  for(const name of ['confirmouPresenca','votou','aprovarata','sendMessage','expulsarId','expulsarTodos'])socket.on(name,data=>{events.push({name,data});if(name==='sendMessage')namespace.emit('newMessage',data);});
   socket.on('disconnect',()=>{users.delete(socket.id);online.delete(socket.id);});
  });
  fixture.listen(19300,'127.0.0.1');

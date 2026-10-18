@@ -101,3 +101,7 @@ Fluxo completo assinar/reconsultar, grupos/roles/contagens/resConfPres e janela 
 ## FRONT-10 — chat/badge
 
 Histórico 300, envio Enter/foco/rolagem, DTO privado vazio/destinatário omitido, documento retornado/eco dedup, rascunho e resultado ambíguo implementados. Badge compartilhado 5s, marcador por usuário/assembleia sem herdar global, troca de geração/cache/socket e leitura entre abas. Evento explicitamente de outra assembleia é descartado localmente; não implica ACL/privacidade no transporte. Sem privado novo. Integração real/homologação ausentes; detalhe de UI/API e checks no progresso.
+
+## FRONT-11 — administração
+
+Online/getConnectedUsers/expulsarId, logs 300/horários/expulsarTodos e notificações GET/filtro/PUT parcial/todos implementados. Travas, lote filtrado sequencial, parada/reconsulta e cleanup conforme aprovações; heartbeat único de sessão. Nenhum guard remoto ou endpoint novo. Verificação simulada, sem integração real/homologação.

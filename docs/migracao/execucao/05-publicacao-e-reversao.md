@@ -64,3 +64,7 @@ Critério de sucesso: artefato anterior volta a servir rotas/recursos/sessão co
 ## Compatibilidade de leitura de chat aprovada na FRONT-10
 
 Candidata usa _chat_notify_last_read:<id codificado>:<assembleia>. Não importa nem apaga a chave global antiga, cuja identidade não pode ser inferida. Novas chaves guardam somente data e permanecem inertes para o legado em reversão; ele volta à própria política global. Nenhuma migração de banco, limpeza ampla de localStorage ou restauração automática de dados. Troca de sessão limpa cache/socket em memória; não desfaz POST aceito. Esta documentação prepara compatibilidade e não executa publicação/reversão.
+
+## Decisões complementares explícitas — 18/10/2026
+
+D1: preservar o fluxo antigo /#/login por compatibilidade, incluindo segunda sessão e contrato GET original; não substituir pelo login principal. D6: aprovado preparar URLs hash, build dist e servidor estático exclusivamente dist, sem publicar. Hospedagem/subpath/browsers e homologação continuam pendentes. Cursor FRONT-08: aprovado usar maior ordem recebida e atualizar registros existentes por _id preservando posições, sem repetir escritas. Estas respostas substituem somente as pendências correspondentes dos registros históricos. Fórmulas/cores/datas e novas permissões continuam sem aprovação.

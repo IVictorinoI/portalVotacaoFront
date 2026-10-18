@@ -1,7 +1,7 @@
 const f=require('../support/fixtures.cjs');
 const UI='http://127.0.0.1:18182';
 async function domain(context,options={}) {
- const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],minutes:[],chats:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
+ const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],minutes:[],chats:[],notifications:[],logs:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
  await context.addInitScript(user=>{if(!sessionStorage.getItem('domain-fixture')){sessionStorage.setItem('domain-fixture','1');localStorage.setItem('_application_user',JSON.stringify(user));}},state.user);
  await context.route('**/*',async route=>{
   const request=route.request();const url=new URL(request.url());
@@ -13,6 +13,18 @@ async function domain(context,options={}) {
   const json=data=>route.fulfill({json:data});
   if(path==='/oapi/validateToken')return json({valid:true});
   if(path==='/api//logsAcessos/register')return json({ok:true});
+  if(path==='/api/logsAcessos'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Logs indisponíveis']}});return json(state.logs.slice(0,300));}
+  if(path==='/api/notificacoes'){
+   if(state.failReads)return route.fulfill({status:500,json:{errors:['Notificações indisponíveis']}});
+   const text=url.searchParams.get('mensagem__regex')?.slice(1,-1).toLowerCase()||'';
+   return json(state.notifications.filter(row=>row.mensagem.toLowerCase().includes(text)&&(!url.searchParams.has('lido')||!row.lido)));
+  }
+  if(path.startsWith('/api/notificacoes/')&&method==='PUT'){
+   if(state.delay)await new Promise(resolve=>setTimeout(resolve,state.delay));const id=path.split('/').at(-1);
+   if(id===state.failNotification)return route.fulfill({status:500,json:{errors:['Leitura recusada no teste']}});
+   const row=state.notifications.find(row=>row._id===id);if(!row)return route.fulfill({status:404,json:{errors:['Notificação ausente']}});row.lido=body.lido;
+   if(state.loseAck)return route.abort('failed');return json(row);
+  }
   if(path==='/api//assembleias/'||path==='/api/assembleias/')return json([state.assembly]);
   if(path==='/api//votos/dashboard'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Dashboard indisponível']}});return json(state.summary);}
   if(path==='/api/resultados/'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Resultado indisponível']}});return json(state.resultado);}

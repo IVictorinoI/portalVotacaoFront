@@ -146,3 +146,7 @@ Revisão manual opcional: npm.cmd --prefix migration-tests run test:candidate --
 ## FRONT-05 — votação
 
 Mesmos scripts existentes. voting.spec.cjs: S/N/A individuais e evento pós-sucesso, pendentes/erro no lote/clique duplicado, Enter/todos filtrado/admin, resposta perdida sem repetir, presença→voto e janela/cleanup. Todos desktop/mobile. Unitários voting.test.ts: URLs/filtros, pendentes/ordem e payload PUT {_id,tipo}. Capturas ignoradas da tabela e ações inspecionadas, com rolagem horizontal no mobile. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- voting.spec.cjs --project=desktop --headed. Sem backend real.
+
+## FRONT-06 — dashboard
+
+Dashboard testado por projeções numéricas/limiares/zeros/horários e dashboard.spec.cjs em desktop/mobile: 4 classes, BRL/seis casas, distinção card versus gráfico, dois gráficos, metadados, polling 10s/cleanup e erro/releitura/vazio. Assert de largura impede overflow da página mobile; SVG possui rolagem própria e títulos/tooltip nativos. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- dashboard.spec.cjs --project=desktop --headed. Não recalcula apuração: projeta quorum2/votos2 remotos. Sem API real.

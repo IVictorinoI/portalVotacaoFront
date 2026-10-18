@@ -78,3 +78,7 @@ M1/M2/M4/M5 e marcador M3 foram aprovados para os módulos correspondentes, sem 
 ## FRONT-05 — votação
 
 /#/votar usa src/voting com API/tipos/página lazy. GET /api/votos (sem barra final), filtro nomeCredor/procurador e ordem originais; PUT /api/votos/votar somente {_id,tipo:S|N|A}. Janela 5s, todas as colunas e voto confirmado visível. BatchRunner filtra pendentes da lista atual, bloqueia concorrência individual/lote e para em erro/fechamento de janela/sessão; evento votou leva documento local com tipo atualizado após HTTP. Reconsulta após resposta perdida não repete PUT; não garante idempotência/imutabilidade remotas. Presença e votação agora funcionais com fixtures, outros módulos pendentes.
+
+## FRONT-06 — dashboard
+
+/#/ agora exibe metadados/horários, cards e gráficos completos de quorum2/votos2, poll 10s e painéis recolhíveis. Gráficos SVG declarativos preservam percentuais/paleta/escala/valores sem dependência Chart ou instância acumulada; desmontagem elimina o DOM e Query controla o polling. Cards mantêm seis casas com ponto da string original, limiares de quorum 50/voto 100; gráfico de voto continua limiar 50. Não unificar por aparência de bug: D3 segue pendente. Contraste do texto e contenção de largura mobile aplicam M4 aprovado. Mudança de código ativo passa pelo controller e elimina cache/conexão anteriores. Capturas/testes no progresso.

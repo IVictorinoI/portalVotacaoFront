@@ -3,6 +3,7 @@ import { record } from '../auth/session-controller';
 export interface Assembly {
   codigo: number;
   descricao?: string;
+  assunto?: string;
   pergunta?: string;
   podeConfirmar?: boolean;
   podeVotar?: boolean;

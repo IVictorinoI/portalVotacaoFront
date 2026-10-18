@@ -81,3 +81,7 @@ Fluxo completo implementado na candidata: consulta/regex/representação/ordena�
 ## FRONT-05 — votação individual e lote
 
 Fluxo de votar implementado e verificado simulado: todas as colunas/BRL, pergunta/janela, S/N/A, pesquisa e procurador, pendentes e lista filtrada, PUT exato/evento atualizado após sucesso, trava/parada/reconciliação sem retry automático. Presença→voto testado no mesmo contexto. Sem correção de permissões/regras remotas ou garantia de voto imutável entre clientes. Integração/homologação não realizadas; commit e checks no progresso.
+
+## FRONT-06 — dashboard/quórum
+
+Cards e gráficos de quorum/votos, metadados e aberturas implementados, com GET original sem filtro, polling 10s e cleanup declarativo. Preservados precisão, ponto/zeros, limiares distintos dos cards e gráficos, paleta e interpretação local dos horários. Texto escuro por contraste M4 aprovado; SVG substitui Chart imperativo sem eliminar dados/legenda/valores/títulos/tooltips. Mobile sem overflow da página, gráfico com rolagem própria. API real/homologação continuam não executadas. D3 permanece pendente para mudanças de regra.

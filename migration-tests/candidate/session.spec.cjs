@@ -22,6 +22,7 @@ async function setup(context,{stored=null,valid=true,active=[{codigo:6}],loginEr
    if(url.pathname==='/api//assembleias/')return route.fulfill({json:active});
    if(url.pathname==='/api/assembleias/')return route.fulfill({json:active});
    if(url.pathname==='/api/votos')return route.fulfill({json:[]});
+   if(url.pathname==='/api//votos/dashboard')return route.fulfill({json:{quorum2:[],votos2:[]}});
    if(url.pathname==='/api//logsAcessos/register')return route.fulfill({json:{Ok:true}});
   }
   unexpected.push(req.url());return route.abort();
@@ -56,7 +57,7 @@ test('restaura admin, navega pelo menu e histórico, preserva rotas ocultas/fall
  for(const [path,title] of [['Contato','Contato'],['contato','Contato'],['assembleias','Assembleias'],['classes','Classes'],['login','Login legado'],['inexistente','Início']]) {
   await page.evaluate(path=>{location.hash='#/'+path;},path);await expect(page.getByRole('heading',{name:title,exact:true})).toBeVisible();
  }
- expect(h.requests.filter(r=>r.path.includes('assembleias'))).toHaveLength(1);expect(h.unexpected).toEqual([]);
+ await expect.poll(()=>h.requests.filter(r=>r.path.includes('assembleias')).length).toBe(2);expect(h.unexpected).toEqual([]);
 });
 test('comum não recebe menu admin, mas deep link continua sem novo guard',async({page,context},info)=>{
  const h=await setup(context,{stored:user});await page.goto(UI+'/#/online');

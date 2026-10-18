@@ -4,21 +4,20 @@ export interface LiveFeed {
   rows: Vote[];
   cursor: number;
 }
-// Compatibilidade temporária: correção do cursor/reconciliação por _id exige decisão.
-export function mergeOriginalFeed(
-  previous: LiveFeed,
-  incoming: Vote[],
-): LiveFeed {
-  const fresh = incoming.filter(
-    (row) => !previous.rows.some((old) => old._id === row._id),
+// Correção de cursor/reconciliação aprovada explicitamente pelo usuário.
+export function mergeFeed(previous: LiveFeed, incoming: Vote[]): LiveFeed {
+  const updates = new Map(incoming.map((row) => [row._id, row]));
+  const existing = new Set(previous.rows.map((row) => row._id));
+  const fresh = [...updates.values()].filter((row) => !existing.has(row._id));
+  const rows = [
+    ...fresh,
+    ...previous.rows.map((row) => updates.get(row._id) ?? row),
+  ];
+  const cursor = incoming.reduce(
+    (max, row) => Math.max(max, row.ordem ?? 0),
+    previous.cursor,
   );
-  const cursor = incoming.length
-    ? previous.rows.reduce(
-        (max, row) => ((row.ordem ?? 0) > max ? (row.ordem ?? max) : max),
-        previous.cursor,
-      )
-    : previous.cursor;
-  return { rows: [...fresh, ...previous.rows], cursor };
+  return { rows, cursor };
 }
 export async function readLive(
   http: AxiosInstance,
@@ -38,5 +37,5 @@ export async function readLive(
       )
     ).data,
   );
-  return mergeOriginalFeed(previous, incoming);
+  return mergeFeed(previous, incoming);
 }

@@ -105,3 +105,7 @@ Histórico 300, envio Enter/foco/rolagem, DTO privado vazio/destinatário omitid
 ## FRONT-11 — administração
 
 Online/getConnectedUsers/expulsarId, logs 300/horários/expulsarTodos e notificações GET/filtro/PUT parcial/todos implementados. Travas, lote filtrado sequencial, parada/reconsulta e cleanup conforme aprovações; heartbeat único de sessão. Nenhum guard remoto ou endpoint novo. Verificação simulada, sem integração real/homologação.
+
+## Atualização FRONT-08.D
+
+A limitação provisória de cursor/_id acima foi substituída pela correção explicitamente aprovada: maior ordem recebida, atualização dos registros devolvidos por _id nas posições existentes, novos registros no início sem duplicação. Não muda contrato incremental ordem__gt nem causa escritas. Unitários/build e browser desktop/mobile aprovados; detalhes no progresso.

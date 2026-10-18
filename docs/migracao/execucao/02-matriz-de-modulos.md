@@ -77,3 +77,7 @@ Auth principal, sessão, precedência de escopo, shell/menus/hash/lazy implement
 ## FRONT-04 — piloto de presença
 
 Fluxo completo implementado na candidata: consulta/regex/representação/ordenação, todas as colunas/BRL, janela 5s, confirmação individual e todos filtrado sequencial, POST {_id}, evento após sucesso, remoção local/invalidações e recuperação de falha sem repetir escrita. Guard local M1 aprovado, sem garantia de idempotência entre abas. Queries segregadas e canceláveis, polling encerra ao sair. Credor próprio continua filtro original de procurador: D2 de permissões não resolvida por esta migração. Estado técnico e commits no progresso; integração real/homologação não executadas.
+
+## FRONT-05 — votação individual e lote
+
+Fluxo de votar implementado e verificado simulado: todas as colunas/BRL, pergunta/janela, S/N/A, pesquisa e procurador, pendentes e lista filtrada, PUT exato/evento atualizado após sucesso, trava/parada/reconciliação sem retry automático. Presença→voto testado no mesmo contexto. Sem correção de permissões/regras remotas ou garantia de voto imutável entre clientes. Integração/homologação não realizadas; commit e checks no progresso.

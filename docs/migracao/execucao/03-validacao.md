@@ -1,6 +1,6 @@
-﻿# Validação da migração do frontend
+# Validação da migração do frontend
 
-12/10/2026 — ROTEIRO PROPOSTO, não executado nesta etapa. Fontes: [plano](00-plano.md), [matriz](02-matriz-de-modulos.md), [contratos](06-contratos-originais.md). Nenhum script de teste é hoje fornecido pelo projeto.
+12/10/2026 — ROTEIRO PROPOSTO, não executado nesta etapa. Fontes: [plano](00-plano.md), [matriz](02-matriz-de-modulos.md), [contratos](06-contratos-originais.md). Estado original em 12/10: nenhum script de teste. Atualização FRONT-01 em 18/10: runner isolado existente em migration-tests; scripts da raiz continuam apenas dev/production. Ver comandos efetivos abaixo.
 
 ## Comandos atuais e pré-requisitos
 
@@ -90,3 +90,21 @@ Roteiro integrado final: iniciar fixtures exclusivas → login procurador → fi
 ## Evidência e gates
 
 Registrar por execução: etapa/subetapa, fonte/artefato/hash/config pública sem segredos, comando/cwd/runtime/porta, casos e resultados, simulated/real, fixture/banco exclusivo identificado sem credenciais, logs ignorados, discrepâncias e decisões. Guardar falhas conhecidas; não considerar build equivalente a homologação. FRONT-04 exige padrão piloto revisado; FRONT-13 cobertura sem placeholder; FRONT-14 Q+R+manual+rollback e decisões impeditivas resolvidas. Sem D5/D6, documentar bloqueio e não liberar entrega final.
+
+
+## Comandos efetivos FRONT-01 — 18/10/2026
+
+O roteiro futuro acima é histórico; concretizados somente runner isolado e testes do legado. Da raiz do frontend:
+
+```powershell
+npm.cmd --prefix migration-tests ci
+npm.cmd exec --prefix migration-tests -- playwright install chromium
+npm.cmd --prefix migration-tests run test:unit
+npm.cmd --prefix migration-tests run test:baseline
+```
+
+Instalação inicial realizada com npm.cmd install --prefix migration-tests --no-audit --no-fund, gerando lock próprio. Node v24.21.0/Playwright 1.64.1 fixado (engine >=20). Build L executado pelo server.cjs com Webpack/config original + Uglify production, output separado .baseline, SHA-256/commit no manifesto ignorado; public não alterado. Não é rebuild de public/app.js nem prova do artefato publicado.
+
+42 casos browser simulados previstos: 21 cenários x desktop/mobile; 4 dos cenários são diagnósticos explícitos, não requisitos da candidata. Mais 2 unitários do código original puro. Resultado final e exit codes no checkpoint do progresso, não presumir sucesso deste roteiro. test:e2e candidata, typecheck/Vite/formato e test:integration não foram criados, pois pertencem às etapas posteriores.
+
+Rede: todos HTTPs do host de API recebem fixture em memória; desconhecidos abortam/falham; CSS Google Fonts é respondido vazio localmente, socket.io.js local entrega double sem conexão e WebSocket real é recusado. Não acessa servidor original/produção. O baseline integrado testa requests/navegação/projeção de resultado fixture, não cálculo de apuração ou persistência. Detalhes, falhas diagnósticas, comandos e revisão acompanhada: [README do harness](../../../migration-tests/README.md).

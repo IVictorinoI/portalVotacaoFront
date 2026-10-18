@@ -1,4 +1,4 @@
-﻿# Contratos originais do frontend
+# Contratos originais do frontend
 
 Data: 11/10/2026. Inventário de compatibilidade, não proposta de API nova.
 
@@ -116,3 +116,9 @@ Storage: `_application_user` JSON da sessão; `codigoAssembleiaAtiva` escopo; `_
 Preservar métodos/caminhos, formato hash e caixa das rotas de `src/main/routes.jsx`, filtros/ordem/limite, token direto, errors[], S/N/A, datas/precisão e efeitos após sucesso. Query param param=true e barras duplicadas/finais não devem ser descartados por parecerem redundantes sem ensaio. Autorização visual não prova autorização do servidor. Respostas genéricas node-restful, filtros regex especiais, limites implícitos e portabilidade do import login/Login precisam de caracterização.
 
 Nenhuma chamada externa, API simulada, integração com MongoDB ou operação de produção realizada. Para confirmar contratos restantes, usar API original isolada com banco e dados exclusivos de teste. Documentar diferenças como mudanças propostas e submetê-las à revisão; não depender de commits da migração do backend.
+
+## Evidência complementar FRONT-01 — 18/10/2026
+
+Fonte frontend continua idêntica ao original 41478a83b74a8d27c7058a1d79b2ed1deab271c3, protegida por diff no início do harness. migration-tests/ caracteriza consumidor no navegador com HTTP/Socket simulados: token direto, filtros/ordem/queries, payload presença/voto/ata, janelas, evento após resposta e renderização de resultados. Nenhum acesso ao backend nesta etapa; status/respostas sintéticos não comprovam status node-restful ou efeitos persistidos. Lacunas de integração original permanecem.
+
+Diagnósticos separados: primeiro login passa por reload após socket ausente; credor próprio filtra codigoProcurador; Me/Epp conta manifestação não aprovada; clique concorrente gera dois requests. Evidência de comportamento atual não aprova correção nem transforma defeito em contrato de entrega. D1–D6/M1–M5 sem resposta. Código/runtime da aplicação inalterados.

@@ -1,4 +1,4 @@
-﻿# Plano da migração do frontend
+# Plano da migração do frontend
 
 12/10/2026 — PLANO APROVADO PARA PREPARAÇÃO, mantendo D1–D6 e M1–M5 pendentes. Aprovação explícita do usuário: resposta “sim” à pergunta sobre executar somente preparação com decisões pendentes. Nenhuma implementação, alteração funcional, instalação, commit ou publicação autorizada nesta preparação.
 
@@ -145,3 +145,7 @@ Unitário: suíte integral, sem testes artificiais de checklist. Manual: presen�
 
 Gate piloto FRONT-04, gate consolidação FRONT-13 e gate entrega FRONT-14. Commits intermediários preservam revisão sem entregar módulos isolados em produção. A ausência de D5 não impede implementar/testar mocks, mas impede afirmar integração validada. Não enfraquecer requisito aprovado para acomodar falha do backend original; registrar discrepância sem alterá-lo. Nenhum commit proposto foi realizado.
 
+
+## Autorização da FRONT-01 — 18/10/2026
+
+Registro posterior à preparação: usuário autorizou somente FRONT-01, atualizando progresso com commit documental 1cd0ce66650ef9a2811fa66248182bb032a61829, preservando comportamentos e mantendo D1–D6/M1–M5 pendentes. Proibidos acesso ao backend e commit nesta execução. Não autoriza FRONT-02 ou correções funcionais. O cabeçalho de 12/10 registra aprovação histórica da preparação, não limita esta nova autorização específica. Harness/comandos/evidências em migration-tests/README.md e 04-progresso.md; estado final de execução somente no checkpoint mais recente.

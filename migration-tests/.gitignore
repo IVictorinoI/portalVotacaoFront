@@ -1,0 +1,5 @@
+node_modules/
+.baseline/
+test-results/
+playwright-report/
+*.log

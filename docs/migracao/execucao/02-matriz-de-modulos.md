@@ -1,12 +1,12 @@
-﻿# Matriz de módulos e cobertura
+# Matriz de módulos e cobertura
 
-12/10/2026 — planejamento proposto. Todos os módulos: diagnóstico estático concluído, migração NÃO INICIADA, teste simulado NÃO EXECUTADO, integração real NÃO EXECUTADA, homologação/commit NÃO REALIZADOS. Build legado anterior não altera esses estados.
+12/10/2026 — estado inicial do planejamento. Todos os módulos de produto: diagnóstico estático concluído, migração NÃO INICIADA, teste simulado NÃO EXECUTADO, integração real NÃO EXECUTADA, homologação/commit NÃO REALIZADOS. Build legado anterior não altera esses estados.
 
 Referências: [plano](00-plano.md), [contratos](06-contratos-originais.md), [cenários](03-validacao.md). Dependências são internas ao frontend. Risco: A alto, M médio. D/M remetem às decisões/mudanças propostas do plano.
 
 | Área / evidência original | Etapa / dependências | Fluxo e cobertura obrigatória | Risco / pendência |
 | --- | --- | --- | --- |
-| Testes/baseline; package.json, src/main/routes.jsx | FRONT-01 / preparação | Contratos HTTP/socket, fixtures sintéticas e falhas legadas separadas de correções | A; sem suíte atual |
+| Testes/baseline; package.json, src/main/routes.jsx | FRONT-01 / preparação | Contratos HTTP/socket, fixtures sintéticas e falhas legadas separadas de correções | A; baseline FRONT-01 em migration-tests, sem integração real |
 | Runtime/config/assets; webpack.config.js, src/index.jsx, public/index.html | FRONT-02 / 01 | Build, tema, providers, URLs públicas, protocolo socket, imports/case, fonts/logos | A; versões a escolher, D6 |
 | Auth principal; src/auth/*, src/main/authOrApp.jsx | FRONT-03 / 02 | Login/validateToken/restauração/logout/expulsão, authorization direto, sem signup exposto | A; D2, M1–M3 |
 | Shell/rotas/menu; src/common/template/*, src/main/routes.jsx | FRONT-03 / 02 | Hash/deep links/refresh/voltar/fallback, menus por tipo, teclado/mobile | A; D2/D6, M4 |
@@ -56,3 +56,10 @@ Proposta inicial Query: staleTime=0 para dados de negócio; retry=false em leitu
 Formulários: login/links/chat e pesquisas; session/storage; autorização menu/deep link/servidor; cache por escopo; listas/filtros/limites; datas/precisão/histórico; arquivos estáticos; teclado/foco; desktop/mobile/zoom; duplo clique/Enter/lotes/duas abas; erro/timeout/resposta fora de ordem. Não há upload/PDF/exportação ativa a inventar.
 
 Ao executar cada módulo, atualizar esta matriz com: subetapa, arquivos, status implementado, comandos/testes simulados, integração real (ou motivo não executada), homologação, decisões e commit somente quando existente. Não substituir estado inicial por concluído apenas porque passou typecheck ou mock.
+
+
+## Checkpoint FRONT-01 — 18/10/2026
+
+Infraestrutura de testes implementada em migration-tests/ (runner/fixtures/servidor local/HTTP e socket doubles); fontes de produto não migradas. Unitários históricos datas/cores: 2/2 aprovados. Navegador simulado: 42/42 aprovados, exit 0 (42,2 s); resultado registrado no progresso. Nenhuma linha de módulo deve ser marcada migrada ou validada real por esses mocks. API real, MongoDB, protocolo socket, A11Y completa, dispositivo físico, CI remota e homologação permanecem não executados. D1–D6 e M1–M5 pendentes; FRONT-02 não iniciada.
+
+Cobertura: 16 cenários de contrato e 4 diagnósticos originais, mais token restaurado inválido (17 contratos + 4 diagnósticos), cada um em desktop/mobile, e 2 unitários. Diagnósticos separados em specs/diagnostics.spec.cjs; não congelar falha/vulnerabilidade como requisito da candidata. Todos os arquivos de teste ainda sem commit nesta etapa.

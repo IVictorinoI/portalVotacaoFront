@@ -1,4 +1,4 @@
-﻿# Diagnóstico do frontend
+# Diagnóstico do frontend
 
 Data: 11/10/2026. Estado: análise concluída para revisão; nenhuma implementação autorizada nesta etapa.
 
@@ -84,3 +84,9 @@ Proteção futura deve cobrir presença → voto → resultado → ata; credor/p
 | D6 | Qual hospedagem, subcaminho e navegadores/dispositivos suportados? Os links com hash devem permanecer compatíveis? | Manter URLs atuais como referência; não escolher rewrite/BrowserRouter ou remover globais sem verificar compatibilidade |
 
 Não há mudança intencional de comportamento aprovada. Melhorias de erro, acessibilidade, concorrência, cache e sessão devem aparecer como propostas explícitas no planejamento. Encerrar esta etapa para revisão; não iniciar preparação ou migração.
+
+## Caracterização complementar FRONT-01 — 18/10/2026
+
+Suíte isolada de navegador com HTTP/socket simulados em migration-tests confirma os consumidores críticos sem alterar fontes. Primeiro login sem sessão emite em socket ausente no reducer, e catch da action provoca reload com sessão já persistida; depois há validação da sessão. Não é evidência de sucesso direto sem recarga. Outros diagnósticos reproduzidos: filtro do credor próprio como procurador, contagem Me/Epp não aprovada e dois POSTs após clique concorrente. Todos permanecem pendentes de decisão, separados dos contratos de regressão úteis.
+
+Desktop/mobile da suíte são cobertura funcional automatizada, não homologação manual completa, dispositivo real ou auditoria de acessibilidade. Sem API real/backend/banco nesta etapa; resultados sintéticos não confirmam apuração ou persistência. Resultado quantitativo e arquivos no checkpoint atual de 04-progresso.md.

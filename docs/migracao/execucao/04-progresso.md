@@ -1,6 +1,6 @@
-﻿# Progresso da migração do frontend
+# Progresso da migração do frontend
 
-Data: 11/10/2026 (America/Sao_Paulo).
+Última atualização: 18/10/2026 (America/Sao_Paulo). Histórico inicial de 11/10 preservado.
 
 ## Autorização e referências
 
@@ -14,7 +14,7 @@ Data: 11/10/2026 (America/Sao_Paulo).
 
 ## Etapa e checkpoints
 
-Etapa atual: prompt 03 — preparação autorizada em 12/10/2026; histórico de diagnóstico/planejamento preservado. Nenhuma etapa de implementação FRONT iniciada.
+Etapa atual: FRONT-01 — proteção do original, implementada e validada por testes simulados; aguardando revisão do usuário, sem commit. Histórico de preparação/planejamento preservado; FRONT-02 não iniciada.
 
 | Subetapa/área | Estado | Evidência/resultado |
 | --- | --- | --- |
@@ -99,3 +99,42 @@ Preparação concluída para revisão do usuário. Links Markdown locais de AGEN
 Arquivos alterados nesta etapa: AGENTS.md criado; 00-plano.md e 04-progresso.md atualizados. Nenhum outro documento, código, dependência, dado ou arquivo do backend alterado. Não executados build/testes/navegador/integração por se tratar apenas de preparação documental; o resultado de build anterior pertence ao diagnóstico. Sem commit/push/deploy/produção.
 
 Próximo passo: usuário revisar/validar a preparação e autorizar prompt 05-commit-validado com escopo explícito. O conjunto de documentação anterior continua não commitado e deve ser incluído apenas no escopo validado pelo usuário, sem git add indiscriminado. Depois desse commit, primeira implementação proposta FRONT-01 exige autorização própria; não iniciada automaticamente. D1–D6 e M1–M5 permanecem pendentes.
+
+## FRONT-01.A — proteção do original — 18/10/2026
+
+Autorização explícita recebida para somente FRONT-01, sem acessar backend e sem commit. Branch migracao-arquitetura-front; HEAD inicial 1cd0ce66650ef9a2811fa66248182bb032a61829 (plano de migracao), Git inicialmente limpo. Esse commit já contém AGENTS.md e sete documentos: substitui os registros históricos de documentação não commitada. Original frontend 41478a83b74a8d27c7058a1d79b2ed1deab271c3 preservado; comparação de código/dependências original/HEAD previamente vazia.
+
+D1–D6 e M1–M5 pendentes. Nenhum acesso ao backend permitido nesta execução. FRONT-01.A: inspecionados fontes consumidores de sessão/presença/voto/resultado/ata, instruções/plano/matriz/validação; runner isolado em migration-tests com package/lock próprios, sem alterar manifesto/lock/runtime da raiz. Playwright 1.64.1 consultado no registry (Node >=20, local v24.21.0) e documentação oficial de configuração/interceptação. Instalação local de teste e Chromium seguintes; logs e artefatos ignorados. Não confundir simulação de respostas com evidência de servidor.
+
+FRONT-01.B parcial: harness/fixtures e testes críticos criados. Primeira execução da baseline detectou erro do harness: Webpack resolveu entrada relativamente a migration-tests, sem iniciar servidor/navegador; ajustado cwd para a raiz frontend (sem editar config da aplicação). Runner aguardado em sessão 3088, log ignorado migration-tests/baseline-run.log; não houve chamadas reais. Próxima execução após correção, unitários de datas/cores originais e revisão dos cenários diagnósticos.
+
+FRONT-01.B checkpoint: unitários `npm.cmd --prefix migration-tests run test:unit` passaram 2/2, sem skips. Execução de navegador anterior falhou na verificação estrita de rede porque AdminLTE solicita CSS fonts.googleapis.com: endpoint conhecido passou a ser respondido com CSS vazio local, sem acesso remoto. O seed de sessão do teste também foi corrigido para ocorrer uma vez por context, evitando apagar a sessão em reload do login original. Falhas foram do harness; nenhum fonte de produção alterado. Suíte ampliada em execução (sessão 50784, log ignorado migration-tests/baseline-run.log), com perfis admin/próprio/procurador, segunda assembleia, lote filtrado, janelas e diagnósticos de duplo envio/ata. Sem backend ou dados reais.
+
+FRONT-01.C checkpoint: suíte anterior relatou 40/40 aprovados (42,9 s) após corrigir espera do evento aprovarata; entretanto a sessão PowerShell com redirecionamento retornou 1 apesar do relatório, com NativeCommandError de warnings stderr. Não registrar exit 0 por suposição: próxima execução captura LASTEXITCODE explicitamente. Incluído caso de token restaurado inválido e alinhado filtro de votos no mock; nova execução necessária após essa alteração. Sem alteração de expectativas de contrato ou produção.
+
+## FRONT-01.C — encerramento para revisão — 18/10/2026
+
+Implementado somente FRONT-01. Runner/lock/config próprios em migration-tests; fixtures admin/credor próprio/procurador, duas assembleias, classes/representação e dados inteiramente sintéticos. Build original isolado sem alterar public; 17 cenários de contratos + 4 diagnósticos separados em desktop/mobile, mais unitários das funções puras originais. Fluxo simulado presença → voto → resultado → ata; filtros/Enter/lotes/janelas/status de erro/payload/evento/precisão/sessão caracterizados. Resultado fixture é estático: não comprova fórmula de apuração, autorização/persistência remotas ou protocolo real.
+
+Resultados finais:
+- npm.cmd --prefix migration-tests run test:unit: 2/2 aprovados, exit 0, sem skips (12,16 s incluindo carga do compilador).
+- npm.cmd --prefix migration-tests run test:baseline: 42/42 aprovados (42,2 s), retries=0, sem skips; LASTEXITCODE capturado explicitamente, NPM_BASELINE_EXIT=0, sessão 68558 encerrada. Warning NO_COLOR/FORCE_COLOR não representa falha. Log ignorado: migration-tests/baseline-run.log.
+- Build via node server.cjs/Webpack API: webpackHash 596322a5f23070608f2e. Manifesto ignorado migration-tests/.baseline/manifest.json registra original/HEAD e SHA-256: app.js 324cbc111e2a1cdc5c25d980e915b87532ec2d8b1911938575d7ef31bd8b2f61; app.css 70c549ff1da0c8be1bb18684a466a30872c3396a4b53b6d7ee0ffc9fb21116f6. Servidor apenas 127.0.0.1:18181, encerrado pelo runner; teste de bind posterior confirmou porta livre.
+- node --check em todos os CJS novos: sem erros; UTF-8/whitespace conferidos diretamente inclusive arquivos não rastreados, sem problemas. git diff --check sem erro (avisos de normalização LF/CRLF); links locais de AGENTS/docs/harness: zero ausentes.
+- git diff --exit-code de src/public/package.json/package-lock.json/webpack.config.js/Procfile: 0, produção intacta. Dependências novas somente do runner, instaladas sob migration-tests/node_modules; artefatos/logs/browser resultados ignorados, confirmados por git check-ignore. Branch/HEAD continuam migracao-arquitetura-front/1cd0ce66650ef9a2811fa66248182bb032a61829.
+
+Arquivos desta etapa: novos migration-tests/.gitignore, README.md, package.json, package-lock.json, playwright.config.cjs, server.cjs, unit.test.cjs, support/fixtures.cjs, support/baseline.cjs, specs/critical.spec.cjs e specs/diagnostics.spec.cjs. Atualizados AGENTS.md e docs de execução 00/01/02/03/04/06 para autorização restrita, comandos reais, evidência/limites e checkpoint. Doc 05 preservado. Ajustada codificação UTF-8/EOF dos documentos editados. Nenhuma alteração preexistente/alheia identificada no início; Git final tem somente esse escopo modificado/não rastreado.
+
+Diagnósticos reproduzidos sem corrigir: login inicial recarrega após socket ausente; credor próprio é filtrado como procurador; Me/Epp conta não aprovado; clique concorrente gera dois requests. Esses casos estão separados das expectativas úteis de regressão e não impõem manter bugs/crashes na candidata. Decisões D1–D6 e melhorias M1–M5 continuam pendentes, sem aprovação implícita.
+
+Não executados: backend/API real/MongoDB/protocolo Socket.IO, CI remota, ensaio de produção/restauração, dispositivo físico, auditoria completa de teclado/responsividade, homologação manual do usuário. Nenhuma leitura/acesso do repositório backend, nenhum dado/segredo real, commit, push ou deploy. Simulação não equivale à integração real; D5 permanece bloqueio somente das verificações reais posteriores.
+
+Estado final FRONT-01: implementada e verificada automaticamente em baseline simulada, aguardando revisão/validação do usuário, NÃO commitada. Roteiro manual acompanhado: comandos e limitações em migration-tests/README.md; opcional execução --project=desktop --headed para observar os mesmos cenários sintéticos. Próximo passo: revisar entrega e, se validada, autorizar prompt 05 para commit local apenas desse escopo. FRONT-02 necessita autorização própria posterior, não iniciada. Parar aqui para revisão.
+
+## FRONT-01 — validação e commit autorizado — 18/10/2026
+
+Usuário autorizou explicitamente: “Pode fazer o commit”, após entrega dos resultados 2 unitários e 42 casos de navegador aprovados. Escopo validado: harness isolado migration-tests e documentação/instruções associadas da FRONT-01. Resultados e relatório local conferidos, failedTests vazio, código/dependências de produção preservados; não houve mudança funcional desde a execução final que justifique repetir toda a suíte. Nenhum unitário adicional criado apenas para ampliar contagem. Regras puras relevantes atuais protegidas; priorizar testes de novos adaptadores/estado na etapa correspondente, mantendo a baseline de navegador.
+
+Commit local desta entrega contém este registro; obter seu hash pelo histórico Git, sem criar outro commit só para escrever o próprio hash. Nenhum log, node_modules, .baseline, screenshot ou test-results incluído. D1–D6 e M1–M5 permanecem pendentes. Sem backend, push, deploy ou dados de produção.
+
+Próximo passo recomendado: FRONT-02 — infraestrutura mínima candidata (React/TypeScript/Vite/MUI/Emotion/Query/RHF), mediante autorização específica pelo ID. FRONT-02 não iniciada neste pedido. Revisar decisões afetadas antes de implementar mudanças funcionais. A autorização de commit não autoriza avanço automático.

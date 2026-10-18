@@ -14,14 +14,14 @@ const result=spawnSync(process.execPath,[path.join(ui,'node_modules/vite/bin/vit
 if(result.status !== 0) process.exit(result.status || 1);
 // Fixture de protocolo somente loopback. Não importa nem executa backend do produto.
 if(kind === 'valid') {
- const events=[];
+ const events=[];const online=new Map();
  const fixture = http.createServer((req,res) => {
   if(req.url === '/__events') {if(req.method==='DELETE')events.length=0;res.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify(events));return;}
   if(req.url !== '/__fixture') {res.writeHead(404).end();return;}
   if(req.method === 'POST') {
    let body='';req.on('data',part=>{body+=part;});req.on('end',()=>{
     const {event,data}=JSON.parse(body);
-    if(!['derrubar','expulsar','expulsarId','getUser'].includes(event)){res.writeHead(400).end();return;}
+   if(!['derrubar','expulsar','expulsarId','getUser','connectedUsers'].includes(event)){res.writeHead(400).end();return;}
     namespace.emit(event,data);res.writeHead(204).end();
    });return;
   }
@@ -32,9 +32,10 @@ if(kind === 'valid') {
  const users = new Map();
  namespace.on('connection',socket=>{
   socket.emit('getUser',{});
-  socket.on('setUser',user=>users.set(socket.id,{id:user.id,tipo:user.tipo}));
+  socket.on('setUser',user=>{users.set(socket.id,{id:user.id,tipo:user.tipo});online.set(socket.id,{id:user.id,nome:user.nome,codigoCredor:user.codigoCredor});});
+  socket.on('getConnectedUsers',()=>socket.emit('connectedUsers',[...online.values()]));
   for(const name of ['confirmouPresenca','votou','aprovarata','sendMessage'])socket.on(name,data=>events.push({name,data}));
-  socket.on('disconnect',()=>users.delete(socket.id));
+  socket.on('disconnect',()=>{users.delete(socket.id);online.delete(socket.id);});
  });
  fixture.listen(19300,'127.0.0.1');
 }

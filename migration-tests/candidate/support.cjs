@@ -18,7 +18,7 @@ async function domain(context,options={}) {
   if(path==='/api/credores/'){
    if(state.failReads)return route.fulfill({status:500,json:{errors:['Leitura indisponível']}});
    const name=url.searchParams.get('nome__regex')?.slice(1,-1).toLowerCase()||'';
-   return json(state.credores.filter(r=>!r.confirmouPresenca&&r.nome.toLowerCase().includes(name)));
+   return json(state.credores.filter(r=>(!url.searchParams.has('confirmouPresenca__ne')||!r.confirmouPresenca)&&r.nome.toLowerCase().includes(name)));
   }
   if(path==='/api//votos/confirmar'){
    if(state.delay)await new Promise(resolve=>setTimeout(resolve,state.delay));
@@ -28,7 +28,7 @@ async function domain(context,options={}) {
    row.confirmouPresenca=true;const vote=f.vote(row);state.votos.push(vote);
    if(state.loseAck)return route.abort('failed');return json(vote);
   }
-  if(path==='/api/votos'){
+  if(path==='/api/votos'||path==='/api/votos/'){
    const name=url.searchParams.get('nomeCredor__regex')?.slice(1,-1).toLowerCase()||'';
    return json(state.votos.filter(r=>r.nomeCredor.toLowerCase().includes(name)));
   }

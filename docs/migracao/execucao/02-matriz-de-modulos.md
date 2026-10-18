@@ -85,3 +85,7 @@ Fluxo de votar implementado e verificado simulado: todas as colunas/BRL, pergunt
 ## FRONT-06 — dashboard/quórum
 
 Cards e gráficos de quorum/votos, metadados e aberturas implementados, com GET original sem filtro, polling 10s e cleanup declarativo. Preservados precisão, ponto/zeros, limiares distintos dos cards e gráficos, paleta e interpretação local dos horários. Texto escuro por contraste M4 aprovado; SVG substitui Chart imperativo sem eliminar dados/legenda/valores/títulos/tooltips. Mobile sem overflow da página, gráfico com rolagem própria. API real/homologação continuam não executadas. D3 permanece pendente para mudanças de regra.
+
+## FRONT-07 — consultas credores/votos
+
+Dois fluxos completos implementados/verificados: credores por quatro classes/totais, ordenação específica e joins por codigo de presença/voto/online, CPF-CNPJ/valor/procurador/indicadores; consulta de votos computados com filtro/ordem/precisão/horários originais. Sem filtro de papel novo, paginação ou limite artificial. Listener online/timer 500ms com cleanup; pesquisa/paineis/tabelas acessíveis com rolagem interna mobile. Queries escopadas/canceláveis. API real/homologação não executadas. Checks e commit no progresso.

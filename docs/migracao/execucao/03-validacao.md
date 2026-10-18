@@ -150,3 +150,7 @@ Mesmos scripts existentes. voting.spec.cjs: S/N/A individuais e evento pós-suce
 ## FRONT-06 — dashboard
 
 Dashboard testado por projeções numéricas/limiares/zeros/horários e dashboard.spec.cjs em desktop/mobile: 4 classes, BRL/seis casas, distinção card versus gráfico, dois gráficos, metadados, polling 10s/cleanup e erro/releitura/vazio. Assert de largura impede overflow da página mobile; SVG possui rolagem própria e títulos/tooltip nativos. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- dashboard.spec.cjs --project=desktop --headed. Não recalcula apuração: projeta quorum2/votos2 remotos. Sem API real.
+
+## FRONT-07 — consultas
+
+consultations.spec.cjs em desktop/mobile: quatro grupos/joins/totais/indicador socket, regex pareadas e vazio, votos apenas computados/4–6 casas/horário/sentinela, fluxo presença→voto→consulta. Assert de largura mantém rolagem somente na tabela. Unitários: grupos/ordenação Me-Epp, codigo estrito, voto vazio confirma e online/procurador, precisão/data. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- consultations.spec.cjs --project=desktop --headed. Fixture não comprova permissões/persistência/online do servidor original.

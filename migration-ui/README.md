@@ -82,3 +82,7 @@ M1/M2/M4/M5 e marcador M3 foram aprovados para os módulos correspondentes, sem 
 ## FRONT-06 — dashboard
 
 /#/ agora exibe metadados/horários, cards e gráficos completos de quorum2/votos2, poll 10s e painéis recolhíveis. Gráficos SVG declarativos preservam percentuais/paleta/escala/valores sem dependência Chart ou instância acumulada; desmontagem elimina o DOM e Query controla o polling. Cards mantêm seis casas com ponto da string original, limiares de quorum 50/voto 100; gráfico de voto continua limiar 50. Não unificar por aparência de bug: D3 segue pendente. Contraste do texto e contenção de largura mobile aplicam M4 aprovado. Mudança de código ativo passa pelo controller e elimina cache/conexão anteriores. Capturas/testes no progresso.
+
+## FRONT-07 — consultas
+
+/#/credores e /#/votos migrados em src/consultations. Mantêm tabelas completas, quatro classes/totais, regex e ordens distintas, joins estritos por codigo e online, 4–6 casas e horários históricos sem conversão de fuso. Pesquisa RHF e estados Query/erro/vazio, painéis recolhíveis, colunas por rolagem interna mobile. Formatação compartilhada em common/format.ts; VotesTable reutilizável somente para a mesma projeção de votos. Não confundir /votos (consulta) com /votar (escrita). Nenhum filtro/ACL novo. Listener/timer online pertencem à página e são removidos na saída.

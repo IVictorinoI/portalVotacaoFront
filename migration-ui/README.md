@@ -1,6 +1,6 @@
-# Candidata isolada — FRONT-02
+# Candidata isolada — FRONT-03
 
-Infraestrutura React/TypeScript/Vite independente do legado na raiz. Ainda não é uma versão de produto: rotas conhecidas exibem aviso de preparação, sem login, sessão, consultas/escritas de negócio, menus ou formulários migrados. Não publicar. FRONT-03 e demais módulos precisam de autorização própria.
+Candidata React/TypeScript/Vite independente do legado. FRONT-03 implementa login/sessão, escopo pela API, shell/menus e navegação. Módulos de presença/voto/chat e demais fluxos ainda exibem aviso de preparação; não publicar. FRONT-04 exige autorização própria. As seções técnicas abaixo registram a fotografia da FRONT-02; a atualização FRONT-03 ao final prevalece quanto ao estado atual.
 
 ## Executar e revisar
 
@@ -58,3 +58,13 @@ Smoke separado (`migration-tests/candidate.config.cjs`): builds com config sint�
 Resultado atual: tipos/formato/build aprovados; 15 testes, 4 smokes e 42 casos legados aprovados. Reexecutado o teste de protocolo após usar API pública tipada. Capturas desktop/mobile inspecionadas; sem auditoria A11Y completa, CI remota, dispositivo físico, API real, backend, MongoDB ou deploy. Roteiro manual: abrir /#/votar com env sintético, conferir marca/aviso em desktop/mobile, retirar config e reabrir para erro; nenhuma operação de votação existe na candidata nesta etapa. Não confundir placeholder honesto de infraestrutura com módulo migrado.
 
 Atualização da composição: `src/lib/Infrastructure.tsx` expõe factories HTTP por callback de token e socket desconectado via contexto. Não implementa sessão nem lê storage. Os adapters agora fazem parte do bundle de navegador, e smoke foi repetido para conferir carregamento e ausência de rede automática. Build final: 1119 módulos, JS 510,60 kB / gzip 161,16 kB (Vite 1,91 s). Aviso de chunk >500 kB registrado; não aumentado o limite para escondê-lo. Divisão lazy de páginas faz parte da FRONT-03 e análise final de carga depende D6. Sem garantia de performance de módulos ainda não migrados.
+
+## Atualização FRONT-03 — sessão, escopo e navegação
+
+src/auth/session-controller.ts controla restauração, token, geração, escopo, cache, socket e heartbeat; Session.tsx conecta contexto React/Query/factories e eventos de storage entre abas. AuthPage.tsx usa RHF com login/senha sem cadastrar usuários ou acrescentar regras de senha. Login conserva errors[] e reload em falha sem envelope; validação falha encerra sessão como original. Não há revogação/refresh/guard de papel novos.
+
+Decisão explícita: primeiro resultado ativo da API prevalece; storage/usuário/default não selecionam assembleia. Sem ativo válido, não montar páginas protegidas: consultar novamente ou sair. Chaves originais de sessão/assembleia preservadas; cache somente em memória é cancelado/limpo antes da troca e respostas de geração anterior ignoradas. Corrupção/acesso negado ao storage não quebra bootstrap; storage indisponível permite sessão em memória até refresh. M3 do marcador de chat permanece pendente.
+
+App.tsx preserva hashes/caixa/rotas ocultas, fallback, menus conforme tipo e nenhuma ACL nova. Auth e página pendente carregam por lazy/Suspense com limite de erro de chunk. Shell tem menu permanente desktop e Drawer temporário mobile, marca/perfil/nome/email quando presente/logout/contato. Não há query protegida antes de token validado na restauração; login usa resposta confirmada. Socket 2 responde getUser/setUser, trata expulsões/notificações e limpa listeners/conexão ao terminar/trocar sessão. Heartbeat POST sem corpo a cada 30s, sem retry; não comprova persistência. Chat/badge e outros módulos continuam etapas posteriores.
+
+Para testar sem backend, usar test:candidate: builds com endpoints sintéticos, HTTP interceptado e fixture Socket.IO 2 somente loopback 19300. Dev com .env.example envia login à porta sintética, mas não inicia essa fixture sozinho; não esperar sucesso sem servidor explícito de teste. Não apontar para produção. Bases API/OAPI do exemplo terminam /api e /oapi; chamados preservam barras duplas do consumidor original. Logs/capturas/dist ignorados. Integração de produto, banco, CI, dispositivo físico, auditoria A11Y completa e homologação não executadas. Comandos/resultados finais e roteiro de revisão em docs/migracao/execucao/04-progresso.md.

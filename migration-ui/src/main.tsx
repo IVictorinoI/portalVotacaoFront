@@ -8,6 +8,7 @@ import { InfrastructureProvider } from './lib/Infrastructure';
 import { createQueryClient } from './lib/query';
 import { theme } from './theme';
 import App from './App';
+import { SessionProvider } from './auth/Session';
 const root = document.getElementById('root');
 if (!root) throw new Error('Elemento raiz ausente.');
 let config: AppConfig | null = null;
@@ -36,7 +37,9 @@ createRoot(root).render(
       ) : (
         <QueryClientProvider client={queryClient}>
           <InfrastructureProvider config={config}>
-            <App />
+            <SessionProvider>
+              <App />
+            </SessionProvider>
           </InfrastructureProvider>
         </QueryClientProvider>
       )}

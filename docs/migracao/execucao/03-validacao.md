@@ -1,5 +1,7 @@
 # Validação da migração do frontend
 
+> Comandos ativos na raiz: npm.cmd ci, npm.cmd run check e npm.cmd run test:browser. FRONT-13 verificada:55 unitários,8 HTTP/hook/runtime,124 cenários Chrome; original5/42 independente. Scripts migration-ui e propostas antigas abaixo são históricos; ver seção final de comandos/progresso.
+
 12/10/2026 — ROTEIRO PROPOSTO, não executado nesta etapa. Fontes: [plano](00-plano.md), [matriz](02-matriz-de-modulos.md), [contratos](06-contratos-originais.md). Estado original em 12/10: nenhum script de teste. Atualização FRONT-01 em 18/10: runner isolado existente em migration-tests; scripts da raiz continuam apenas dev/production. Ver comandos efetivos abaixo.
 
 ## Comandos atuais e pré-requisitos
@@ -127,7 +129,7 @@ Instalação inicial realizada com install --no-audit --no-fund; lock próprio g
 
 Build padrão sem variáveis públicas deve abrir erro de configuração e não fallback remoto. Para revisão configurada, copiar migration-ui/.env.example para .env.local somente nesse diretório e executar dev (watcher) ou recompilar e preview. Nenhum endpoint dessa configuração é chamado no bootstrap atual. Typecheck inclui testes/config, strict/noUncheckedIndexedAccess/exactOptionalPropertyTypes. Testes cobrem URLs/barras, token atual/direto, null/omitido, errors[]/rede/403 sem retry, cache separado e EIO3 com servidor sintético local; não validam políticas de sessão futuras.
 
-Smoke via candidate.config.cjs é separado de specs/legado: 18182/18183, builds com env sintético/ausente, interceptação de chamadas de negócio/WS, recursos locais/imagem e aviso em /#/votar. Screenshots ignorados inspecionados visualmente; não é homologação funcional de votação ou acessibilidade completa. Candidato e legado não compartilham DOM, node_modules ou saída de build. Documentação: [candidata](../../../migration-ui/README.md).
+Smoke via candidate.config.cjs é separado de specs/legado: 18182/18183, builds com env sintético/ausente, interceptação de chamadas de negócio/WS, recursos locais/imagem e aviso em /#/votar. Screenshots ignorados inspecionados visualmente; não é homologação funcional de votação ou acessibilidade completa. Candidato e legado não compartilham DOM, node_modules ou saída de build. Documentação atual: [frontend consolidado](../../../README.md).
 
 ## FRONT-03 — sessão e navegação candidata
 
@@ -174,3 +176,24 @@ Executar npm.cmd --prefix migration-ui run test:unit, format:check e build; npm.
 ## Check estático FRONT-13.A
 
 npm.cmd --prefix migration-ui run test:static requer build existente e roda quatro casos HTTP em loopback/porta efêmera: index/hash+chunk MIME/cache, negativa de fonte/config/listing/API, HEAD/405 e falha sem build. Não inicia socket/API/backend. npm ci --offline em cópia nova separada testa lock/cache e ausência de dependência de node_modules legado; falta de pacote em cache é pré-requisito, não motivo para usar produção. Instalação Windows não comprova filesystem Linux sensível à caixa.
+
+## Comandos ativos após FRONT-13.B2
+
+As seções acima de infraestrutura/candidata são histórico. A aplicação atual está na raiz; migration-ui não é mais comando/diretório de execução. Usar:
+
+~~~powershell
+npm.cmd ci
+npm.cmd run check
+npm.cmd --prefix migration-tests ci
+npm.cmd run test:browser
+npm.cmd --prefix migration-tests run prepare:original
+npm.cmd --prefix migration-tests/.original ci --ignore-scripts --no-audit --no-fund
+npm.cmd --prefix migration-tests run test:unit
+npm.cmd --prefix migration-tests run test:baseline
+~~~
+
+Node24.21.0, Google Chrome instalado; sem Chrome, instalar no ambiente de teste próprio conforme README. check corresponde a format:check +55 unitários +typecheck/build +8 HTTP/hook/runtime. test:browser é a regressão funcional124 em Chrome desktop e viewport móvel, com fixture; não existe script test:e2e. Original possui5 testes de regras/guarda e42 cenários baseline, sem dependência do fonte/manifesto novos. Os resultados efetivos (incluindo rodadas com falha) ficam no progresso, não são presumidos por esta lista.
+
+Instalações finais Windows/Linux são cópias exclusivas sem node_modules/dist/.env; aplicar check, heroku-postbuild com VITE sintético, prune --omit=dev e test:runtime. Confirmar ausência de vite/vitest antes do runtime. Linux deve comprovar caixa sensível por arquivos CaseProbe/caseprobe distintos; Node temporário verificado, sem instalação global. M5 adicional: evento de ata durante GET espera snapshot pendente e reconsulta, cleanup/geração impedem consulta tardia; não altera escrita/apuração.
+
+CI em .github/workflows/frontend.yml prepara os mesmos checks para Windows/Linux, referências por SHA, histórico completo, contents:read e sem deploy. Formatação/YAML e comandos locais não equivalem a execução remota; sem push, nenhum run GitHub foi observado. FRONT-14/API real/homologação/ensaio operacional seguem adiados.

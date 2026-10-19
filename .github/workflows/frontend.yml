@@ -1,0 +1,35 @@
+name: Frontend checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frontend:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            migration-tests/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm ci --prefix migration-tests
+      - run: npm exec --prefix migration-tests -- playwright install --with-deps chrome
+      - run: npm run test:browser
+      - run: npm run prepare:original --prefix migration-tests
+      - run: npm ci --prefix migration-tests/.original --ignore-scripts --no-audit --no-fund
+      - run: npm run test:unit --prefix migration-tests
+      - run: npm run test:baseline --prefix migration-tests

@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-test('candidata: marca, deep link pendente e zero chamadas de negócio', async ({page,context},testInfo)=>{
+test('candidata: marca, deep link protegido e zero chamadas antes de autenticar', async ({page,context},testInfo)=>{
  const external=[]; const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await context.routeWebSocket('**/*',s=>{external.push('socket');s.close();});

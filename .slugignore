@@ -1,0 +1,7 @@
+/migration-tests/
+/tests/
+/docs/
+/.github/
+/.migration-verification/
+/AGENTS.md
+*.log

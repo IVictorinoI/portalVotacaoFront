@@ -4,7 +4,7 @@ const http = require('node:http');
 const { spawnSync } = require('node:child_process');
 const kind = process.argv[2];
 if (!['valid','missing'].includes(kind)) throw new Error('Modo de smoke desconhecido');
-const ui = path.resolve(__dirname, '../migration-ui');
+const ui = path.resolve(__dirname, '..');
 const out = fs.mkdtempSync(path.join(__dirname, '.candidate-'));
 const env = {...process.env};
 for(const key of Object.keys(env)) if(key.startsWith('VITE_')) delete env[key];
@@ -39,10 +39,10 @@ if(kind === 'valid') {
  });
  fixture.listen(19300,'127.0.0.1');
 }
-const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.png':'image/png'};
-http.createServer((req,res)=>{
- const relative = new URL(req.url,'http://127.0.0.1').pathname.slice(1) || 'index.html';
- const file=path.resolve(out,relative);
- if(!file.startsWith(out+path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) {res.writeHead(404).end();return;}
- res.writeHead(200,{'Content-Type':mime[path.extname(file)] || 'application/octet-stream','Cache-Control':'no-store'});fs.createReadStream(file).pipe(res);
-}).listen(kind === 'valid' ? 18182 : 18183,'127.0.0.1');
+// Exercita o mesmo servidor dist do Procfile, com output isolado da fixture.
+(async()=>{
+ const {pathToFileURL}=require('node:url');
+ const {createDistServer}=await import(pathToFileURL(path.join(ui,'scripts/serve-dist.mjs')).href);
+ const server=await createDistServer(out);
+ server.listen(kind==='valid'?18182:18183,'127.0.0.1');
+})().catch(error=>{console.error(error.message);process.exit(1);});

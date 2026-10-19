@@ -1,5 +1,7 @@
 # Matriz de módulos e cobertura
 
+> Estado atual: módulos completos na raiz e FRONT-13 tecnicamente validada; FRONT-14/API real/homologação continuam adiadas. Seções antigas de candidata/etapas pendentes são históricas.
+
 12/10/2026 — estado inicial do planejamento. Todos os módulos de produto: diagnóstico estático concluído, migração NÃO INICIADA, teste simulado NÃO EXECUTADO, integração real NÃO EXECUTADA, homologação/commit NÃO REALIZADOS. Build legado anterior não altera esses estados.
 
 Referências: [plano](00-plano.md), [contratos](06-contratos-originais.md), [cenários](03-validacao.md). Dependências são internas ao frontend. Risco: A alto, M médio. D/M remetem às decisões/mudanças propostas do plano.
@@ -117,3 +119,7 @@ Links CRUD e úteis, assembleias/classes somente consulta, contato nas duas caix
 ## FRONT-13.A — preparação de consolidação
 
 Servidor exclusivo dist e testes HTTP reais locais preparados. Instalação limpa/build/52 unitários/4 static passaram tanto Windows quanto Linux case-sensitive. Snapshot/inventário em [08-consolidacao.md](08-consolidacao.md). Raiz/Procfile/legado ainda preservados; consolidação completa, CI/host/browsers e FRONT-14 pendentes.
+
+## FRONT-13.B2 — raiz consolidada, verificação final em curso
+
+Todos os módulos ativos agora em src/ e assets da marca em public/; runtime React/TS/Vite na raiz, saída dist, sem migration-ui/Redux/jQuery/AdminLTE/SignalR/Chart.js ativos. Original127 blobs isolado e testável; arquivo PendingPage sem consumidor foi preservado no backup e retirado do runtime. Fórmulas/cores/datas/permissões originais mantidas. M5: leitura adicional após evento de ata durante GET pendente, com cleanup/geração;3 unitários novos, contratos de escrita inalterados. Procfile/hook/servidor/CI preparados para Heroku/raiz/Chrome, sem publicação. Resultados finais e commits no progresso.

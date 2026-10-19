@@ -1,5 +1,7 @@
 # Plano da migração do frontend
 
+> Estado atual: FRONT-01–13 implementadas e verificadas localmente; aplicação Vite/TS na raiz, Heroku/raiz/Chrome definidos. FRONT-14 adiada, sem backend ou publicação. Registros iniciais de planejamento são históricos; evidências e commits no progresso.
+
 12/10/2026 — PLANO APROVADO PARA PREPARAÇÃO, mantendo D1–D6 e M1–M5 pendentes. Aprovação explícita do usuário: resposta “sim” à pergunta sobre executar somente preparação com decisões pendentes. Nenhuma implementação, alteração funcional, instalação, commit ou publicação autorizada nesta preparação.
 
 ## Escopo e evidência
@@ -183,3 +185,9 @@ D1: preservar o fluxo antigo /#/login por compatibilidade, incluindo segunda ses
 ## Autorização de consolidação — 18/10/2026
 
 Usuário confirmou Heroku, frontend na raiz em http://portal.gladiusconsultoria.com.br/#/votar, somente Chrome, FRONT-14 adiada e sem acesso ao backend. Em seguida autorizou avançar e seguir commitando autonomamente. Isto autoriza concluir FRONT-13 e seus checks/commits locais, não publicar, push, alterar Heroku/DNS/config vars reais, acessar o domínio produtivo ou iniciar FRONT-14. D2/D3: preservar permissões/fórmulas/cores/datas; não inferir autorização para corrigir regras. Referência inicial desta execução 05cf894, branch migracao-arquitetura-front, sem alterações preexistentes.
+
+## Implementação FRONT-13.B2 e gates restantes
+
+Autorização reiterada após Heroku/raiz/Chrome e adiamento FRONT-14. Referência isolada verificada no commit bab3e8b antes da retirada (5 unitários/42 browser). Raiz consolidada com Vite/TS/React, scripts/build/dist/Procfile/CI e arquivo de exemplo sintético; execução final ainda deve ser conferida no progresso. Melhorias funcionais preservadas; correção de evento de ata em voo pertence a M5 já aprovada e não altera apuração ou POST. Não vincular validação a arquivos da migração do backend.
+
+Após checks finais aprovados, commitar FRONT-13 e encerrar trabalho autorizado. FRONT-14 permanece adiada por decisão explícita, não é substituída por mocks/CI/preparação Heroku. Nenhuma autorização de push/deploy/config vars reais ou produção foi dada.

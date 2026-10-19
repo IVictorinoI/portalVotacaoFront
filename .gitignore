@@ -1,3 +1,7 @@
 *.log
-node_modules
+node_modules/
+dist/
+coverage/
+.env*
+!.env.example
 .migration-verification/

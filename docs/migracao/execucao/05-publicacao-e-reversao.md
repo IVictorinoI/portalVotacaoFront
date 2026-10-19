@@ -1,5 +1,7 @@
 ﻿# Publicação, compatibilidade e reversão
 
+> Preparação FRONT-13 concluída para Heroku/raiz/Chrome: Procfile e dist validados localmente, sem produção. FRONT-14/integração real/ensaio operacional/homologação explicitamente adiados. Premissas antigas de D6 sem resposta são históricas; nenhuma publicação autorizada.
+
 12/10/2026 — PROCEDIMENTO PROPOSTO. Não executar produção, deploy, backup/restauração de banco ou alteração de dados nesta etapa. Escopo deste chat: frontend. [Plano](00-plano.md), [validação](03-validacao.md), [contratos](06-contratos-originais.md).
 
 ## Premissas e bloqueios
@@ -72,3 +74,11 @@ D1: preservar o fluxo antigo /#/login por compatibilidade, incluindo segunda ses
 ## Preparação concreta FRONT-13.A
 
 Na candidata: npm.cmd --prefix migration-ui run build; npm.cmd --prefix migration-ui run test:static; npm.cmd --prefix migration-ui run serve:dist. Node 24 requerido. Build exige configuração VITE pública exclusiva de teste; não copiar .env real. Serve:dist usa somente dist, padrão loopback 18184; HOST/PORT explícitos só no ensaio autorizado. Hashes permanecem; nenhuma reescrita SPA de caminho sem hash foi imposta. Chunks com hash têm cache imutável, index revalida; o host ainda deverá reter versões anteriores e trocar artefato completo atomicamente. Procfile/runtime raiz continuam originais até consolidação validada. Isto não é comando de produção nem autorização para publicar. Instalação limpa local e seus limites constam no progresso; Build/instalação limpa Linux foram demonstrados posteriormente; browsers adicionais/host/API real/homologação seguem pendentes.
+
+## Configuração concretizada na FRONT-13 — sem publicar
+
+D6 respondida: Heroku, domínio na raiz e hashes (/#/votar), somente Google Chrome. A confirmação do endereço foi usada para decidir paths, sem acessar o domínio. FRONT-14 está explicitamente adiada e o backend fora do escopo. As pendências de host/subpath/browsers acima são registros históricos; estado atual neste item e no progresso.
+
+Procfile agora usa web: npm start. start roda scripts/serve-dist.mjs com diretório dist fixo; PORT é respeitada e, quando presente, o bind padrão é0.0.0.0; sem PORT fica em loopback18184. heroku-postbuild valida as três VITE públicas pelo mesmo readConfig antes de build; configurações ausentes impedem build do hook, sem fallback para produção. O [buildpack Node clássico](https://devcenter.heroku.com/articles/nodejs-classic-buildpack-builds) instala devDependencies para build e depois as remove; a preparação usa esse contrato. Stack/buildpack/config vars atuais da aplicação real não foram inspecionados ou alterados. Ensaios locais usam somente endpoints sintéticos e confirmam runtime sem vite/vitest após prune.
+
+A troca de Webpack/public para Vite/dist e Procfile é intencional de infraestrutura, sem alteração de HTTP/API ou dados. Fonte anterior está em Git41478a83..., referência verificada em migration-tests/.original e backup exclusivo da raiz em .migration-verification/front13-before-root-288cf335d1f947699e65304f6b1c19de. Esses snapshots não provam a versão efetivamente servida em produção; obter artefato/configuração reais e ensaiar reversão apenas na futura etapa autorizada. Não restaurar banco por consequência de rollback frontend. Nenhum comando Heroku/push/deploy foi executado.

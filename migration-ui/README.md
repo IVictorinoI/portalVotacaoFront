@@ -100,3 +100,13 @@ Limitação preservada enquanto falta decisão: cursor calculado pela lista ante
 ## FRONT-10 — chat/badge
 
 /#/chat migrada e ChatProvider compartilhado somente sob sessão/escopo prontos. Histórico/limite 300, DTO original com privateMessageTo={} e destinatário omitido, POST seguido de atualização confirmada do cache/evento, dedup de eco por _id; input/Enter/foco/rolagem e rascunho em falhas. Trava síncrona e revisão por GET em resultado incerto, nunca POST automático. Sem seleção privada. Badge inicia em 5s e segue a cada 5s, cache por geração, ids/datas de não lidos compartilhados. Marcador de leitura por id/assembleia sem reaproveitar/apagar global; leitura entre abas e troca de assembleia testadas. Eventos com código de outra assembleia ignorados localmente, sem prometer isolamento do servidor. Novo nome acessível do link inclui contador. Todos os timers/listeners/queries pertencem ao contexto e são limpos na saída.
+
+## Estado funcional após FRONT-12
+
+Rotas atuais têm módulos funcionais de presença, voto, dashboard, consultas, acompanhamento, resultado, ata, chat/badge, online/logs/notificações, links/referências/contato e login secundário. Registros anteriores de páginas pendentes são históricos. O login oculto foi preservado por decisão explícita: GET com senha e segunda sessão continuam; não reutiliza autenticação principal. Leitura de chat por usuário/assembleia e correção de cursor/_id foram aprovadas. Fórmulas/cores/datas/permissões originais continuam preservadas. Estado final dos checks e commits: docs/migracao/execucao/04-progresso.md. Ainda não equivale a API real/homologação ou consolidação da raiz.
+
+## Preparação FRONT-13.A: servir somente dist
+
+Após build, npm.cmd --prefix migration-ui run serve:dist inicia Node 24 em 127.0.0.1:18184. PORT e HOST podem ser definidos explicitamente para ensaio; não mudar para host público nesta execução. O diretório servido é sempre migration-ui/dist relativo ao script, sem parâmetro para servir fonte/raiz. Não há proxy API nem fallback para URLs sem hash: /#/votar funciona pelo index, /votar retorna 404. index e assets sem hash revalidam; chunks com hash são imutáveis. Retenção de chunks antigos e troca atômica pertencem ao futuro host. npm.cmd --prefix migration-ui run test:static verifica o build real por HTTP local/porta efêmera. Sem dist/index.html o comando falha, não serve outro diretório.
+
+VITE_API_BASE_URL, VITE_OAPI_BASE_URL e VITE_SOCKET_URL são públicas e incorporadas no build; usar somente alvos exclusivos de teste nesta fase. Build sem configuração exibe erro intencional e não é pacote de entrega. Não há deploy, Procfile raiz alterado ou retirada do legado nesta preparação. Host/subpath/browsers e consolidação ainda precisam ser concluídos.

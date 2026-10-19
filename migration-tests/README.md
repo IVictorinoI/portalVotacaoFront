@@ -4,20 +4,24 @@ Harness isolado, sem código/dependências da aplicação alterados. Fonte de re
 
 ## Executar
 
-Da raiz do frontend, com Node >=20 e dependências legadas já instaladas:
+Da raiz do frontend, com Node 24 e dependências de teste isoladas:
 
 ```powershell
 npm.cmd --prefix migration-tests ci
-npm.cmd exec --prefix migration-tests -- playwright install chromium
+npm.cmd --prefix migration-tests run prepare:original
+npm.cmd --prefix migration-tests/.original ci --ignore-scripts --no-audit --no-fund
+npm.cmd exec --prefix migration-tests -- playwright install chrome
 npm.cmd --prefix migration-tests run test:unit
 npm.cmd --prefix migration-tests run test:baseline
 ```
 
-Playwright fixado em 1.64.1, com lock próprio. Na primeira instalação o runner precisa de acesso ao registry e download do navegador. Não altera package.json/package-lock.json/node_modules da raiz. Unitários usam o Babel 6 já existente da raiz para carregar somente duas fontes puras explicitamente identificadas; não importa bootstrap/servidor nem transpila fontes arbitrárias. Se dependências legadas estiverem ausentes, registrar o pré-requisito e preparar a instalação em escopo separado, sem atualizar versões por conveniência.
+Playwright fixado em 1.64.1, com lock próprio. Na primeira instalação o runner precisa de acesso ao registry e download do navegador. Não altera package.json/package-lock.json/node_modules da raiz. Unitários usam Babel 6 instalado em migration-tests/.original para carregar somente duas fontes puras explicitamente identificadas; não importa bootstrap/servidor nem transpila fontes arbitrárias. Se dependências da referência estiverem ausentes, instalar somente em migration-tests/.original conforme os comandos acima, sem atualizar versões. --ignore-scripts evita hooks de instalação desnecessários; Webpack/Babel usados aqui são ferramentas JavaScript sem etapa nativa exigida. A referência antiga não é dependência do runtime novo.
 
 `test:baseline` é finito: Playwright inicia server.cjs, aguarda readiness e encerra o processo que criou. Porta exclusiva 18181 em 127.0.0.1; falha se ocupada, sem reaproveitar servidor desconhecido. Timeout global 240s, por caso 20s, workers=1, retries=0 e forbidOnly=true. Conferir processo antes de repetir após interrupção. Não executar o servidor isoladamente contra a rede.
 
-O servidor confere `git diff --exit-code <original> -- src public package.json package-lock.json webpack.config.js` e recusa baseline se fonte/artefatos/dependências divergirem. Compila via Webpack 1/config original e otimização production para `.baseline/`, sem sobrescrever public. `.baseline/manifest.json` contém original, HEAD, hash Webpack e SHA-256 de app.js/app.css. Não usar bundle public antigo como prova do fonte atual. Durante a transição o legado continua na raiz; após FRONT-13 será necessário adaptar o harness para cópia original isolada, sem retirar essa proteção para testar código diferente como se fosse original.
+O servidor carrega somente migration-tests/.original, preparada de git archive do commit fixo. original.cjs confere hash Git de cada blob (127 arquivos), rejeita fonte adicional ou links e não depende mais da raiz corrente. A extração força core.autocrlf=false/core.eol=lf apenas no comando para preservar bytes. Não remover/normalizar a guarda para aceitar modificações; em erro preservar e investigar. Histórico Git do original precisa estar disponível (CI com fetch-depth: 0). A árvore .original é ignorada e pode conter somente fontes/manifests/artefatos daquele commit e suas dependências instaladas isoladamente, nunca .env real. Arquivos da extração original não são editados pelo harness.
+
+O build usa Webpack 1/config original e otimização production em .baseline/, sem sobrescrever public original ou dist novo. .baseline/manifest.json registra original, HEAD, hash Webpack e SHA-256 app.js/app.css. Public versionado antigo não prova o build; a baseline recompila o fonte fixo. Não há chamada ao backend do produto. Testes de guarda rejeitam fonte alterado/adicional; unitários de regras históricas continuam independentes do candidato. O baseline usa canal Google Chrome real, desktop e viewport mobile; não é homologação física.
 
 ## Isolamento
 

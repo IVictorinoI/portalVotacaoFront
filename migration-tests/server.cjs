@@ -4,23 +4,22 @@ const path = require('node:path');
 const http = require('node:http');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
-const root = path.resolve(__dirname, '..');
+const {verifyOriginal, original, repository} = require('./original.cjs');
+const root = verifyOriginal();
 process.chdir(root);
-const original = '41478a83b74a8d27c7058a1d79b2ed1deab271c3';
-execFileSync('git', ['diff', '--exit-code', original, '--', 'src', 'public', 'package.json', 'package-lock.json', 'webpack.config.js'], { cwd: root, stdio: 'pipe' });
 const out = path.join(__dirname, '.baseline');
 fs.mkdirSync(out, { recursive: true });
-const config = require('../webpack.config');
+const config = require(path.join(root, 'webpack.config.js'));
 config.output = { ...config.output, path: out };
 // Config original + otimização production do script original, sem tocar em public.
-const webpack = require('../node_modules/webpack');
+const webpack = require(path.join(root, 'node_modules/webpack'));
 config.plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }));
 webpack(config, (error, stats) => {
   if (error || stats.hasErrors()) {
     console.error(error || stats.toString({ colors: false })); process.exitCode = 1; return;
   }
   fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({ original,
-    head: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
+    head: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repository, encoding: 'utf8' }).trim(),
     webpackHash: stats.hash,
     sha256: Object.fromEntries(['app.js', 'app.css'].map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(out, name))).digest('hex')]))
   }, null, 2));

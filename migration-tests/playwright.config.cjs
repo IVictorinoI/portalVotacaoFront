@@ -3,7 +3,7 @@ module.exports = defineConfig({
   testDir: './specs', fullyParallel: false, workers: 1,
   forbidOnly: true, retries: 0, timeout: 20000, globalTimeout: 240000,
   reporter: 'list', outputDir: './test-results',
-  use: { baseURL: 'http://127.0.0.1:18181', locale: 'pt-BR', timezoneId: 'America/Sao_Paulo',
+  use: { channel: 'chrome', baseURL: 'http://127.0.0.1:18181', locale: 'pt-BR', timezoneId: 'America/Sao_Paulo',
     serviceWorkers: 'block', trace: 'off', screenshot: 'only-on-failure' },
   projects: [
     { name: 'desktop', use: { browserName: 'chromium', viewport: { width: 1366, height: 768 } } },

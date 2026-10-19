@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "test:baseline": "playwright test",
-    "test:unit": "node --test unit.test.cjs",
-    "test:candidate": "playwright test --config=candidate.config.cjs"
+    "test:unit": "node --test unit.test.cjs original-guard.test.cjs",
+    "test:candidate": "playwright test --config=candidate.config.cjs",
+    "prepare:original": "node original.cjs --prepare",
+    "verify:original": "node original.cjs"
   },
   "engines": {
     "node": ">=20"

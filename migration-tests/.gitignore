@@ -5,3 +5,6 @@ playwright-report/
 *.log
 test-results-candidate/
 .candidate-*/
+.original/
+.original-preparing-*/
+.original-guard-*/

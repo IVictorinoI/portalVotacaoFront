@@ -3,11 +3,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const babel = require('../node_modules/babel-core');
+const root = require('./original.cjs').verifyOriginal();
+const babel = require(path.join(root, 'node_modules/babel-core'));
 // Somente duas fontes puras conhecidas; nenhum import da aplicação ou backend.
 function pure(relative) {
-  const source = fs.readFileSync(path.join(__dirname, '..', relative), 'utf8');
-  const transformed = babel.transform(source, { babelrc: false, presets: [require.resolve('../node_modules/babel-preset-es2015')] }).code;
+  const source = fs.readFileSync(path.join(root, relative), 'utf8');
+  const transformed = babel.transform(source, { babelrc: false, presets: [require.resolve(path.join(root, 'node_modules/babel-preset-es2015'))] }).code;
   const exports = {};
   vm.runInNewContext(transformed, { exports }, { timeout: 1000, filename: relative });
   return exports;

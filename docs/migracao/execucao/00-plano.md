@@ -179,3 +179,7 @@ Respostas explícitas do usuário: D4/M1 aprovadas — trava contra envios simul
 ## Decisões complementares explícitas — 18/10/2026
 
 D1: preservar o fluxo antigo /#/login por compatibilidade, incluindo segunda sessão e contrato GET original; não substituir pelo login principal. D6: aprovado preparar URLs hash, build dist e servidor estático exclusivamente dist, sem publicar. Hospedagem/subpath/browsers e homologação continuam pendentes. Cursor FRONT-08: aprovado usar maior ordem recebida e atualizar registros existentes por _id preservando posições, sem repetir escritas. Estas respostas substituem somente as pendências correspondentes dos registros históricos. Fórmulas/cores/datas e novas permissões continuam sem aprovação.
+
+## Autorização de consolidação — 18/10/2026
+
+Usuário confirmou Heroku, frontend na raiz em http://portal.gladiusconsultoria.com.br/#/votar, somente Chrome, FRONT-14 adiada e sem acesso ao backend. Em seguida autorizou avançar e seguir commitando autonomamente. Isto autoriza concluir FRONT-13 e seus checks/commits locais, não publicar, push, alterar Heroku/DNS/config vars reais, acessar o domínio produtivo ou iniciar FRONT-14. D2/D3: preservar permissões/fórmulas/cores/datas; não inferir autorização para corrigir regras. Referência inicial desta execução 05cf894, branch migracao-arquitetura-front, sem alterações preexistentes.

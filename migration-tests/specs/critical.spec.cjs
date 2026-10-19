@@ -6,6 +6,7 @@ test('sessao restaurada: token direto, namespace e deep link', async ({ page, ba
   await expect(page.getByRole('button', { name: 'Confirmar todos', exact: true })).toBeVisible();
   await expect.poll(() => s.requests.filter(x => x.path === '/oapi/validateToken').length).toBe(1);
   expect(s.requests.find(x => x.path === '/oapi/validateToken').body).toEqual({ token: f.user.token });
+  await expect.poll(() => s.requests.filter(x => x.path === '/api/credores').length).toBe(1);
   const get = s.requests.find(x => x.path === '/api/credores');
   expect(get.auth).toBe(f.user.token);
   expect(get.query).toEqual({ codigoAssembleia: '5', sort: '-_id', confirmouPresenca__ne: 'true', apenasProcurador__ne: 'true', codigoProcurador: '90' });

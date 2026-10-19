@@ -109,3 +109,7 @@ Online/getConnectedUsers/expulsarId, logs 300/horários/expulsarTodos e notifica
 ## Atualização FRONT-08.D
 
 A limitação provisória de cursor/_id acima foi substituída pela correção explicitamente aprovada: maior ordem recebida, atualização dos registros devolvidos por _id nas posições existentes, novos registros no início sem duplicação. Não muda contrato incremental ordem__gt nem causa escritas. Unitários/build e browser desktop/mobile aprovados; detalhes no progresso.
+
+## FRONT-12 — referências e compatibilidade
+
+Links CRUD e úteis, assembleias/classes somente consulta, contato nas duas caixas de rota e login secundário implementados. POST/PUT distinguem omitido/vazio/null e preservam metadata do documento selecionado. GET com senha e setUser secundário mantidos por D1 explícita; storage protegido por dono primário e logout principal limpa sessão secundária (M3). Rascunho/reconsulta sem reenvio automático, locks e teclado conforme melhorias aprovadas. Não há placeholder nas rotas ativas; arquivo PendingPage antigo está sem consumidor e será tratado na consolidação. Contratos e fontes originais permanecem referência; checks no progresso. Sem API real/homologação.

@@ -166,3 +166,11 @@ minutes.spec.cjs: POST sem corpo/token/evento após HTTP/clique duplicado; class
 ## FRONT-10 — chat/badge
 
 chat.spec.cjs: payload/Enter/eco/foco, erro/rascunho/clique repetido, resposta perdida sem POST extra, badge 5s e marcador global ignorado, dedup/escopo de evento e troca usuário/assembleia 6→7 sem cache anterior. Smokes continuam zero rede antes da sessão. Unitários cobrem DTO/omitido, keys segregadas, cursor temporal/limite, merge/data. Badge possui nome acessível no próprio link. Roteiro opcional: npm.cmd --prefix migration-tests run test:candidate -- chat.spec.cjs --project=desktop --headed. HTTP simulado + Socket.IO sintético; não comprova 300+ mensagens/concorrência/persistência/privacidade reais, ainda D5.
+
+## Roteiro candidato FRONT-12
+
+Executar npm.cmd --prefix migration-ui run test:unit, format:check e build; npm.cmd --prefix migration-tests run test:candidate -- references.spec.cjs session.spec.cjs; depois regressão completa test:candidate. Manual em ambiente exclusivo: criar link, editar mantendo campos históricos, excluir, abrir útil em outra aba; simular falha preservando rascunho e reconsultar sem repetir POST/PUT. Testar Enter/filtro assembleias e classes, ambos Contato/contato e refresh de hashes ocultos. Login secundário usa apenas credenciais sintéticas nos testes; conferir GET original, setUser com documento e saída independente. Troca de usuário principal não herda segunda sessão. Viewports de browser não substituem dispositivo físico ou auditoria A11Y. Nunca apontar fixtures para endpoint real.
+
+## Check estático FRONT-13.A
+
+npm.cmd --prefix migration-ui run test:static requer build existente e roda quatro casos HTTP em loopback/porta efêmera: index/hash+chunk MIME/cache, negativa de fonte/config/listing/API, HEAD/405 e falha sem build. Não inicia socket/API/backend. npm ci --offline em cópia nova separada testa lock/cache e ausência de dependência de node_modules legado; falta de pacote em cache é pré-requisito, não motivo para usar produção. Instalação Windows não comprova filesystem Linux sensível à caixa.

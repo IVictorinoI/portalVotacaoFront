@@ -74,7 +74,16 @@ it('S/N/A enviam somente _id e tipo por PUT no caminho original', async () => {
       'put',
       'http://fixture.invalid/api/votos/votar',
       { _id: 'fixture', tipo },
-      user.token,
+      'Bearer ' + user.token,
     ]),
   );
+});
+
+it('votoOnline impede nova escolha mesmo com tipo ausente na leitura', () => {
+  expect(
+    pendingVotes([
+      { _id: 'a', tipo: '', votoOnline: true },
+      { _id: 'b', tipo: '', votoOnline: false },
+    ] as Vote[]).map((row) => row._id),
+  ).toEqual(['b']);
 });

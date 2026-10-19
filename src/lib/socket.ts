@@ -1,22 +1,17 @@
-import type { LegacyUser } from '../references/legacy';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 export interface SocketUser {
   id: string;
   nome: string;
   tipo: number;
-  codigoCredor: number;
-  codigoAssembleia: number;
+  codigoCredor?: number;
+  codigoAssembleia?: number;
   token?: string;
 }
 interface ClientEvents {
-  setUser: [user: SocketUser | LegacyUser];
+  setUser: [];
   getConnectedUsers: [];
-  confirmouPresenca: [credor: unknown];
-  votou: [voto: unknown];
-  aprovarata: [];
   expulsarTodos: [];
   expulsarId: [id: string];
-  sendMessage: [message: unknown];
 }
 interface ServerEvents {
   connect: [];
@@ -34,8 +29,13 @@ interface ServerEvents {
   confirmacaoPresenca: [data: unknown];
   voto: [data: unknown];
 }
-export function createSocket(url: string) {
-  const raw = io(url, { autoConnect: false, forceNew: true });
+export function createSocket(url: string, token: string) {
+  const raw = io(url, {
+    autoConnect: false,
+    forceNew: true,
+    auth: { token },
+    reconnectionAttempts: 3,
+  });
   return {
     connect() {
       raw.connect();
@@ -53,9 +53,9 @@ export function createSocket(url: string) {
       // Fronteira de transporte: payloads de negócio desconhecidos permanecem unknown.
       const handler = (...args: unknown[]) =>
         listener(...(args as ServerEvents[K]));
-      raw.on(event, handler);
+      raw.on(event as string, handler);
       return () => {
-        raw.removeListener(event, handler);
+        raw.removeListener(event as string, handler);
       };
     },
   };

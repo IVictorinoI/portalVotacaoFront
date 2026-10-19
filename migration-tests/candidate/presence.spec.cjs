@@ -8,8 +8,8 @@ test('presença: colunas, moeda, filtros Enter e sucesso antes do evento',async(
  await page.getByLabel('Pesquise o credor').fill('Ana');await page.getByLabel('Pesquise o credor').press('Enter');await expect(page.locator('tbody tr')).toHaveCount(1);
  expect(s.requests.findLast(r=>r.path==='/api/credores/').query).toEqual({codigoAssembleia:'6',sort:'-_id',nome__regex:'/Ana/',confirmouPresenca__ne:'true',apenasProcurador__ne:'true',codigoProcurador:'90'});
  await page.getByRole('button',{name:'Confirmar',exact:true}).click();await expect(page.locator('tbody tr')).toHaveCount(0);
- expect(writes(s).map(r=>r.body)).toEqual([{_id:'credor-0'}]);expect(writes(s)[0].auth).toBe(f.user.token);
- await expect.poll(async()=> (await (await request.get('http://127.0.0.1:19300/__events')).json())).toContainEqual({name:'confirmouPresenca',data:{...f.credores[0]}});
+ expect(writes(s).map(r=>r.body)).toEqual([{_id:'credor-0'}]);expect(writes(s)[0].auth).toBe('Bearer '+f.user.token);
+ await expect.poll(async()=> (await (await request.get('http://127.0.0.1:19300/__events')).json())).not.toContainEqual(expect.objectContaining({name:'confirmouPresenca'}));
  expect(s.unexpected).toEqual([]);
 });
 test('poll da janela fecha ações e encerra ao sair da rota',async({page,context})=>{
@@ -43,5 +43,5 @@ test('janela fechada desabilita escrita; falha de leitura permite tentativa manu
 test('logout durante lote impede próximo item e evento da sessão antiga',async({page,context,request})=>{
  const s=await domain(context,{delay:180});await request.delete('http://127.0.0.1:19300/__events');await page.goto(UI+'/#/confirmarPresenca');await expect(page.locator('tbody tr')).toHaveCount(3);
  await page.getByRole('button',{name:'Confirmar todos',exact:true}).click();await expect.poll(()=>writes(s).length).toBe(1);await page.getByRole('button',{name:'Sair',exact:true}).click();await expect(page.getByLabel('Login',{exact:true})).toBeVisible();
- await expect.poll(()=>s.credores.filter(r=>r.confirmouPresenca).length).toBe(1);expect(writes(s)).toHaveLength(1);expect(await (await request.get('http://127.0.0.1:19300/__events')).json()).toEqual([]);expect(s.unexpected).toEqual([]);
+ await expect.poll(()=>s.credores.filter(r=>r.confirmouPresenca).length).toBe(1);expect(writes(s)).toHaveLength(1);expect((await (await request.get('http://127.0.0.1:19300/__events')).json()).filter(e=>e.name!=='setUser')).toEqual([]);expect(s.unexpected).toEqual([]);
 });

@@ -73,14 +73,16 @@ export default function OnlinePage() {
                 <TableRow key={user.id}>
                   <TableCell>{user.nome}</TableCell>
                   <TableCell>
-                    <Button
-                      color="error"
-                      onClick={() =>
-                        session.controller.socket?.emit('expulsarId', user.id)
-                      }
-                    >
-                      Expulsar
-                    </Button>
+                    {session.user.tipo === 1 && (
+                      <Button
+                        color="error"
+                        onClick={() =>
+                          session.controller.socket?.emit('expulsarId', user.id)
+                        }
+                      >
+                        Expulsar
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

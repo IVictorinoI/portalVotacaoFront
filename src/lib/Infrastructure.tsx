@@ -3,8 +3,11 @@ import type { AppConfig } from './config';
 import { createApiClients, type ApiClients } from './http';
 import { createSocket } from './socket';
 interface Infrastructure {
-  httpForSession: (token: () => string | null) => ApiClients;
-  newSocket: () => ReturnType<typeof createSocket>;
+  httpForSession: (
+    token: () => string | null,
+    unauthorized: () => void,
+  ) => ApiClients;
+  newSocket: (token: string) => ReturnType<typeof createSocket>;
 }
 const InfrastructureContext = createContext<Infrastructure | null>(null);
 export function InfrastructureProvider({
@@ -17,9 +20,9 @@ export function InfrastructureProvider({
   // Fábricas disponíveis para sessão futura, sem ler storage ou conectar no bootstrap.
   const value = useMemo(
     () => ({
-      httpForSession: (token: () => string | null) =>
-        createApiClients(config, token),
-      newSocket: () => createSocket(config.socketUrl),
+      httpForSession: (token: () => string | null, unauthorized: () => void) =>
+        createApiClients(config, token, undefined, unauthorized),
+      newSocket: (token: string) => createSocket(config.socketUrl, token),
     }),
     [config],
   );

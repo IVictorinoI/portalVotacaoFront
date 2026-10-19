@@ -8,6 +8,7 @@ export function createApiClients(
   config: AppConfig,
   token: () => string | null,
   adapter?: AxiosAdapter,
+  unauthorized?: () => void,
 ): ApiClients {
   function client(baseURL: string, authenticated: boolean): AxiosInstance {
     const instance = axios.create({ baseURL, ...(adapter ? { adapter } : {}) });
@@ -17,14 +18,23 @@ export function createApiClients(
         request.url = baseURL + request.url;
       if (!authenticated) return request;
       const value = token();
-      if (value)
-        request.headers.set('authorization', value); // Direto, sem Bearer.
+      if (value) request.headers.set('authorization', 'Bearer ' + value);
       else request.headers.delete('authorization');
       return request;
     });
+    instance.interceptors.response.use(undefined, (error: unknown) => {
+      if (
+        authenticated &&
+        axios.isAxiosError(error) &&
+        error.response?.status === 401 &&
+        error.config?.headers.get('authorization') === 'Bearer ' + token()
+      )
+        unauthorized?.();
+      return Promise.reject(error);
+    });
     return instance;
   }
-  // Sem retry, timeout ou política de sessão nova nesta infraestrutura.
+  // Escritas sem retry automático; 401 afeta somente a identidade atual.
   return {
     api: client(config.apiBaseUrl, true),
     oapi: client(config.oapiBaseUrl, false),

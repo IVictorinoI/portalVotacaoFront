@@ -26,13 +26,15 @@ export default function LogsPage() {
       <Typography component="h1" variant="h4" gutterBottom>
         Logs de acesso
       </Typography>
-      <Button
-        color="error"
-        variant="contained"
-        onClick={() => session.controller.socket?.emit('expulsarTodos')}
-      >
-        Expulsar todos
-      </Button>
+      {session.user.tipo === 1 && (
+        <Button
+          color="error"
+          variant="contained"
+          onClick={() => session.controller.socket?.emit('expulsarTodos')}
+        >
+          Expulsar todos
+        </Button>
+      )}
       {query.isPending && <Typography role="status">Carregando…</Typography>}
       {query.isError && (
         <Alert severity="error">

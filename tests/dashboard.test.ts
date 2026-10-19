@@ -41,7 +41,7 @@ it('gráfico omite classe ponto e esperado zero, sem eliminar cards válidos', (
     ]),
   ).toEqual([row]);
 });
-it('abertura conserva recorte local sem aplicar offset do sufixo', () => {
-  expect(openingTime('2026-10-18T09:00:00.000Z')).toBe('09:00:00');
+it('abertura respeita UTC e apresenta America/Sao_Paulo', () => {
+  expect(openingTime('2026-10-18T09:00:00.000Z')).toBe('06:00:00');
   expect(openingTime(undefined)).toBe('');
 });

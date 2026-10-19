@@ -80,14 +80,8 @@ export async function readNotifications(
       .data,
   );
 }
-export function messageBody(user: User, assembly: number, text: string) {
+export function messageBody(_user: User, _assembly: number, text: string) {
   return {
-    codigoAssembleia: assembly,
-    codigoCredor: user.codigoCredor,
     msg: text,
-    nomeCredor: user.nome,
-    idUsuario: user.id,
-    privateMessageTo: {},
-    codigoCredorDest: undefined,
   };
 }

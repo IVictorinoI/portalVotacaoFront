@@ -27,12 +27,14 @@ if(kind === 'valid') {
   }
   res.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify([...users.values()]));
  });
- const io = require(path.join(ui,'node_modules/socket.io'))(fixture,{serveClient:false});
+ const io = new (require(path.join(ui,'node_modules/socket.io')).Server)(fixture,{serveClient:false,cors:{origin:'http://127.0.0.1:18182'}});
  const namespace = io.of('/api/');
  const users = new Map();
  namespace.on('connection',socket=>{
+  const f=require('./support/fixtures.cjs');const user=socket.handshake.auth.token==='token-sintetico-admin'?f.admin:f.user;
+  users.set(socket.id,{id:user.id,tipo:user.tipo});online.set(socket.id,{id:user.id,nome:user.nome,codigoCredor:user.codigoCredor});
   socket.emit('getUser',{});
-  socket.on('setUser',user=>{if(user._id)events.push({name:'setUser',data:user});users.set(socket.id,{id:user.id,tipo:user.tipo});online.set(socket.id,{id:user.id,nome:user.nome,codigoCredor:user.codigoCredor});});
+  socket.on('setUser',()=>{events.push({name:'setUser'});});
   socket.on('getConnectedUsers',()=>{events.push({name:'getConnectedUsers'});socket.emit('connectedUsers',[...online.values()]);});
   for(const name of ['confirmouPresenca','votou','aprovarata','sendMessage','expulsarId','expulsarTodos'])socket.on(name,data=>{events.push({name,data});if(name==='sendMessage')namespace.emit('newMessage',data);});
   socket.on('disconnect',()=>{users.delete(socket.id);online.delete(socket.id);});

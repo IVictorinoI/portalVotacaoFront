@@ -94,7 +94,7 @@ export default function VotingPage() {
           queryKey: session.key('votes'),
           refetchType: 'none',
         });
-        session.controller.socket?.emit('votou', { ...row, tipo: choice });
+
         for (const resource of [
           'creditors',
           'dashboard',
@@ -130,6 +130,9 @@ export default function VotingPage() {
       <Typography component="h1" variant="h4" gutterBottom>
         Votar
       </Typography>
+      <Alert severity="info" sx={{ mb: 2 }}>
+        Após confirmado, o voto online é definitivo e não pode ser alterado.
+      </Alert>
       <SearchForm
         disabled={busy}
         onSearch={(text) => {
@@ -254,7 +257,7 @@ export default function VotingPage() {
                                   ? 'error'
                                   : 'warning'
                             }
-                            disabled={blocked}
+                            disabled={blocked || row.votoOnline === true}
                             onClick={() => void cast([row], choice)}
                           >
                             {choiceLabels[choice]}

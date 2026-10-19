@@ -120,7 +120,7 @@ export default function MinutesPage() {
       },
       () => {
         setSuccess('Você aprovou a ata');
-        session.controller.socket?.emit('aprovarata');
+
         void cache.invalidateQueries(
           { queryKey: session.key('minutes') },
           { cancelRefetch: false },

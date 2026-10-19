@@ -3,9 +3,9 @@ const {domain,UI,f}=require('./support.cjs');
 const writes=s=>s.requests.filter(r=>r.path==='/api/aprovaAtas/aprovar');
 test('assinar sem corpo, trava clique duplicado e emite somente após HTTP',async({page,context,request},info)=>{
  const s=await domain(context,{delay:100});await request.delete('http://127.0.0.1:19300/__events');await page.goto(UI+'/#/aprovaAta');const button=page.getByRole('button',{name:'Assinar ata',exact:true});await expect(button).toBeEnabled();await button.evaluate(el=>{el.click();el.click();});
- await expect(page.getByText('Você aprovou a ata',{exact:true})).toBeVisible();expect(writes(s)).toHaveLength(1);expect(writes(s)[0].body).toBeNull();expect(writes(s)[0].auth).toBe(f.user.token);
+ await expect(page.getByText('Você aprovou a ata',{exact:true})).toBeVisible();expect(writes(s)).toHaveLength(1);expect(writes(s)[0].body).toBeNull();expect(writes(s)[0].auth).toBe('Bearer '+f.user.token);
  await expect(page.getByRole('table',{name:'Ata Trabalhistas',exact:true}).locator('tbody tr')).toHaveCount(2);
- await expect.poll(async()=>await(await request.get('http://127.0.0.1:19300/__events')).json()).toContainEqual({name:'aprovarata'});await page.screenshot({path:info.outputPath('minutes.png'),fullPage:true});expect(s.unexpected).toEqual([]);
+ await expect.poll(async()=>await(await request.get('http://127.0.0.1:19300/__events')).json()).not.toContainEqual({name:'aprovarata'});await page.screenshot({path:info.outputPath('minutes.png'),fullPage:true});expect(s.unexpected).toEqual([]);
 });
 test('papéis especiais, Me/Epp e totais de presença preservam projeção original',async({page,context})=>{
  const minutes=[{_id:'secretario',nomeCredor:'Secretário Sintético',secretario:true,aprovou:true},{_id:'recuperanda',nomeCredor:'Empresa Sintética',empresaRecuperanda:true,aprovou:false},{_id:'epp',nomeCredor:'Epp Sintética',codigoClasse:4,descricaoClasse:'Me/Epp',aprovou:false,data:'1899-12-30T00:00:00.000Z'}];

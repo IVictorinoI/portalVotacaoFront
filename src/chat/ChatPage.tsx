@@ -79,7 +79,7 @@ export default function ChatPage() {
       const row = message(response.data);
       if (!row) throw new Error('Resposta de envio inválida.');
       chat.accept(row);
-      session.controller.socket?.emit('sendMessage', response.data);
+
       form.reset({ message: '' });
     } catch (error: unknown) {
       if (current()) {

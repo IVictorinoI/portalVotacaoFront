@@ -22,8 +22,13 @@ export function readUser(value: unknown): User | null {
     typeof value.login !== 'string' ||
     typeof value.token !== 'string' ||
     !value.token ||
-    !['tipo', 'codigo', 'codigoCredor', 'codigoAssembleia'].every(
+    !['tipo', 'codigo'].every(
       (key) => typeof value[key] === 'number' && Number.isFinite(value[key]),
+    ) ||
+    !['codigoCredor', 'codigoAssembleia'].every(
+      (key) =>
+        (value[key] === undefined && value.tipo === 1) ||
+        (typeof value[key] === 'number' && Number.isFinite(value[key])),
     )
   )
     return null;
@@ -38,7 +43,7 @@ interface Dependencies {
   http: ApiClients;
   cache: QueryClient;
   storage: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
-  newSocket: () => ReturnType<typeof createSocket>;
+  newSocket: (token: string) => ReturnType<typeof createSocket>;
   redirect: () => void;
   alert: (message: string) => void;
   notify: (message: string) => void;
@@ -162,6 +167,8 @@ export class SessionController {
         { signal: this.abort.signal },
       );
       if (generation !== this.generation) return;
+      if (Array.isArray(response.data) && response.data.length !== 1)
+        throw new Error('Assembleia ativa ambigua ou ausente');
       const first: unknown = Array.isArray(response.data)
         ? response.data[0]
         : undefined;
@@ -186,7 +193,7 @@ export class SessionController {
     }
   }
   private startEffects(user: User, generation: number) {
-    const socket = this.deps.newSocket();
+    const socket = this.deps.newSocket(user.token);
     this.socket = socket;
     const current = () => generation === this.generation;
     const on: typeof socket.on = (event, listener) => {
@@ -196,7 +203,18 @@ export class SessionController {
       this.cleanups.push(off);
       return off;
     };
-    on('getUser', () => socket.emit('setUser', user));
+    on('connect_error', (error) => {
+      if (
+        record(error) &&
+        record(error.data) &&
+        (error.data.status === 401 || error.data.statusCode === 401)
+      )
+        this.logout();
+    });
+    on('disconnect', (reason) => {
+      if (reason === 'io server disconnect') this.logout();
+    });
+    on('getUser', () => socket.emit('setUser'));
     on('derrubar', (data) => {
       if (record(data) && data.id === user.id) {
         this.deps.alert(
@@ -219,11 +237,28 @@ export class SessionController {
       if (record(data) && data.id !== user.id && typeof data.nome === 'string')
         this.deps.notify(`${data.nome} acabou de entrar.`);
     });
+    const invalidate = (resources: string[]) => {
+      if (this.state.status !== 'ready' || !current()) return;
+      const prefix = ['scope', user.id, this.state.assembly, generation];
+      for (const resource of resources)
+        void this.deps.cache.invalidateQueries({
+          queryKey: [...prefix, resource],
+        });
+    };
     on('confirmacaoPresenca', (data) => {
+      invalidate(['presence', 'creditors', 'votes', 'dashboard', 'results']);
       if (user.tipo === 1 && record(data) && typeof data.nome === 'string')
         this.deps.notify(`${data.nome} acabou confirmar presença.`);
     });
     on('voto', (data) => {
+      invalidate([
+        'votes',
+        'creditors',
+        'dashboard',
+        'results',
+        'liveVotes',
+        'minutes',
+      ]);
       if (
         user.tipo === 1 &&
         record(data) &&

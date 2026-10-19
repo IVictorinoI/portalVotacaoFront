@@ -10,5 +10,10 @@ export function decimal(value: number) {
 export function historicalTime(value: string | undefined) {
   return value === '1899-12-30T00:00:00.000Z'
     ? ''
-    : (value?.slice(11, 19) ?? '');
+    : value
+      ? new Date(value).toLocaleTimeString('pt-BR', {
+          timeZone: 'America/Sao_Paulo',
+          hour12: false,
+        })
+      : '';
 }

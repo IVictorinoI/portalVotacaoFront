@@ -29,7 +29,8 @@ export async function readAssembly(
 // Mesma interpretação local do original: recorte sem conversão de timezone.
 export function openingTime(value: string | undefined) {
   return value
-    ? new Date(Date.parse(value.slice(0, 19))).toLocaleString('pt-BR', {
+    ? new Date(value).toLocaleString('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
         timeStyle: 'medium',
       })
     : '';

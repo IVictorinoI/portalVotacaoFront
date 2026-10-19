@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { useSession } from './Session';
 import { errorMessages } from '../lib/http';
-import { record } from './session-controller';
 export default function AuthPage() {
   const { controller } = useSession();
   const {
@@ -58,14 +57,7 @@ export default function AuthPage() {
             try {
               await controller.login(values);
             } catch (error) {
-              if (
-                record(error) &&
-                record(error.response) &&
-                record(error.response.data) &&
-                Array.isArray(error.response.data.errors)
-              )
-                setMessages(errorMessages(error));
-              else window.location.reload(); // Política original; M2 continua pendente.
+              setMessages(errorMessages(error));
             }
           })}
         >

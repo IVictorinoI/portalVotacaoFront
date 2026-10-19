@@ -66,7 +66,7 @@ export default function LegacyLoginPage() {
       localStorage.setItem(LEGACY_KEY, JSON.stringify(found));
       localStorage.setItem(LEGACY_OWNER, session.user.id);
       setUser(found);
-      session.controller.socket?.emit('setUser', found);
+      session.controller.socket?.emit('setUser');
     } catch (error) {
       if (current()) setErrors(errorMessages(error));
     } finally {

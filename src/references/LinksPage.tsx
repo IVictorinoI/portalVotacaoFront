@@ -21,11 +21,12 @@ import { Section } from '../common/Section';
 import { errorMessages } from '../lib/http';
 import { linkPayload, readRows, type LinkRecord } from './api';
 export default function LinksPage({
-  editable = false,
+  editable: requestedEditable = false,
 }: {
   editable?: boolean;
 }) {
   const session = useReadySession();
+  const editable = requestedEditable && session.user.tipo === 1;
   const cache = useQueryClient();
   const key = session.key('links');
   const query = useQuery({

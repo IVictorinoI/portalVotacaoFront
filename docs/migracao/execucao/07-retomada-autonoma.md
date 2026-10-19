@@ -25,3 +25,10 @@ Conferência adicional concluída:41 arquivos dist sintéticos Windows/Linux id�
 ## Próximo passo
 
 Trabalho autorizado de FRONT-13 encerrado e evidências salvas. Parar: FRONT-14 exige nova definição de ambiente/escopo e autorização; permanece adiada. Não publicar ou alterar backend por consequência de FRONT-13. Não há pergunta impeditiva restante para a consolidação.
+
+
+## Atualização: adaptação Nest autorizada pelo usuário
+
+Consultar10-adaptacao-api-nest.md e último checkpoint do04-progresso.md antes das orientações históricas acima. API localhost:3000 foi configurada para teste manual do usuário, frontend Vite em127.0.0.1:8080 PID18220 (conferir processo antes de repetir). Sem autorização para ler backend/banco ou executar escritas automáticas. Adaptação atual altera intencionalmente Bearer, Socket4/auth, autoria de chat/eventos, horários com fuso, erros e visibilidade de comandos administrativos. Referência original isolada permanece intacta. HEAD inicial6225673; alterações de login anteriores preservadas. Check61+8 passou; regressão Chrome em andamento, sessão2954; conferir resultado final no progresso. Nenhum commit desta adaptação foi feito.
+
+Resultado final desta adaptação:check62 unitários+8 static/runtime, TS/build/format aprovados; Chrome132/132 em3,1min na fonte final, BROWSER_EXIT=0, sessão8514 encerrada. Casos novos401/403/admin sem vínculo/controles aprovados desktop/mobile. Sem acesso backend/API real pelos agentes; Vite8080 PID18220 responde200 e permanece disponível ao teste manual. Arquivos alterados ainda sem commit; conferir Git e10-adaptacao-api-nest.md ao retomar. Fonte original/fixtures originais/06-contratos-originais.md sem alterações.

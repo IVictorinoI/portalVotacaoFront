@@ -6,8 +6,8 @@ test('chat Enter preserva payload, eco único, foco e histórico',async({page,co
  const s=await domain(context,{chats:[sample]});await request.delete('http://127.0.0.1:19300/__events');await page.goto(UI+'/#/chat');await expect(page.getByText(sample.msg,{exact:true})).toBeVisible();
  expect(s.requests.find(r=>r.path==='/api/chats/').query).toEqual({codigoAssembleia:'6',sort:'data',limit:'300'});
  const input=page.getByLabel('Digite sua mensagem');await input.fill('Olá sintético');await input.press('Enter');await expect(page.getByText('Olá sintético',{exact:true})).toHaveCount(1);await expect(input).toHaveValue('');await expect(input).toBeFocused();
- expect(writes(s)).toHaveLength(1);expect(writes(s)[0].body).toEqual({codigoAssembleia:6,codigoCredor:90,msg:'Olá sintético',nomeCredor:f.user.nome,idUsuario:f.user.id,privateMessageTo:{}});
- await expect.poll(async()=>await(await request.get('http://127.0.0.1:19300/__events')).json()).toContainEqual({name:'sendMessage',data:s.chats.at(-1)});
+ expect(writes(s)).toHaveLength(1);expect(writes(s)[0].body).toEqual({msg:'Olá sintético'});
+ await expect.poll(async()=>await(await request.get('http://127.0.0.1:19300/__events')).json()).not.toContainEqual(expect.objectContaining({name:'sendMessage'}));
  await page.screenshot({path:info.outputPath('chat.png'),fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(s.unexpected).toEqual([]);
 });
 test('falha mantém rascunho; clique repetido não duplica POST; releitura é explícita',async({page,context})=>{

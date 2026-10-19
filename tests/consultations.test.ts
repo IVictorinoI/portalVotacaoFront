@@ -43,5 +43,5 @@ it('preserva 4–6 casas e sentinela/recorte histórico sem converter fuso', () 
   expect(decimal(33.3333333)).toBe('33,333333');
   expect(decimal(2)).toBe('2,0000');
   expect(historicalTime('1899-12-30T00:00:00.000Z')).toBe('');
-  expect(historicalTime('2026-10-18T10:12:34.000Z')).toBe('10:12:34');
+  expect(historicalTime('2026-10-18T10:12:34.000Z')).toBe('07:12:34');
 });

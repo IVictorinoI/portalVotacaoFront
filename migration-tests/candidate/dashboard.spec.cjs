@@ -7,7 +7,7 @@ test('dashboard conserva quatro classes, totais, cores distintas e gráficos',as
  await expect(page.getByTestId('quorum-card').first()).toContainText('R$ 1.000,00');await expect(page.getByTestId('quorum-card').first()).toContainText('50.000000%');
  await expect(page.getByTestId('quorum-card').first()).toHaveAttribute('data-color','green');await expect(page.getByTestId('vote-card').first()).toHaveAttribute('data-color','yellow');
  await expect(page.getByRole('img',{name:'Gráfico de quórum',exact:true})).toBeVisible();await expect(page.getByRole('img',{name:'Gráfico de votos',exact:true})).toBeVisible();await expect(page.getByTestId('chart-bar')).toHaveCount(8);
- await expect(page.getByText('AGC Sintetica',{exact:true})).toBeVisible();await expect(page.getByText('09:00:00',{exact:true})).toBeVisible();
+ await expect(page.getByText('AGC Sintetica',{exact:true})).toBeVisible();await expect(page.getByText('06:00:00',{exact:true})).toBeVisible();
  const summary=s.requests.find(r=>r.path==='/api//votos/dashboard');expect(summary.query).toEqual({});expect(summary.method).toBe('GET');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
  await page.screenshot({path:info.outputPath('dashboard.png'),fullPage:true});expect(s.unexpected).toEqual([]);

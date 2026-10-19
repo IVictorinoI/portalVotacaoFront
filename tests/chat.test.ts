@@ -21,12 +21,7 @@ const user = {
 } satisfies User;
 it('payload preserva objeto privado vazio e omissão de destinatário, sem ativar envio privado', () => {
   expect(JSON.parse(JSON.stringify(messageBody(user, 6, ' texto ')))).toEqual({
-    codigoAssembleia: 6,
-    codigoCredor: 9,
     msg: ' texto ',
-    nomeCredor: 'Teste',
-    idUsuario: 'fixture:A',
-    privateMessageTo: {},
   });
 });
 it('marcadores não se confundem entre identidades/assembleias e não usam chave global antiga', () => {

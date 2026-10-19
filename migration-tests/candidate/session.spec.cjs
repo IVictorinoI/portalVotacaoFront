@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const {user,admin}=require('../support/fixtures.cjs');
+const {f:{user,admin}}=require('./support.cjs');
 const UI='http://127.0.0.1:18182';
 const FIXTURE='http://127.0.0.1:19300/__fixture';
 async function setup(context,{stored=null,valid=true,active=[{codigo:6}],loginError=false}={}) {
@@ -41,7 +41,7 @@ test('login por Enter preserva payload/hash, escopo da API, socket único e logo
  expect(h.requests.slice(0,2).map(r=>r.path)).toEqual(['/oapi/login','/api//assembleias/?ativo=true']);
  expect(h.requests.slice(2).map(r=>r.path).sort()).toEqual(['/api/assembleias/?codigo=6','/api/votos?codigoAssembleia=6&sort=-_id&codigoProcurador=90']);
  expect(h.requests[0].body).toEqual({login:'fixture',senha:'senha-falsa'});
- expect(h.requests[0].headers.authorization).toBeUndefined();expect(h.requests[1].headers.authorization).toBe(user.token);
+ expect(h.requests[0].headers.authorization).toBeUndefined();expect(h.requests[1].headers.authorization).toBe('Bearer '+user.token);
  await expect.poll(async()=> (await (await request.get(FIXTURE)).json())).toEqual([{id:user.id,tipo:0}]);
  await page.screenshot({path:info.outputPath('session-shell.png'),fullPage:true});
  await page.reload();await expect(page.getByRole('heading',{name:'Votar',exact:true})).toBeVisible();
@@ -83,16 +83,15 @@ test('evento derrubar encerra só identidade alvo e remove conexão',async({page
  await request.post(FIXTURE,{data:{event:'derrubar',data:{id:user.id,message:'Sessão sintética encerrada'}}});
  await expect(page.getByLabel('Login',{exact:true})).toBeVisible();await expect.poll(async()=> (await (await request.get(FIXTURE)).json())).toEqual([]);expect(h.unexpected).toEqual([]);
 });
-test('falha de rede no login mantém reload original, sem repetição automática do POST',async({page,context})=>{
+test('falha de rede no login mantém formulário e mostra erro, sem repetição automática do POST',async({page,context})=>{
  const h=await setup(context);
  let posts=0;
  await context.route('**/oapi/login',route=>{posts++;return route.abort('failed');});
  await page.goto(UI+'/#/votar');
  await page.getByLabel('Login',{exact:true}).fill('fixture');
  await page.getByLabel('Senha',{exact:true}).fill('falsa');
- const navigation=page.waitForEvent('framenavigated',frame=>frame===page.mainFrame());
- await page.getByRole('button',{name:'Entrar',exact:true}).click();await navigation;
- await expect(page.getByLabel('Login',{exact:true})).toHaveValue('');expect(posts).toBe(1);expect(h.unexpected).toEqual([]);
+ await page.getByRole('button',{name:'Entrar',exact:true}).click();await expect(page.getByRole('alert')).toContainText('Não foi possível concluir a solicitação.');
+ await expect(page.getByLabel('Login',{exact:true})).toHaveValue('fixture');expect(posts).toBe(1);expect(h.unexpected).toEqual([]);
 });
 test('troca de identidade em outra aba revalida sessão e escopo',async({page,context,request})=>{
  const h=await setup(context,{stored:user});await page.goto(UI+'/#/votar');

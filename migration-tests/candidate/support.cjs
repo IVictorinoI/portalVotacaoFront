@@ -1,4 +1,5 @@
-const f=require('../support/fixtures.cjs');
+const original=require('../support/fixtures.cjs');
+const f={...original,admin:{...original.admin,token:'token-sintetico-admin'}};
 const UI='http://127.0.0.1:18182';
 async function domain(context,options={}) {
  const state={user:structuredClone(f.user),assembly:{...structuredClone(f.assembleia),codigo:6},credores:structuredClone(f.credores),votos:[],minutes:[],chats:[],notifications:[],logs:[],links:[],classes:[],assemblies:[],legacyUsers:[],resultado:structuredClone(f.resultado),summary:{quorum2:[],votos2:[]},requests:[],unexpected:[],errors:[],failPresence:null,failVote:null,delay:0,loseAck:false,failReads:false,...options};
@@ -46,7 +47,7 @@ async function domain(context,options={}) {
   if(path==='/api/chats/'&&method==='POST'){
    if(state.delay)await new Promise(resolve=>setTimeout(resolve,state.delay));
    if(state.failChat)return route.fulfill({status:500,json:{errors:['Envio recusado no teste']}});
-   const row={...body,_id:'chat-'+(state.chats.length+1),data:'2026-10-18T12:00:'+String(state.chats.length).padStart(2,'0')+'.000Z'};state.chats.push(row);
+   const row={...body,codigoAssembleia:state.assembly.codigo,codigoCredor:state.user.codigoCredor,nomeCredor:state.user.nome,idUsuario:state.user.id,_id:'chat-'+(state.chats.length+1),data:'2026-10-18T12:00:'+String(state.chats.length).padStart(2,'0')+'.000Z'};state.chats.push(row);
    if(state.loseAck)return route.abort('failed');return json(row);
   }
   if(path==='/api/votos/dashboard/')return json(state.summary);

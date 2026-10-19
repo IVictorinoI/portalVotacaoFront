@@ -9,6 +9,7 @@ export interface Vote extends Record<string, unknown> {
   descricaoClasse: string;
   valor: number;
   tipo: string;
+  votoOnline?: boolean;
   cpfCnpj?: string;
   nomeProcurador?: string;
   codigoClasse?: number;
@@ -65,5 +66,5 @@ export const choiceLabels: Record<VoteChoice, string> = {
   A: 'Abstenção',
 };
 export function pendingVotes(rows: Vote[]) {
-  return rows.filter((row) => !row.tipo);
+  return rows.filter((row) => !row.tipo && !row.votoOnline);
 }

@@ -19,7 +19,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const controller = useMemo(() => {
     let session: SessionController;
     session = new SessionController({
-      http: infra.httpForSession(() => session.token),
+      http: infra.httpForSession(
+        () => session.token,
+        () => session.logout(),
+      ),
       cache,
       storage: {
         getItem: (key) => window.localStorage.getItem(key),

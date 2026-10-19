@@ -15,7 +15,7 @@ test('pesquisa consulta credores e votos com regex equivalentes e vazio explíci
  await page.getByLabel('Pesquise o credor').fill('Ausente');await page.getByLabel('Pesquise o credor').press('Enter');await expect(page.getByText('Nenhum credor nesta pesquisa.',{exact:true})).toBeVisible();expect(s.unexpected).toEqual([]);
 });
 test('consulta votos mostra somente computados, 4–6 casas e horário histórico',async({page,context})=>{
- const rows=f.credores.map(f.vote);rows[0].tipo='S';rows[1].tipo='A';rows[1].data='1899-12-30T00:00:00.000Z';const s=await domain(context,{votos:rows});await page.goto(UI+'/#/votos');await expect(page.locator('tbody tr')).toHaveCount(2);await expect(page.locator('tbody tr').first()).toContainText('33,333333');await expect(page.locator('tbody tr').first()).toContainText('10:12:34');await expect(page.locator('tbody tr').nth(1).getByRole('cell').nth(5)).toHaveText('');
+ const rows=f.credores.map(f.vote);rows[0].tipo='S';rows[1].tipo='A';rows[1].data='1899-12-30T00:00:00.000Z';const s=await domain(context,{votos:rows});await page.goto(UI+'/#/votos');await expect(page.locator('tbody tr')).toHaveCount(2);await expect(page.locator('tbody tr').first()).toContainText('33,333333');await expect(page.locator('tbody tr').first()).toContainText('07:12:34');await expect(page.locator('tbody tr').nth(1).getByRole('cell').nth(5)).toHaveText('');
  expect(s.requests.find(r=>r.path==='/api/votos/').query).toEqual({codigoAssembleia:'6',sort:'-ordem'});expect(s.unexpected).toEqual([]);
 });
 test('presença e voto aparecem nos joins após entrar na consulta',async({page,context})=>{

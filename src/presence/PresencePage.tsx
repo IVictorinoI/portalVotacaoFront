@@ -92,7 +92,7 @@ export default function PresencePage() {
           queryKey: session.key('presence'),
           refetchType: 'none',
         });
-        session.controller.socket?.emit('confirmouPresenca', row);
+
         for (const resource of [
           'creditors',
           'votes',

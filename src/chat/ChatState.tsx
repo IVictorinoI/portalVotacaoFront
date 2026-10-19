@@ -103,6 +103,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     const off = session.controller.socket?.on('newMessage', (value) => {
       const row = message(value);
       if (row) accept(row);
+      void cache.invalidateQueries({ queryKey: historyKey });
     });
     const changed = (event: StorageEvent) => {
       if (

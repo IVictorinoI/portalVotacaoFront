@@ -13,7 +13,7 @@ npm.cmd --prefix migration-tests ci
 npm.cmd run test:browser
 ~~~
 
-check executa formatação, 55 unitários, TypeScript/build e testes HTTP estáticos/hook/runtime. test:browser exige Chrome instalado e roda desktop + viewport mobile em loopback, com API simulada e fixture Socket.IO 2. Se o navegador não existir, instalar em ambiente próprio de teste com npm.cmd exec --prefix migration-tests -- playwright install chrome (em Linux: --with-deps). Não usar credenciais reais no harness. CI preparada em .github/workflows/frontend.yml, sem deploy; execução remota não é presumida.
+check executa formatação, 62 unitários, TypeScript/build e testes HTTP estáticos/hook/runtime. test:browser exige Chrome instalado e roda desktop + viewport mobile em loopback, com API simulada e fixture Socket.IO 4 autenticada. Se o navegador não existir, instalar em ambiente próprio de teste com npm.cmd exec --prefix migration-tests -- playwright install chrome (em Linux: --with-deps). Não usar credenciais reais no harness. CI preparada em .github/workflows/frontend.yml, sem deploy; execução remota não é presumida.
 
 ## Desenvolvimento e configuração
 
@@ -34,3 +34,5 @@ Frontend original fixo: 41478a83b74a8d27c7058a1d79b2ed1deab271c3. Harness de bas
 Regras e autorização em [AGENTS.md](AGENTS.md); estado final, resultados, processos e próximos passos em [progresso](docs/migracao/execucao/04-progresso.md) e [consolidação](docs/migracao/execucao/08-consolidacao.md). D2/D3 preservam menus/filtros/fórmulas/cores/datas; não autorizam novos guards ou correções. Login secundário com GET foi mantido por decisão explícita. Melhorias de sessão, lotes, rascunhos, acessibilidade/cleanup, marcador de chat e cursor foram aprovadas e documentadas.
 
 FRONT-14 está adiada por decisão do usuário: nenhuma integração com backend/banco/API real, CORS/ACL/volume/histórico reais, homologação ou publicação. Testes simulados e socket fixture não provam esses itens. Este repositório deve ser trabalhado sem acessar o backend.
+
+Adaptação autorizada ao contrato Nest: consulte [10-adaptacao-api-nest.md](docs/migracao/execucao/10-adaptacao-api-nest.md). A aplicação atual usa Bearer e Socket.IO4 autenticado; a referência original permanece isolada.

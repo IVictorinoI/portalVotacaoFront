@@ -1,6 +1,6 @@
 const {test,expect}=require('@playwright/test');
 const {domain,UI,f}=require('./support.cjs');
-const writes=s=>s.requests.filter(r=>r.method==='POST'&&r.path==='/api//votos/confirmar');
+const writes=s=>s.requests.filter(r=>r.method==='POST'&&r.path==='/api/votos/confirmar');
 test('presença: colunas, moeda, filtros Enter e sucesso antes do evento',async({page,context,request},info)=>{
  const s=await domain(context);await request.delete('http://127.0.0.1:19300/__events');await page.goto(UI+'/#/confirmarPresenca');
  await expect(page.locator('tbody tr')).toHaveCount(3);await expect(page.locator('tbody tr').first()).toContainText('R$ 1.000,00');

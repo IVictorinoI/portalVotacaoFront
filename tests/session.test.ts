@@ -145,7 +145,7 @@ it('não consulta protegido nem conecta antes de validar; API prevalece sobre us
   await pending;
   expect(h.session.state).toMatchObject({ status: 'ready', assembly: 6 });
   expect(h.requests[1]?.url).toBe(
-    'http://fixture.invalid/api//assembleias/?ativo=true',
+    'http://fixture.invalid/api/assembleias/?ativo=true',
   );
   expect(h.requests[1]?.headers.get('authorization')).toBe(
     'Bearer ' + user.token,

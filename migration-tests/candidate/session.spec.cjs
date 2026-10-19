@@ -19,14 +19,13 @@ async function setup(context,{stored=null,valid=true,active=[{codigo:6}],loginEr
    requests.push({path:url.pathname+url.search,method:req.method(),headers:req.headers(),body:req.postDataJSON()});
    if(url.pathname==='/oapi/validateToken')return route.fulfill({json:{valid}});
    if(url.pathname==='/oapi/login')return route.fulfill({status:loginError?400:200,json:loginError?{errors:['Credenciais inválidas']}:user});
-   if(url.pathname==='/api//assembleias/')return route.fulfill({json:active});
    if(url.pathname==='/api/assembleias/')return route.fulfill({json:active});
    if(url.pathname==='/api/assembleias'||url.pathname==='/api/classes')return route.fulfill({json:[]});
    if(url.pathname==='/api/votos')return route.fulfill({json:[]});
    if(url.pathname==='/api/votos/'||url.pathname==='/api/credores/')return route.fulfill({json:[]});
-   if(url.pathname==='/api//votos/dashboard')return route.fulfill({json:{quorum2:[],votos2:[]}});
-   if(url.pathname==='/api//chats/')return route.fulfill({json:[]});
-   if(url.pathname==='/api//logsAcessos/register')return route.fulfill({json:{Ok:true}});
+   if(url.pathname==='/api/votos/dashboard')return route.fulfill({json:{quorum2:[],votos2:[]}});
+   if(url.pathname==='/api/chats/')return route.fulfill({json:[]});
+   if(url.pathname==='/api/logsAcessos/register')return route.fulfill({json:{Ok:true}});
   }
   unexpected.push(req.url());return route.abort();
  });
@@ -38,7 +37,7 @@ test('login por Enter preserva payload/hash, escopo da API, socket único e logo
  await page.getByLabel('Login',{exact:true}).fill('fixture');await page.getByLabel('Senha',{exact:true}).fill('senha-falsa');await page.getByLabel('Senha',{exact:true}).press('Enter');
  await expect(page.getByRole('heading',{name:'Votar',exact:true})).toBeVisible();
  await expect(page.getByTestId('assembly')).toHaveText('Assembleia 6');
- expect(h.requests.slice(0,2).map(r=>r.path)).toEqual(['/oapi/login','/api//assembleias/?ativo=true']);
+ expect(h.requests.slice(0,2).map(r=>r.path)).toEqual(['/oapi/login','/api/assembleias/?ativo=true']);
  expect(h.requests.slice(2).map(r=>r.path).sort()).toEqual(['/api/assembleias/?codigo=6','/api/votos?codigoAssembleia=6&sort=-_id&codigoProcurador=90']);
  expect(h.requests[0].body).toEqual({login:'fixture',senha:'senha-falsa'});
  expect(h.requests[0].headers.authorization).toBeUndefined();expect(h.requests[1].headers.authorization).toBe('Bearer '+user.token);

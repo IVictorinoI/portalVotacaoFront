@@ -32,7 +32,7 @@ it('preserva token direto, barras/query/payload e l? identidade no envio', async
   expect(response.status).toBe(200);
   expect(response.data).toEqual({ Ok: true });
   expect(requests[0]?.url).toBe(
-    'http://127.0.0.1:19300/api//votos/confirmar?nome__regex=/Ana/',
+    'http://127.0.0.1:19300/api/votos/confirmar?nome__regex=/Ana/',
   );
   expect(requests[0]?.headers.get('authorization')).toBe(
     'Bearer token-falso-A',
@@ -121,4 +121,42 @@ it('401 atual encerra sessao; 403 e 401 antigo nao encerram nova identidade nem 
   status = 401;
   await clients.api.post('/teste').catch(() => {});
   expect(ended).toHaveBeenCalledOnce();
+});
+
+it('junção base/caminho usa uma barra sem alterar barras em query ou URL absoluta', async () => {
+  const seen: string[] = [];
+  for (const base of [
+    'http://fixture.invalid/api',
+    'http://fixture.invalid/api/',
+  ]) {
+    const api = createApiClients(
+      { ...config, apiBaseUrl: base },
+      () => null,
+      async (request) => {
+        seen.push(request.url!);
+        return {
+          status: 200,
+          statusText: 'OK',
+          headers: new AxiosHeaders(),
+          config: request,
+          data: [],
+        };
+      },
+    ).api;
+    for (const route of [
+      '/assembleias/?ativo=true',
+      '//assembleias/?ativo=true',
+      'assembleias/?ativo=true',
+    ])
+      await api.get(route);
+    await api.get('//links/?url=https://example.invalid/a//b');
+  }
+  expect(seen.filter((url) => url.endsWith('ativo=true'))).toEqual(
+    Array(6).fill('http://fixture.invalid/api/assembleias/?ativo=true'),
+  );
+  expect(seen.filter((url) => url.includes('example.invalid'))).toEqual(
+    Array(2).fill(
+      'http://fixture.invalid/api/links/?url=https://example.invalid/a//b',
+    ),
+  );
 });

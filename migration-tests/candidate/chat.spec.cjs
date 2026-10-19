@@ -19,9 +19,9 @@ test('resposta perdida aparece na releitura, sem envio automático adicional',as
 });
 test('badge 5s ignora marcador global, limpa ao ler e cria marcador escopado',async({page,context},info)=>{
  const s=await domain(context,{chats:[sample]});await context.addInitScript(()=>localStorage.setItem('_chat_notify_last_read','2099-01-01T00:00:00.000Z'));await page.clock.install();await page.goto(UI+'/#/online');await expect(page.getByRole('heading',{name:'Usuários online',exact:true})).toBeVisible();await page.clock.runFor(5100);await page.clock.resume();
- await expect.poll(()=>s.requests.filter(row=>row.path==='/api//chats/').length).toBeGreaterThan(0);
+ await expect.poll(()=>s.requests.filter(row=>row.path==='/api/chats/').length).toBeGreaterThan(0);
  if(info.project.name==='mobile')await page.getByRole('button',{name:'Abrir navegação'}).click();await expect(page.getByRole('link',{name:'Chat 1',exact:true})).toBeVisible();await page.getByRole('link',{name:'Chat 1',exact:true}).click();await expect(page.getByText(sample.msg,{exact:true})).toBeVisible();
- await expect.poll(()=>page.evaluate(()=>localStorage.getItem('_chat_notify_last_read:usuario-falso:6'))).toBe(sample.data);expect(s.requests.find(r=>r.path==='/api//chats/').query.data__gt).toBe('1899-12-30T21:05:19.000Z');expect(s.unexpected).toEqual([]);
+ await expect.poll(()=>page.evaluate(()=>localStorage.getItem('_chat_notify_last_read:usuario-falso:6'))).toBe(sample.data);expect(s.requests.find(r=>r.path==='/api/chats/').query.data__gt).toBe('1899-12-30T21:05:19.000Z');expect(s.unexpected).toEqual([]);
 });
 test('mensagem duplicada/fora de escopo não duplica histórico nem vaza outra assembleia',async({page,context,request})=>{
  const s=await domain(context);await page.goto(UI+'/#/chat');await expect(page.getByLabel('Digite sua mensagem')).toBeVisible();await expect.poll(async()=>await(await request.get('http://127.0.0.1:19300/__fixture')).json()).toHaveLength(1);

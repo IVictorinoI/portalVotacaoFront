@@ -27,3 +27,7 @@ Listagens e histórico mantêm limites atuais; navegação em conjuntos maiores 
 npm.cmd run check:62 testes unitários, TypeScript/build/format e8 HTTP/runtime aprovados. Regressão Chrome completa contra fixture candidata:132/132 aprovados em3,1min, desktop e viewport mobile. Não é prova de integração real. Baseline original e fixtures originais permanecem intactos. As expectativas candidatas mudam explicitamente para Bearer/UTC/autoria e ausência de anúncios do cliente, não para esconder incompatibilidades.
 
 Sem teste automatizado na API local real ou dados do usuário. Frontend manual já iniciado em http://127.0.0.1:8080, com API http://localhost:3000/api, oapi http://localhost:3000/oapi e Socket http://localhost:3000/api/. Recarregar após alteração de dependências. Homologação/integração real/reversão operacional continuam sem conclusão declarada.
+
+## Correção posterior: junção de URLs
+
+Após404 reportado pelo usuário em/api//assembleias/, a fronteira entre base de API e caminho passou a usar exatamente uma barra. Exemplo:base http://localhost:3000/api e caminho //assembleias/?ativo=true geram http://localhost:3000/api/assembleias/?ativo=true. Query e barra final são preservadas, inclusive URLs/regex dentro da query. Essa mudança substitui a concatenação literal legada para a API Nest; fixtures e testes originais permanecem históricos. Consultar04-progresso.md para resultado final desta correção.

@@ -13,9 +13,10 @@ export function createApiClients(
   function client(baseURL: string, authenticated: boolean): AxiosInstance {
     const instance = axios.create({ baseURL, ...(adapter ? { adapter } : {}) });
     instance.interceptors.request.use((request) => {
-      // O chamador fornece as barras do caminho original; evitar join normalizador do Axios.
+      // Normalizar somente a junção base/caminho; preservar query e barra final.
       if (request.url && !/^https?:/.test(request.url))
-        request.url = baseURL + request.url;
+        request.url =
+          baseURL.replace(/\/+$/, '') + '/' + request.url.replace(/^\/+/, '');
       if (!authenticated) return request;
       const value = token();
       if (value) request.headers.set('authorization', 'Bearer ' + value);

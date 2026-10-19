@@ -13,7 +13,7 @@ async function domain(context,options={}) {
   state.requests.push({path,query:Object.fromEntries(url.searchParams),body,method,auth:request.headers().authorization});
   const json=data=>route.fulfill({json:data});
   if(path==='/oapi/validateToken')return json({valid:true});
-  if(path==='/api//logsAcessos/register')return json({ok:true});
+  if(path==='/api/logsAcessos/register')return json({ok:true});
   if(path==='/api/logsAcessos'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Logs indisponíveis']}});return json(state.logs.slice(0,300));}
   if(path==='/api/notificacoes'){
    if(state.failReads)return route.fulfill({status:500,json:{errors:['Notificações indisponíveis']}});
@@ -35,10 +35,10 @@ async function domain(context,options={}) {
    if(method==='POST')state.links.push({...body,_id:'novo-link'});else if(method==='PUT')state.links=state.links.map(row=>row._id===body._id?{...body}:row);else state.links=state.links.filter(row=>row._id!==path.split('/').at(-1));
    if(state.loseAck)return route.abort('failed');return json({ok:true});
   }
-  if(path==='/api//assembleias/'||path==='/api/assembleias/')return json([state.assembly]);
-  if(path==='/api//votos/dashboard'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Dashboard indisponível']}});return json(state.summary);}
+  if(path==='/api/assembleias/')return json([state.assembly]);
+  if(path==='/api/votos/dashboard'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Dashboard indisponível']}});return json(state.summary);}
   if(path==='/api/resultados/'){if(state.failReads)return route.fulfill({status:500,json:{errors:['Resultado indisponível']}});return json(state.resultado);}
-  if((path==='/api/chats/'||path==='/api//chats/')&&method==='GET'){
+  if((path==='/api/chats/')&&method==='GET'){
    if(state.failReads)return route.fulfill({status:500,json:{errors:['Chat indisponível']}});
    let rows=state.chats.filter(row=>row.codigoAssembleia===Number(url.searchParams.get('codigoAssembleia')));
    if(url.searchParams.has('data__gt'))rows=rows.filter(row=>Date.parse(row.data)>Date.parse(url.searchParams.get('data__gt')));
@@ -66,7 +66,7 @@ async function domain(context,options={}) {
    const name=url.searchParams.get('nome__regex')?.slice(1,-1).toLowerCase()||'';
    return json(state.credores.filter(r=>(!url.searchParams.has('confirmouPresenca__ne')||!r.confirmouPresenca)&&r.nome.toLowerCase().includes(name)));
   }
-  if(path==='/api//votos/confirmar'){
+  if(path==='/api/votos/confirmar'){
    if(state.delay)await new Promise(resolve=>setTimeout(resolve,state.delay));
    if(body._id===state.failPresence)return route.fulfill({status:500,json:{errors:['Presença recusada no teste']}});
    const row=state.credores.find(r=>r._id===body._id);

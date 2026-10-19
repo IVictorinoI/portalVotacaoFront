@@ -1,3 +1,6 @@
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ChatBubbleOutlineRounded from '@mui/icons-material/ChatBubbleOutlineRounded';
+import { menuItemSx } from '../navigation/menu-style';
 import {
   createContext,
   useContext,
@@ -165,9 +168,14 @@ export function ChatMenuItem({
       component="a"
       href="#/chat"
       selected={selected}
+      aria-current={selected ? 'page' : undefined}
+      sx={menuItemSx}
       onClick={onClick}
       aria-label={count ? 'Chat ' + count : 'Chat'}
     >
+      <ListItemIcon>
+        <ChatBubbleOutlineRounded fontSize="small" />
+      </ListItemIcon>
       <ListItemText
         primary={
           <Badge badgeContent={count} color="error" sx={{ pr: count ? 2 : 0 }}>

@@ -16,10 +16,18 @@ import {
   Drawer,
   List,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Toolbar,
   Typography,
 } from '@mui/material';
+import MenuRounded from '@mui/icons-material/MenuRounded';
+import {
+  menuIcons,
+  menuItemSx,
+  menuSectionSx,
+  sidebarPaperSx,
+} from './navigation/menu-style';
 import { useSession } from './auth/Session';
 import { ChatProvider, ChatMenuItem } from './chat/ChatState';
 import {
@@ -121,25 +129,51 @@ export default function App() {
           onClick={() => setOpen(false)}
         />
       );
+    const Icon = menuIcons[path];
     return (
       <ListItemButton
         key={path}
         component="a"
         href={'#' + path}
         selected={route === path}
+        aria-current={route === path ? 'page' : undefined}
+        sx={menuItemSx}
         onClick={() => setOpen(false)}
       >
+        <ListItemIcon>{Icon && <Icon fontSize="small" />}</ListItemIcon>
         <ListItemText primary={routes[path]} />
       </ListItemButton>
     );
   }
   const navigation = (
-    <Box sx={{ width: 240 }}>
-      <Typography sx={{ p: 2 }}>Navegação</Typography>
-      <List>
+    <Box
+      component="nav"
+      aria-label="Navegação principal"
+      sx={{ width: 264, py: 1.5 }}
+    >
+      <Box
+        sx={{
+          mx: 2,
+          mb: 1.5,
+          p: 2,
+          borderRadius: 2,
+          bgcolor: '#1b354e',
+          border: '1px solid #2a4863',
+        }}
+      >
+        <Typography sx={{ fontWeight: 700, fontSize: 15, color: '#fff' }}>
+          Portal de votação
+        </Typography>
+        <Typography sx={{ mt: 0.5, fontSize: 12, color: '#a6bed4' }}>
+          Assembleia {state.assembly}
+        </Typography>
+      </Box>
+      <List disablePadding>
+        <Typography sx={menuSectionSx}>Visão geral</Typography>
         {commonMenu.slice(0, 1).map(item)}
-        <Typography sx={{ px: 2 }}>Consultas</Typography>
+        <Typography sx={menuSectionSx}>Consultas</Typography>
         {consultationMenu(state.user.tipo).map(item)}
+        <Typography sx={menuSectionSx}>Participação</Typography>
         {commonMenu.slice(1).map(item)}
       </List>
     </Box>
@@ -154,7 +188,7 @@ export default function App() {
             sx={{ display: { md: 'none' } }}
             aria-label="Abrir navegação"
           >
-            Menu
+            <MenuRounded />
           </Button>
           <Box
             component="img"
@@ -188,8 +222,12 @@ export default function App() {
           variant="permanent"
           sx={{
             display: { xs: 'none', md: 'block' },
-            width: 240,
-            '& .MuiDrawer-paper': { position: 'relative' },
+            width: 264,
+            '& .MuiDrawer-paper': {
+              ...sidebarPaperSx,
+              position: 'relative',
+              minHeight: 'calc(100dvh - 80px)',
+            },
           }}
         >
           {navigation}
@@ -197,7 +235,7 @@ export default function App() {
         <Drawer
           open={open}
           onClose={() => setOpen(false)}
-          sx={{ display: { md: 'none' } }}
+          sx={{ display: { md: 'none' }, '& .MuiDrawer-paper': sidebarPaperSx }}
         >
           {navigation}
         </Drawer>

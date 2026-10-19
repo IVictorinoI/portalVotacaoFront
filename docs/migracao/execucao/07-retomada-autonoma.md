@@ -6,7 +6,7 @@ Escopo exclusivo C:/Desenvolvimento/React/portalVotacaoFront, branch migracao-ar
 
 Usuário autorizou concluir FRONT-13 e commits locais autônomos, definindo Heroku, raiz do domínio, hash /#/votar e somente Chrome. FRONT-13 foi consolidada e validada localmente. FRONT-14 continua explicitamente adiada; não iniciar backend/API real/banco/produção, push/deploy/config vars/DNS/homologação por este mandato. D2/D3 preservados, sem novos guards/correções de fórmulas/cores/datas. M1–M5/cursor e login secundário conforme decisões em AGENTS/progresso.
 
-FRONT-12 em13db3ab, preparação13.A em05cf894, referência original isolada em bab3e8b. Commit da consolidação desta unidade: consultar git log (não gerar commit recursivo para próprio hash). Raiz ativa src/public/scripts/tests/configs; migration-ui/legado retirados do runtime. Comandos npm.cmd ci, npm.cmd run check e npm.cmd run test:browser, sem dependência de outra migração.
+FRONT-12 em13db3ab, preparação13.A em05cf894, referência original isolada em bab3e8b. Consolidação commitada em dbf1874; conferir git log para hash completo. Raiz ativa src/public/scripts/tests/configs; migration-ui/legado retirados do runtime. Comandos npm.cmd ci, npm.cmd run check e npm.cmd run test:browser, sem dependência de outra migração.
 
 ## Evidências finais
 
@@ -20,8 +20,8 @@ Original41478a83b74a8d27c7058a1d79b2ed1deab271c3,127 blobs verificados em migrat
 
 Logs front13-* na raiz e migration-tests; cópias Windows em .migration-verification, Linux /tmp pode desaparecer entre sessões WSL. Scripts/evidências persistentes estão no frontend; não depender da existência de /tmp para retomar. Não repetir processos após timeout sem conferir estado.
 
-Conferência adicional opcional de paridade de41 arquivos dist sintéticos em andamento na sessão62430; primeira tentativa pós-execução encontrou /tmp já indisponível, sem invalidar build/checks anteriores. Script .migration-verification/front13-artifact-linux.sh recompila só Linux e salva manifest no frontend antes de sair. Consultar front13-artifact-linux-session.log e manifests front13-artifact-*.json; registrar resultado em documento posterior, sem repetir testes inalterados. Não é release de produção.
+Conferência adicional concluída:41 arquivos dist sintéticos Windows/Linux idênticos, zero divergências; SHA256 do manifesto213cb7d1d361e198742b4129b1df3198d5ae5274e58d261141126f1f3318d058. Sessão62430 encerrada exit0. Manifestos persistem em .migration-verification/front13-artifact-*.json e logs front13-artifact-linux-*. Primeira tentativa encontrou /tmp indisponível; somente build Linux foi refeito para persistir hash antes de sair, sem repetir checks de fonte inalterada. Esses artefatos não são release autorizado.
 
 ## Próximo passo
 
-Concluir registro da paridade opcional e revisão documental/links se pendente, com commit documental local. Depois parar: FRONT-14 exige nova definição de ambiente/escopo e autorização; permanece adiada. Não publicar ou alterar backend por consequência de FRONT-13. Não há pergunta impeditiva restante para a consolidação.
+Trabalho autorizado de FRONT-13 encerrado e evidências salvas. Parar: FRONT-14 exige nova definição de ambiente/escopo e autorização; permanece adiada. Não publicar ou alterar backend por consequência de FRONT-13. Não há pergunta impeditiva restante para a consolidação.

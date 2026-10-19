@@ -4,7 +4,7 @@
 
 FRONT-13 concluída e validada tecnicamente na raiz; resultados finais registrados no progresso. FRONT-14 permanece adiada por decisão explícita, sem backend, integração real, homologação, push/deploy/produção. Usuário definiu Heroku, raiz do domínio portal.gladiusconsultoria.com.br, hashes /#/votar e somente Google Chrome; o domínio não foi acessado.
 
-Original41478a83b74a8d27c7058a1d79b2ed1deab271c3. FRONT-12 validada em13db3ab; preparação13.A em05cf894; isolamento original em bab3e8b. Conferir Git para commit da consolidação, sem registrar próprio hash recursivamente.
+Original41478a83b74a8d27c7058a1d79b2ed1deab271c3. FRONT-12 validada em13db3ab; preparação13.A em05cf894; isolamento original em bab3e8b. Consolidação commitada em dbf1874; consultar Git para hash completo.
 
 ## Estrutura final e retirada
 
@@ -44,6 +44,7 @@ Snapshot zip original local .migration-verification/frontend-original-41478a8.zi
 | Linux cópia final |Fonte corrigida: npm ci/check55/8, heroku-postbuild sintético, prune sem vite/vitest e runtime exit0, sessão28597 encerrada |
 | Original após troca da raiz |5 testes de regras/guarda e42/42 Chrome em1,4min, exit0 após raiz, sessão90571 encerrada |
 | Checkout Windows |72 arquivos do índice exportados com core.autocrlf=true, idênticos à árvore e sem CRLF; .gitattributes fixa LF e protege binários |
+| Paridade de artefato sintético |41 arquivos Windows/Linux idênticos por SHA256; manifest213cb7d1d361e198742b4129b1df3198d5ae5274e58d261141126f1f3318d058, sem release autorizado |
 | CI |Workflow Windows/Linux/Chrome preparado, actions oficiais v6 por SHA, contents:read, sem deploy; nenhum run remoto observado |
 
 Chrome real155.0.8059.80 em Windows, desktop e viewport móvel. Linux em filesystem case-sensitive provado por CaseProbe/caseprobe, Node24.21.0 temporário oficial, SHAfd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6. Não há instalação global de runtime/Docker. Testes de negócio usam JSON em memória e fixture Socket.IO2 loopback, não API do produto.
@@ -56,4 +57,4 @@ heroku-postbuild reutiliza readConfig/loadEnv para validar VITE_API_BASE_URL/VIT
 
 ## Próximo limite de autorização
 
-Checks finais aprovados; commitar a consolidação revisada e encerrar FRONT-13. FRONT-14 continua adiada: backend/API/banco/CORS/ACL/volume/histórico/protocolo real, browsers/dispositivos em homologação, artefato efetivamente publicado, backup/restauração/reversão operacionais e aceite humano permanecem não executados. Não substituir por mocks/CI/build nem vincular a mudanças da migração backend. Não há pergunta material restante para a consolidação; integração/produção exigem novo escopo explícito.
+Checks finais aprovados e consolidação commitada; FRONT-13 encerrada tecnicamente. FRONT-14 continua adiada: backend/API/banco/CORS/ACL/volume/histórico/protocolo real, browsers/dispositivos em homologação, artefato efetivamente publicado, backup/restauração/reversão operacionais e aceite humano permanecem não executados. Não substituir por mocks/CI/build nem vincular a mudanças da migração backend. Não há pergunta material restante para a consolidação; integração/produção exigem novo escopo explícito.
